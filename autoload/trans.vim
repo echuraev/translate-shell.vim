@@ -18,17 +18,19 @@ function! trans#OpenTrans(text)
     setlocal nonumber
     setlocal norelativenumber
     setlocal ft=trans
+    setlocal modifiable
 
     let cmd = "trans ".g:trans_options." \"".a:text."\""
     echo cmd
     let translate = system(cmd)
+    %delete
     put = translate
+    normal gg
     "call setline(line('.'), getline('.') . ' ' . translate)
-    "setlocal nomodifiable
+    setlocal nomodifiable
 endfunction
 
-function! trans#OpenTransWindow(...)
-    let para = a:0>0 ? a:1 : 'h'
+function! trans#OpenTransWindow()
     let bufnum = bufnr(g:trans_win_name)
 
     if bufnum == -1
@@ -39,10 +41,16 @@ function! trans#OpenTransWindow(...)
         let wcmd = '+buffer' . bufnum
     endif
 
-    if para == 'h'
-        exe 'silent! bot ' . g:trans_win_height . 'split ' . wcmd
-    else
+    if g:trans_win_position == "bottom"
+        echo g:trans_win_position
+        exe 'silent! botright ' . g:trans_win_height . 'split ' . wcmd
+    elseif g:trans_win_position == "right"
         exe 'silent! botright ' . g:trans_win_width . 'vsplit ' . wcmd
+    elseif g:trans_win_position == "top"
+        echo g:trans_win_position
+        exe 'silent! topleft ' . g:trans_win_height . 'split ' . wcmd
+    else
+        exe 'silent! topleft ' . g:trans_win_width . 'vsplit ' . wcmd
     endif
 endfunction
 

@@ -15,7 +15,8 @@ let loaded_trans = 1
 let g:trans_win_name = "__Translate__"
 let g:trans_win_width = 50
 let g:trans_win_height = 25
-let g:trans_options = ":ru+de"
+let g:trans_options = "-no-theme -no-ansi :ru+de" " -dump
+let g:trans_win_position = 'bottom'
 
 command! -range TransTerm call trans#TransTerm()
 command! -range Trans call trans#Trans()

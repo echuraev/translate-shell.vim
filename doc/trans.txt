@@ -6,7 +6,9 @@
 Move focus from created buffer to the previous file.
 
 Ideas:
-* Keep translate story
-* Nice syntax highlighting
-* Translate multi line string
+* [ ] Keep translate story
+* [ ] Nice syntax highlighting
+* [X] Translate multi line string
+* [X] Window position
+* [ ] Don't create new windows
 
