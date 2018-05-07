@@ -1,0 +1,12 @@
+*trans.txt*   Translate text using translate-shell in vim.
+
+:TransTerm - Open interactive terminal and you can translate anything that you want. Only vim8
+
+:Trans - Translate word under cursor, visual selection. Open special read only buffer for translation.
+Move focus from created buffer to the previous file.
+
+Ideas:
+* Keep translate story
+* Nice syntax highlighting
+* Translate multi line string
+
