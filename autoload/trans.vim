@@ -9,7 +9,7 @@
 
 " https://github.com/cpiger/NeoDebug/commit/89234b603b9f6da8cb070764e291d050b8cdaff2
 function! trans#OpenTrans(text)
-    call trans#OpenTransWindow()
+    call trans#GotoTransWindow()
 
     setlocal buftype=nofile
     setlocal complete=.
@@ -21,37 +21,43 @@ function! trans#OpenTrans(text)
     setlocal modifiable
 
     let cmd = "trans ".g:trans_options." \"".a:text."\""
-    echo cmd
     let translate = system(cmd)
     %delete
-    put = translate
+    silent! put = translate
     normal gg
-    "call setline(line('.'), getline('.') . ' ' . translate)
     setlocal nomodifiable
 endfunction
 
 function! trans#OpenTransWindow()
     let bufnum = bufnr(g:trans_win_name)
 
-    if bufnum == -1
-        " Create a new buffer
-        let wcmd = g:trans_win_name
-    else
-        " Edit the existing buffer
-        let wcmd = '+buffer' . bufnum
+    if bufnum != -1
+        return
     endif
+    let wcmd = g:trans_win_name
 
     if g:trans_win_position == "bottom"
-        echo g:trans_win_position
         exe 'silent! botright ' . g:trans_win_height . 'split ' . wcmd
     elseif g:trans_win_position == "right"
         exe 'silent! botright ' . g:trans_win_width . 'vsplit ' . wcmd
     elseif g:trans_win_position == "top"
-        echo g:trans_win_position
         exe 'silent! topleft ' . g:trans_win_height . 'split ' . wcmd
     else
         exe 'silent! topleft ' . g:trans_win_width . 'vsplit ' . wcmd
     endif
+endfunction
+
+function! trans#GotoTransWindow()
+    if bufname("%") == g:trans_win_name
+        return
+    endif
+
+    let trans_winnr = bufwinnr(g:trans_win_name)
+    if trans_winnr == -1
+        call trans#OpenTransWindow()
+        let trans_winnr = bufwinnr(g:trans_win_name)
+    endif
+    exec trans_winnr . "wincmd w"
 endfunction
 
 function! trans#TransTerm()
