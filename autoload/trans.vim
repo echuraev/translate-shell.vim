@@ -7,6 +7,8 @@
 "
 " ============================================================================
 
+let s:prev_selection = ""
+
 function! trans#TransTerm()
     if s:check() || v:version < 800
         return
@@ -18,10 +20,17 @@ function! trans#Trans()
     if s:check()
         return
     endif
+    let cur_line = line('.')
+    let cur_col = col('.')
     let selection = common#common#GetVisualSelection()
+    call cursor(cur_line, cur_col)
+    if s:prev_selection == selection
+        let selection = ""
+    endif
     if strlen(selection) == 0
         call common#window#OpenTrans(expand("<cword>"))
     else
+        let s:prev_selection = selection
         call common#window#OpenTrans(selection)
     endif
 endfunction
