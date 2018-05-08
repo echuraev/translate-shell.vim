@@ -19,7 +19,8 @@ let g:trans_win_position = 'bottom'
 
 command! -range TransTerm call trans#TransTerm()
 command! -range Trans call trans#Trans()
+command! -range TransVisual call trans#TransVisual()
 
 inoremap <silent> <leader>t <ESC>:Trans<CR>
 nnoremap <silent> <leader>t :Trans<CR>
-vnoremap <silent> <leader>t :Trans<CR>
+vnoremap <silent> <leader>t :TransVisual<CR>
