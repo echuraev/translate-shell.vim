@@ -21,7 +21,7 @@ Ideas:
 * [ ] Pass options to function from command
 * [ ] Possibility to join lines for translate
 * [X] Bug with translate word after selection
-* [ ] Bug with new window if I have closed split.
+* [X] Bug with new window if I have closed split.
 * [ ] Possibility to chose translate language based on predefined list (like
       Emacs)
 

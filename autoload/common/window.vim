@@ -31,8 +31,9 @@ endfunction
 
 function! common#window#OpenTransWindow()
     let bufnum = bufnr(s:trans_win_name)
+    let bufwinnum = bufwinnr(s:trans_win_name)
 
-    if bufnum != -1
+    if bufnum != -1 && bufwinnum != -1
         return
     endif
     let wcmd = s:trans_win_name

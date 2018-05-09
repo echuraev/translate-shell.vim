@@ -1,0 +1,115 @@
+Given text:
+  Hello beautiful world!
+
+Do (Translate one word):
+  /bea\<CR>
+  :Trans\<CR>
+
+Expect text:
+
+  beautiful
+  /ˈbyo͞otəfəl/
+
+  красивая
+  (krasivaya)
+
+  Definitions of beautiful
+  [ English -> Русский ]
+
+  adjective
+      прекрасный
+          beautiful, fine, great, glorious, lovely, beauteous
+      красивый
+          beautiful, handsome, nice, lovely, goodly, fair
+      превосходный
+          excellent, superb, superior, superlative, fine, beautiful
+
+  noun
+      прекрасное
+          beautiful
+      красотка
+          babe, beautiful, cutie, lovely, bombshell, peach
+      красивые люди
+          beautiful
+
+  beautiful
+      красивая, красивый, прекрасный
+
+Do (Translate multiline text):
+  VG
+  :TransVisual\<CR>
+
+Expect text:
+
+  Hello beautiful world!
+
+  Привет, красивый мир!
+  (Privet, krasivyy mir!)
+
+  Translations of Hello beautiful world!
+  [ English -> Русский ]
+
+  Hello beautiful world!
+      Привет, красивый мир!, Привет прекрасный мир!
+
+Do (Translate multiline text 2):
+  VG
+  :TransVisual\<CR>
+
+Expect text:
+
+  Hello beautiful world!
+
+  Привет, красивый мир!
+  (Privet, krasivyy mir!)
+
+  Translations of Hello beautiful world!
+  [ English -> Русский ]
+
+  Hello beautiful world!
+      Привет, красивый мир!, Привет прекрасный мир!
+
+Do (Translate one word 2):
+  /wor\<CR>
+  :Trans\<CR>
+
+Expect text:
+
+  world
+  /wərld/
+
+  Мир
+  (Mir)
+
+  Definitions of world
+  [ English -> Русский ]
+
+  noun
+      мир
+          world, peace, universe, kingdom, quiet, pax
+      свет
+          shine, light, glow, world, society, color
+      вселенная
+          universe, world, cosmos, macrocosm, system
+      общество
+          society, company, community, association, world, life
+      царство
+          kingdom, world, raj
+      кругозор
+          horizon, outlook, purview, scope, view, world
+      деятельность
+          activity, action, performance, working, practice, world
+      множество
+          multiplicity, plurality, variety, multitude, plenty, world
+      куча
+          heap, pile, stack, jumble, peck, world
+
+  adjective
+      мировой
+          world, global, worldwide, mondial, Catholic, epoch-making
+      всемирный
+          world, worldwide, global, universal, ecumenical, mondial
+
+  world
+      Мир
+

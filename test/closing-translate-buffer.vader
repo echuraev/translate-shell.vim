@@ -1,0 +1,17 @@
+Given text:
+  Hello beautiful world!
+
+Execute (Translate, close window, and translate again):
+  let num_of_buffers = len(getbufinfo({'buflisted':1}))
+  Log "Before assert: " . num_of_buffers . " : " . len(getbufinfo({'buflisted':1}))
+  AssertEqual num_of_buffers, len(getbufinfo({'buflisted':1}))
+  call trans#Trans()
+  Log "Before assert: " . num_of_buffers . " : " . len(getbufinfo({'buflisted':1}))
+  AssertEqual num_of_buffers, len(getbufinfo({'buflisted':1}))
+  close
+  Log "Before assert: " . num_of_buffers . " : " . len(getbufinfo({'buflisted':1}))
+  AssertEqual num_of_buffers, len(getbufinfo({'buflisted':1}))
+  call trans#Trans()
+  Log "Before assert: " . num_of_buffers . " : " . len(getbufinfo({'buflisted':1}))
+  AssertEqual num_of_buffers, len(getbufinfo({'buflisted':1}))
+

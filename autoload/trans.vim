@@ -7,8 +7,6 @@
 "
 " ============================================================================
 
-let s:prev_selection = ""
-
 function! trans#TransTerm()
     if s:check() || v:version < 800
         return
