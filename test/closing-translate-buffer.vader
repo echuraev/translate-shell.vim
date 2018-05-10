@@ -2,6 +2,7 @@ Given text:
   Hello beautiful world!
 
 Execute (Translate, close window, and translate again):
+  new
   let num_of_buffers = len(getbufinfo({'buflisted':1}))
   Log "Before assert: " . num_of_buffers . " : " . len(getbufinfo({'buflisted':1}))
   AssertEqual num_of_buffers, len(getbufinfo({'buflisted':1}))
