@@ -113,3 +113,91 @@ Expect text:
   world
       Мир
 
+Do (TransSelectDirection with empty list):
+  :let g:trans_directions_list = []\<CR>
+  :call trans#TransSelectDirection()\<CR>
+
+Expect text:
+
+  Hello
+
+  Здравствуйте
+  (Zdravstvuyte)
+
+  Definitions of Hello
+  [ English -> Русский ]
+
+  interjection
+      Здравствуйте!
+          Hello!, How do you do?, How d'ye do?, Good afternoon!, How are you?, Good man!
+      Привет!
+          Hi!, Hello!, Ciao!, Bye!, Hallo!, Hullo!
+      Алло!
+          Hello!, Hallo!, Hullo!
+
+  Hello
+      Здравствуйте, Привет
+
+Do (TransVisualSelectDirection with empty list):
+  :let g:trans_directions_list = []\<CR>
+  V
+  :call trans#TransVisualSelectDirection()\<CR>
+
+Expect text:
+
+  Hello beautiful world!
+
+  Привет, красивый мир!
+  (Privet, krasivyy mir!)
+
+  Translations of Hello beautiful world!
+  [ English -> Русский ]
+
+  Hello beautiful world!
+      Привет, красивый мир!, Привет прекрасный мир!
+
+Do (TransSelectDirection with list with one item):
+  :let g:trans_directions_list = [['en', 'it']]\<CR>
+  :call trans#TransSelectDirection()\<CR>
+
+Expect text:
+
+  Hello
+
+  Ciao
+
+  Definitions of Hello
+  [ English -> Italiano ]
+
+  interjection
+      Ciao!
+          Hello!, Hi!, Bye-Bye!, Bye!, So long!, Cheerio!
+      Salve!
+          Hi!, Hello!, Hail!, Cheers!, Hallo!
+      Pronto?
+          Hello!
+      Pronto!
+          Hello!, Hullo!, Hallo!
+      Piacere!
+          Hello!, Hi!
+
+  Hello
+      Ciao
+
+Do (TransVisualSelectDirection with list with one item):
+  :let g:trans_directions_list = [['en', 'it']]\<CR>
+  V
+  :call trans#TransVisualSelectDirection()\<CR>
+
+Expect text:
+
+  Hello beautiful world!
+
+  Ciao bel mondo!
+
+  Translations of Hello beautiful world!
+  [ English -> Italiano ]
+
+  Hello beautiful world!
+      Ciao bel mondo!, Ciao bello il mondo!
+

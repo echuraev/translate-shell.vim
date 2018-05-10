@@ -38,15 +38,22 @@ function! trans#TransSelectDirection()
         return
     endif
 
-    if len(g:trans_directions_list) == 0
-        trans#Trans()
+    let size_trans_directions_list = len(g:trans_directions_list)
+    if size_trans_directions_list == 0
+        call trans#Trans()
         return
     endif
 
-    let shown_items = common#trans#getItemsForInputlist()
-    let selected_number = inputlist(shown_items) - 1
+    let selected_number = 0
+    if size_trans_directions_list > 1
+        let shown_items = common#trans#getItemsForInputlist()
+        let selected_number = inputlist(shown_items) - 1
+    endif
 
     let trans_direction = common#trans#generateTranslateDirection(selected_number)
+    if trans_direction == ""
+        return
+    endif
     let text = "\"". expand("<cword>")."\""
     let cmd = common#trans#generateCMD(trans_direction, text)
     call common#window#OpenTrans(cmd)
@@ -57,15 +64,22 @@ function! trans#TransVisualSelectDirection()
         return
     endif
 
-    if len(g:trans_directions_list) == 0
-        trans#TransVisual()
+    let size_trans_directions_list = len(g:trans_directions_list)
+    if size_trans_directions_list == 0
+        call trans#TransVisual()
         return
     endif
 
-    let shown_items = common#trans#getItemsForInputlist()
-    let selected_number = inputlist(shown_items) - 1
+    let selected_number = 0
+    if size_trans_directions_list > 1
+        let shown_items = common#trans#getItemsForInputlist()
+        let selected_number = inputlist(shown_items) - 1
+    endif
 
     let trans_direction = common#trans#generateTranslateDirection(selected_number)
+    if trans_direction == ""
+        return
+    endif
     let text = "\"".common#common#GetVisualSelection()."\""
     let cmd = common#trans#generateCMD(trans_direction, text)
     call common#window#OpenTrans(cmd)

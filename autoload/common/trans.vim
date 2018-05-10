@@ -176,7 +176,7 @@ function! common#trans#generateTranslateDirection(direction_id)
         return ""
     endif
     if a:direction_id < 0 || a:direction_id >= len(g:trans_directions_list)
-        let a:direction_id = 0
+        return ""
     endif
     let direction = g:trans_directions_list[a:direction_id]
     let trans_direction = direction[0]
