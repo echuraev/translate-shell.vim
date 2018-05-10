@@ -9,7 +9,7 @@
 
 let s:trans_win_name = "__Translate__"
 
-function! common#window#OpenTrans(text)
+function! common#window#OpenTrans(cmd)
     call common#window#GotoTransWindow()
 
     setlocal buftype=nofile
@@ -21,8 +21,7 @@ function! common#window#OpenTrans(text)
     setlocal ft=trans
     setlocal modifiable
 
-    let cmd = "trans ".g:trans_options." \"".a:text."\""
-    let translate = system(cmd)
+    let translate = system(a:cmd)
     %delete
     silent! put = translate
     normal gg

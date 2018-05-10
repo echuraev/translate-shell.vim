@@ -1,0 +1,37 @@
+Execute (Check human readable list):
+  let g:trans_directions_list = [['en', 'ru'], ['ru', 'en'],['en', 'de'], ['en', 'ru', 'de', 'it']]
+  silent! put = common#trans#getHumanDirectionsList()
+
+Expect text:
+
+  [English -> Russian]
+  [Russian -> English]
+  [English -> German]
+  [English -> Russian, German, Italian]
+
+Execute (Check items for itemlist):
+  let g:trans_directions_list = [['en', 'ru'], ['ru', 'en'],['en', 'de'], ['en', 'ru', 'de', 'it']]
+  silent! put = common#trans#getItemsForInputlist()
+
+Expect text:
+
+  Select languages:
+  1. [English -> Russian]
+  2. [Russian -> English]
+  3. [English -> German]
+  4. [English -> Russian, German, Italian]
+
+Execute (Check generated translation direction):
+  let g:trans_directions_list = [['en', 'ru'], ['ru', 'en'],['en', 'de'], ['en', 'ru', 'de', 'it']]
+  silent! put = common#trans#generateTranslateDirection(0)
+  silent! put = common#trans#generateTranslateDirection(1)
+  silent! put = common#trans#generateTranslateDirection(2)
+  silent! put = common#trans#generateTranslateDirection(3)
+
+Expect text:
+
+  en:ru
+  ru:en
+  en:de
+  en:ru+de+it
+

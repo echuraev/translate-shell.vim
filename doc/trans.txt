@@ -2,7 +2,7 @@
 
 Author:         Egor Churaev <egor.churaev@gmail.com>
 Licence:        
-Homepage:       
+Homepage:       https://github.com/echuraev/translate-shell.vim
 Version:        
 
 :TransTerm - Open interactive terminal and you can translate anything that you
@@ -20,10 +20,13 @@ Ideas:
 * [X] Don't create new windows
 * [ ] Pass options to function from command
 * [ ] Possibility to join lines for translate
+* [X] Specify source language -s option
 * [X] Bug with translate word after selection
 * [X] Bug with new window if I have closed split.
 * [ ] Possibility to chose translate language based on predefined list (like
       Emacs)
+* [ ] Folding for translation
+* [ ] Tests on TransTerm
 
 ==============================================================================
  vim: tw=78 ts=8 sw=4 sts=4 et ft=help
