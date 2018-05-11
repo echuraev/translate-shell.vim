@@ -2,8 +2,7 @@
 " File:        trans.vim
 " Description: Syntax file for translation
 " Maintainer:  Egor Churaev <egor.churaev@gmail.com>
-" License:     
-" Notes:       
+" Licence:     GPLv3
 "
 " ============================================================================
 

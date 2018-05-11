@@ -2,8 +2,7 @@
 " File:        window.vim
 " Description: File contains functions for working with window
 " Maintainer:  Egor Churaev <egor.churaev@gmail.com>
-" License:     
-" Notes:       
+" Licence:     GPLv3
 "
 " ============================================================================
 

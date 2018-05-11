@@ -2,8 +2,7 @@
 " File:        common.vim
 " Description: File contains some common functions
 " Maintainer:  Egor Churaev <egor.churaev@gmail.com>
-" License:     
-" Notes:       
+" Licence:     GPLv3
 "
 " ============================================================================
 

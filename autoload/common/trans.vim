@@ -2,8 +2,7 @@
 " File:        trans.vim
 " Description: Common functions for translate
 " Maintainer:  Egor Churaev <egor.churaev@gmail.com>
-" License:
-" Notes:
+" Licence:     GPLv3
 "
 " ============================================================================
 
@@ -135,7 +134,11 @@ let s:trans_supported_languages_dict = {
 \}
 
 function! common#trans#generateCMD(...)
-    let cmd = "trans ".s:trans_default_options
+    let cmd = ""
+    if strlen(g:trans_bin) > 0
+        let cmd = g:tran_bin."/"
+    endif
+    let cmd = "trans ".s:trans_default_options." ".g:trans_advanced_options
     for arg in a:000
         let cmd = cmd." ".arg
     endfor

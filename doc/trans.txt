@@ -1,9 +1,38 @@
 *trans.txt*   Translate text using translate-shell in vim.
+ _                       _       _                _          _ _       _            ~
+| |                     | |     | |              | |        | | |     (_)           ~
+| |_ _ __ __ _ _ __  ___| | __ _| |_ ___ ____ ___| |__   ___| | |_   ___ _ __ ___   ~
+| __| '__/ _` | '_ \/ __| |/ _` | __/ _ \____/ __| '_ \ / _ \ | \ \ / / | '_ ` _ \  ~
+| |_| | | (_| | | | \__ \ | (_| | ||  __/    \__ \ | | |  __/ | |\ V /| | | | | | | ~
+ \__|_|  \__,_|_| |_|___/_|\__,_|\__\___|    |___/_| |_|\___|_|_(_)_/ |_|_| |_| |_| ~
+
 
 Author:         Egor Churaev <egor.churaev@gmail.com>
-Licence:        
+Licence:        GPLv3
 Homepage:       https://github.com/echuraev/translate-shell.vim
-Version:        
+Version:        1.0
+
+==============================================================================
+CONTENTS                               *trans* *translate-shell.vim* *trans-context*
+
+        1. Intro ............................ |trans-intro|
+           Features ......................... |trans-features|
+        2. Requirements ..................... |trans-requirements|
+        3. Installation ..................... |trans-installation|
+        4. Usage ............................ |trans-usage|
+            Commands ........................ |trans-commands|
+            Key mappings .................... |trans-keys|
+        5. Configuration .................... |trans-configuration|
+        6. Changelog ........................ |trans-changelog|
+        7. Todo ............................. |trans-todo|
+
+==============================================================================
+INTRO                                                              *trans-intro*
+
+Translate-shell.vim is a plugin for translating text without leaving Vim. It
+provides a window that displays the translate of word under cursor, selected
+text or you can use "on fly" translation and translate inserted text. More
+information you can find in |trans-commands|.
 
 :TransTerm - Open interactive terminal and you can translate anything that you
 want. Note: only Vim 8!
@@ -12,24 +41,113 @@ want. Note: only Vim 8!
 buffer for translation.  Move focus from created buffer to the previous file.
 
 Ideas:
-* [ ] Keep translate story
-    * [ ] Choose the better translate to save
-* [ ] Nice syntax highlighting
-* [X] Translate multi line string
 * [X] Window position
 * [X] Don't create new windows
-* [ ] Pass options to function from command
-* [ ] Possibility to join lines for translate
 * [X] Specify source language -s option
 * [X] Bug with translate word after selection
 * [X] Bug with new window if I have closed split.
 * [X] Possibility to chose translate language based on predefined list
 * [?] Split interactive on direction and without direction
-* [ ] Folding for translation
-* [ ] Tests on TransTerm
-* [ ] Tests on TransSelectDirection
-* [ ] Update readme
-* [ ] Update vim doc
+
+------------------------------------------------------------------------------
+FEATURES                                                        *trans-features*
+
+The following features are supported by translate-shell.vim:
+    - Translate word under cursor.
+    - Translate multi line string.
+    - Select direction of translate from predefined list.
+    - Interactive translation.
+    - Open interactive terminal with translate-shell (only Vim 8).
+
+==============================================================================
+REQUIREMENTS                                                *trans-requirements*
+
+The following requirements have to be met in order to be able to use
+translate-shell.vim:
+    - Install translate-shell. Translate-shell is used as a backend for the
+    plugin. You can find it on github:
+
+        https://github.com/soimort/translate-shell
+
+    Installation process is described in |trans-installation|.
+
+==============================================================================
+INSTALLATION                                                *trans-installation*
+
+You can install translate-shell.vim by using any vim plugin manager such as
+vim-plug. Installation process by using vim-plug is described below:
+
+TODO: Add installation steps
+
+==============================================================================
+USAGE                                                              *trans-usage*
+
+There are several different ways to use translate-shell.vim. 
+TODO: Add information
+
+------------------------------------------------------------------------------
+COMMANDS                                                        *trans-commands*
+
+:Trans                                                                  *:Trans*
+    Translate word under cursor.
+
+:TransVisual                                                      *:TransVisual*
+    Translate text in visual selection.
+
+:TransSelectDirection                                    *:TransSelectDirection*
+    Gives a choice of translate direction and translate word under cursor.
+    Translate directions are determined in predefined list
+    |g:trans_directions_list|
+
+:TransVisualSelectDirection                        *:TransVisualSelectDirection*
+    Gives a choice of translate direction and translate text in visual
+    selection.  Translate directions are determined in predefined list
+    |g:trans_directions_list|
+
+:TransInteractive                                            *:TransInteractive*
+    Gives a choice of translate direction and translate text of user.
+
+:TransTerm                                                          *:TransTerm*
+    Open terminal with interactive translate-shell. That works only on VIM 8.
+
+------------------------------------------------------------------------------
+KEY MAPPING                                                         *trans-keys*
+
+By default plugin doesn't provide any mapped keys. But you can create your own
+key mapping for fast translation.
+
+Example of key mapping: >
+
+    inoremap <silent> <leader>t <ESC>:Trans<CR>
+    nnoremap <silent> <leader>t :Trans<CR>
+    vnoremap <silent> <leader>t :TransVisual<CR>
+
+You can map all other commands in this way.
+
+==============================================================================
+CONFIGURATION                                              *trans-configuration*
+
+==============================================================================
+CHANGELOG                                                      *trans-changelog*
+
+1.0 (2018-05-)
+    - Initial release
+
+==============================================================================
+TODO                                                                *trans-todo*
+
+    - Keep translate story
+        - Choose the better translate to save
+    - Nice syntax highlighting
+    - Folding for translation
+    - Tests on TransTerm
+    - Tests on TransSelectDirection
+    - Update readme
+    - Update vim doc
+    - Pass options to function from command
+    - Possibility to join lines for translate
+    - Bug with text in "quotes".
+    - Add examples to commands.
 
 ==============================================================================
  vim: tw=78 ts=8 sw=4 sts=4 et ft=help
