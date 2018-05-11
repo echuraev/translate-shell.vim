@@ -22,14 +22,17 @@ let g:trans_directions_list = [
     \['en', 'de'],
     \['de', 'ru'],
     \['en', 'ru', 'de'],
+    \['', 'ru'],
+    \['', ''],
 \]
+" TODO: Add tests cases on the last two items
 
 command! -range TransTerm call trans#TransTerm()
 command! -range Trans call trans#Trans()
 command! -range TransVisual call trans#TransVisual()
-command! -range TransDirectionInteractive call trans#Trans() " [German > English] Translate: <input>
 command! -range TransSelectDirection call trans#TransSelectDirection()
 command! -range TransVisualSelectDirection call trans#TransVisualSelectDirection()
+command! -range TransInteractive call trans#TransInteractive()
 
 inoremap <silent> <leader>t <ESC>:Trans<CR>
 nnoremap <silent> <leader>t :Trans<CR>

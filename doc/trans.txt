@@ -23,10 +23,13 @@ Ideas:
 * [X] Specify source language -s option
 * [X] Bug with translate word after selection
 * [X] Bug with new window if I have closed split.
-* [ ] Possibility to chose translate language based on predefined list (like
-      Emacs)
+* [X] Possibility to chose translate language based on predefined list
+* [?] Split interactive on direction and without direction
 * [ ] Folding for translation
 * [ ] Tests on TransTerm
+* [ ] Tests on TransSelectDirection
+* [ ] Update readme
+* [ ] Update vim doc
 
 ==============================================================================
  vim: tw=78 ts=8 sw=4 sts=4 et ft=help

@@ -7,10 +7,11 @@
 "
 " ============================================================================
 
-let s:trans_default_options = "-no-theme -no-ansi" " -dump
+let s:trans_default_options = "-no-theme -no-ansi" " TODO: -dump
 
 " List of languages supported by translate-shell
 let s:trans_supported_languages_dict = {
+    \'':         'Autodetect',
     \'af':       'Afrikaans',
     \'am':       'Amharic',
     \'ar':       'Arabic',
