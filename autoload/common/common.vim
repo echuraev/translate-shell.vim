@@ -17,3 +17,7 @@ function! common#common#GetVisualSelection() abort
   endtry
 endfunction
 
+function! common#common#shieldQuotes(text)
+    let text = substitute(a:text, "\"", "\\\\\"", "g")
+    return text
+endfunction

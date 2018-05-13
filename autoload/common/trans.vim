@@ -136,9 +136,12 @@ let s:trans_supported_languages_dict = {
 function! common#trans#generateCMD(...)
     let cmd = ""
     if strlen(g:trans_bin) > 0
-        let cmd = g:tran_bin."/"
+        let cmd = g:trans_bin."/"
     endif
-    let cmd = "trans ".s:trans_default_options." ".g:trans_advanced_options
+    let cmd = cmd."trans ".s:trans_default_options
+    if strlen(g:trans_advanced_options) > 0
+        let cmd = cmd." ".g:trans_advanced_options
+    endif
     for arg in a:000
         let cmd = cmd." ".arg
     endfor

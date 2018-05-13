@@ -54,10 +54,20 @@ Expect text:
 
   trans -no-theme -no-ansi text
 
-Execute (Generate cmd with g:trans_options parameter):
-  let g:trans_options = ':ru'
+Execute (Generate cmd with path to bin):
+  let g:trans_bin = "/usr/bin"
+  let text = "text"
+  silent! put = common#trans#generateCMD(text)
+  let g:trans_bin = ""
+
+Expect text:
+
+  /usr/bin/trans -no-theme -no-ansi text
+
+Execute (Generate cmd with g:trans_default_direction parameter):
+  let g:trans_default_direction = ":ru"
   let text = "\"text\""
-  silent! put = common#trans#generateCMD(g:trans_options, text)
+  silent! put = common#trans#generateCMD(g:trans_default_direction, text)
 
 Expect text:
 
@@ -72,4 +82,29 @@ Execute (Generate cmd with trans_direction parameter):
 Expect text:
 
   trans -no-theme -no-ansi en:ru+de+it "Long text"
+
+Execute (Check shield of quotes):
+  let text = "\"Hello world!\""
+  silent! put = text
+  silent! put = ccommon#common#shieldQuotes(text)
+  let text = "\"Hello\" world!"
+  silent! put = text
+  silent! put = ccommon#common#shieldQuotes(text)
+  let text = "Hello \"world\"!"
+  silent! put = text
+  silent! put = ccommon#common#shieldQuotes(text)
+  let text = "Translate \"on fly\" this"
+  silent! put = text
+  silent! put = ccommon#common#shieldQuotes(text)
+  let text = "\"\"\"\"\"\"\"\"\""
+  silent! put = text
+  silent! put = ccommon#common#shieldQuotes(text)
+
+Expect text:
+
+  "Hello world!"
+  "Hello" world!
+  Hello "world"!
+  Translate "on fly" this
+  """""""""
 

@@ -18,7 +18,9 @@ function! trans#Trans()
     if s:check()
         return
     endif
-    let text = "\"".expand("<cword>")."\""
+    let text = expand("<cword>")
+    let text = common#common#shieldQuotes(text)
+    let text = "\"".text."\""
     let cmd = common#trans#generateCMD(g:trans_default_direction, text)
     call common#window#OpenTrans(cmd)
 endfunction
@@ -27,7 +29,9 @@ function! trans#TransVisual()
     if s:check()
         return
     endif
-    let text = "\"".common#common#GetVisualSelection()."\""
+    let text = common#common#GetVisualSelection()
+    let text = common#common#shieldQuotes(text)
+    let text = "\"".text."\""
     let cmd = common#trans#generateCMD(g:trans_default_direction, text)
     call common#window#OpenTrans(cmd)
 endfunction
@@ -53,7 +57,9 @@ function! trans#TransSelectDirection()
     if trans_direction == ""
         return
     endif
-    let text = "\"". expand("<cword>")."\""
+    let text = expand("<cword>")
+    let text = common#common#shieldQuotes(text)
+    let text = "\"".text."\""
     let cmd = common#trans#generateCMD(trans_direction, text)
     call common#window#OpenTrans(cmd)
 endfunction
@@ -79,7 +85,9 @@ function! trans#TransVisualSelectDirection()
     if trans_direction == ""
         return
     endif
-    let text = "\"".common#common#GetVisualSelection()."\""
+    let text = common#common#GetVisualSelection()
+    let text = common#common#shieldQuotes(text)
+    let text = "\"".text."\""
     let cmd = common#trans#generateCMD(trans_direction, text)
     call common#window#OpenTrans(cmd)
 endfunction
@@ -98,10 +106,13 @@ function! trans#TransInteractive()
     let trans_direction = common#trans#generateTranslateDirection(selected_number)
     if trans_direction == ""
         let text = input("Translate (cmd: ".common#trans#generateCMD(g:trans_default_direction)."): ")
+        let text = "\"".text."\""
         let cmd = common#trans#generateCMD(g:trans_default_direction, text)
     else
         let human_direction = common#trans#getHumanDirectionsList()[selected_number]
         let text = input(human_direction." Translate: ")
+        let text = common#common#shieldQuotes(text)
+        let text = "\"".text."\""
         let cmd = common#trans#generateCMD(trans_direction, text)
     endif
     call common#window#OpenTrans(cmd)

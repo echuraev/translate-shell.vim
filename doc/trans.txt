@@ -34,21 +34,6 @@ provides a window that displays the translate of word under cursor, selected
 text or you can use "on fly" translation and translate inserted text. More
 information you can find in |trans-commands|.
 
-:TransTerm - Open interactive terminal and you can translate anything that you
-want. Note: only Vim 8!
-
-:Trans - Translate word under cursor, visual selection. Open special read only
-buffer for translation.  Move focus from created buffer to the previous file.
-
-Ideas:
-* [X] Window position
-* [X] Don't create new windows
-* [X] Specify source language -s option
-* [X] Bug with translate word after selection
-* [X] Bug with new window if I have closed split.
-* [X] Possibility to chose translate language based on predefined list
-* [?] Split interactive on direction and without direction
-
 ------------------------------------------------------------------------------
 FEATURES                                                        *trans-features*
 
@@ -146,8 +131,8 @@ TODO                                                                *trans-todo*
     - Update vim doc
     - Pass options to function from command
     - Possibility to join lines for translate
-    - Bug with text in "quotes".
     - Add examples to commands.
+    ? Split interactive on direction and without direction
 
 ==============================================================================
  vim: tw=78 ts=8 sw=4 sts=4 et ft=help
