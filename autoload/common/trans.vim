@@ -130,7 +130,7 @@ let s:trans_supported_languages_dict = {
     \'yue':      'Cantonese',
     \'zh-CN':    'Chinese Simplified',
     \'zh-TW':    'Chinese Traditional',
-    \'zu':       'Zulu',
+    \'zu':       'Zulu'
 \}
 
 function! common#trans#getPathToBin()

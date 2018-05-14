@@ -4,5 +4,6 @@ before_script: |
   git clone https://github.com/junegunn/vader.vim.git
   wget git.io/trans
   export PATH=$PWD:$PATH
+  echo $PATH
 
 script: test/run
