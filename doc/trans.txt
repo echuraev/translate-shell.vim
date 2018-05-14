@@ -132,6 +132,7 @@ TODO                                                                *trans-todo*
     - Pass options to function from command
     - Possibility to join lines for translate
     - Add examples to commands.
+    - Join translate funcitons (visual and not)
     ? Split interactive on direction and without direction
 
 ==============================================================================
