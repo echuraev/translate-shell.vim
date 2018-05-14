@@ -3,6 +3,7 @@ Given text:
 
 Do (Translate one word):
   /bea\<CR>
+  :let g:trans_default_direction = ":ru"\<CR>
   :Trans\<CR>
 
 Expect text:
@@ -36,6 +37,7 @@ Expect text:
       красивая, красивый, прекрасный
 
 Do (Translate multiline text):
+  :let g:trans_default_direction = ":ru"\<CR>
   VG
   :TransVisual\<CR>
 
@@ -53,6 +55,7 @@ Expect text:
       Привет, красивый мир!, Привет прекрасный мир!
 
 Do (Translate multiline text 2):
+  :let g:trans_default_direction = ":ru"\<CR>
   VG
   :TransVisual\<CR>
 
@@ -71,6 +74,7 @@ Expect text:
 
 Do (Translate one word 2):
   /wor\<CR>
+  :let g:trans_default_direction = ":ru"\<CR>
   :Trans\<CR>
 
 Expect text:
@@ -114,6 +118,7 @@ Expect text:
       Мир
 
 Do (TransSelectDirection with empty list):
+  :let g:trans_default_direction = ":ru"\<CR>
   :let g:trans_directions_list = []\<CR>
   :call trans#TransSelectDirection()\<CR>
 
@@ -139,6 +144,7 @@ Expect text:
       Здравствуйте, Привет
 
 Do (TransVisualSelectDirection with empty list):
+  :let g:trans_default_direction = ":ru"\<CR>
   :let g:trans_directions_list = []\<CR>
   V
   :call trans#TransVisualSelectDirection()\<CR>
