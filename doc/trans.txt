@@ -62,7 +62,19 @@ INSTALLATION                                                *trans-installation*
 You can install translate-shell.vim by using any vim plugin manager such as
 vim-plug. Installation process by using vim-plug is described below:
 
-TODO: Add installation steps
+If you doesn't have installed translate-shell in path, you can install plugin
+by the following command: >
+
+    Plug 'echuraev/translate-shell.vim', { 'do': 'wget -O ~/.vim/trans git.io/trans && chmod +x ~/.vim/trans' }
+
+And after it you should specify path to translate-shell by defining
+|g:trans_bin| variable e.g: >
+    let g:trans_bin = "~/.vim"
+
+If you already have installed translate-shell in your PATH then it is enough
+to install plugin by the following command: >
+
+    Plug 'echuraev/translate-shell.vim'
 
 ==============================================================================
 USAGE                                                              *trans-usage*

@@ -119,7 +119,8 @@ function! trans#TransInteractive()
 endfunction
 
 function! s:check() abort
-    let cmd = g:trans_bin.'trans'
+    let cmd = common#trans#getPathToBin()
+    let cmd = cmd.'trans'
     if !executable(cmd)
         echohl WarningMsg | echomsg "Trans unavailable! CMD: ".cmd | echohl None
         return 1

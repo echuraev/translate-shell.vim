@@ -133,11 +133,18 @@ let s:trans_supported_languages_dict = {
     \'zu':       'Zulu',
 \}
 
-function! common#trans#generateCMD(...)
+function! common#trans#getPathToBin()
     let cmd = ""
     if strlen(g:trans_bin) > 0
         let cmd = g:trans_bin."/"
+        let cmd = substitute(cmd, "$HOME", $HOME, "g")
+        let cmd = substitute(cmd, "\\~", $HOME, "g")
     endif
+    return cmd
+endfunction
+
+function! common#trans#generateCMD(...)
+    let cmd = common#trans#getPathToBin()
     let cmd = cmd."trans ".s:trans_default_options
     if strlen(g:trans_advanced_options) > 0
         let cmd = cmd." ".g:trans_advanced_options
