@@ -6,33 +6,58 @@
 "
 " ============================================================================
 
-function! trans#TransTerm()
+function! trans#TransTerm(...)
     if s:check() || v:version < 800
         return
     endif
     let cmd = common#trans#generateCMD(g:trans_default_direction)
+    if len(a:000) > 0
+        let args = ""
+        for arg in a:000
+            let args = args." ".arg
+        endfor
+        let cmd = common#trans#generateCMD(args)
+    else
+        let cmd = common#trans#generateCMD(g:trans_default_direction)
+    endif
     execute "term ".cmd
 endfunction
 
-function! trans#Trans()
+function! trans#Trans(...)
     if s:check()
         return
     endif
     let text = expand("<cword>")
     let text = common#common#shieldQuotes(text)
     let text = "\"".text."\""
-    let cmd = common#trans#generateCMD(g:trans_default_direction, text)
+    if len(a:000) > 0
+        let args = ""
+        for arg in a:000
+            let args = args." ".arg
+        endfor
+        let cmd = common#trans#generateCMD(args, text)
+    else
+        let cmd = common#trans#generateCMD(g:trans_default_direction, text)
+    endif
     call common#window#OpenTrans(cmd)
 endfunction
 
-function! trans#TransVisual()
+function! trans#TransVisual(...)
     if s:check()
         return
     endif
     let text = common#common#GetVisualSelection()
     let text = common#common#shieldQuotes(text)
     let text = "\"".text."\""
-    let cmd = common#trans#generateCMD(g:trans_default_direction, text)
+    if len(a:000) > 0
+        let args = ""
+        for arg in a:000
+            let args = args." ".arg
+        endfor
+        let cmd = common#trans#generateCMD(args, text)
+    else
+        let cmd = common#trans#generateCMD(g:trans_default_direction, text)
+    endif
     call common#window#OpenTrans(cmd)
 endfunction
 
@@ -92,22 +117,29 @@ function! trans#TransVisualSelectDirection()
     call common#window#OpenTrans(cmd)
 endfunction
 
-function! trans#TransInteractive()
+function! trans#TransInteractive(...)
     if s:check()
         return
     endif
 
     let selected_number = 0
-    if len(g:trans_directions_list) > 1
+    if len(g:trans_directions_list) > 1 && len(a:000) == 0
         let shown_items = common#trans#getItemsForInputlist()
         let selected_number = inputlist(shown_items) - 1
     endif
 
     let trans_direction = common#trans#generateTranslateDirection(selected_number)
-    if trans_direction == ""
-        let text = input("Translate (cmd: ".common#trans#generateCMD(g:trans_default_direction)."): ")
+    if trans_direction == "" || len(a:000) > 0
+        let args = g:trans_default_direction
+        if len(a:000) > 0
+            let args = ""
+            for arg in a:000
+                let args = args." ".arg
+            endfor
+        endif
+        let text = input("Translate (cmd: ".common#trans#generateCMD(args)."): ")
         let text = "\"".text."\""
-        let cmd = common#trans#generateCMD(g:trans_default_direction, text)
+        let cmd = common#trans#generateCMD(args, text)
     else
         let human_direction = common#trans#getHumanDirectionsList()[selected_number]
         let text = input(human_direction." Translate: ")

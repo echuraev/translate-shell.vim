@@ -69,6 +69,7 @@ by the following command: >
 
 And after it you should specify path to translate-shell by defining
 |g:trans_bin| variable e.g: >
+
     let g:trans_bin = "~/.vim"
 
 If you already have installed translate-shell in your PATH then it is enough
@@ -137,15 +138,11 @@ TODO                                                                *trans-todo*
         - Choose the better translate to save
     - Nice syntax highlighting
     - Folding for translation
-    - Tests on TransTerm
-    - Tests on TransSelectDirection
     - Update readme
     - Update vim doc
-    - Pass options to function from command
-    - Possibility to join lines for translate
+    - Possibility to join lines for better translate
     - Add examples to commands.
-    - Join translate funcitons (visual and not)
-    ? Split interactive on direction and without direction
+    - Refactor and join translate funcitons (visual and not)
 
 ==============================================================================
  vim: tw=78 ts=8 sw=4 sts=4 et ft=help

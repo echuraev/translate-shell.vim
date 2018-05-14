@@ -35,11 +35,11 @@ if !exists('g:trans_directions_list')
 endif
 " }}} Default configuration "
 " Commands {{{ "
-command! TransTerm call trans#TransTerm()
-command! Trans call trans#Trans()
-command! TransSelectDirection call trans#TransSelectDirection()
-command! TransInteractive call trans#TransInteractive()
-command! -range TransVisual call trans#TransVisual()
-command! -range TransVisualSelectDirection call trans#TransVisualSelectDirection()
+command! -nargs=* TransTerm call trans#TransTerm(<f-args>)
+command! -nargs=* Trans call trans#Trans(<f-args>)
+command! -nargs=0 TransSelectDirection call trans#TransSelectDirection()
+command! -nargs=* TransInteractive call trans#TransInteractive(<f-args>)
+command! -nargs=* -range TransVisual call trans#TransVisual(<f-args>)
+command! -nargs=0 -range TransVisualSelectDirection call trans#TransVisualSelectDirection()
 " }}} Commands "
 
