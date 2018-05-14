@@ -1,9 +1,13 @@
 #!/bin/bash
 
+cd "$(dirname "${BASH_SOURCE[0]}")"
+export BASE="$PWD"
+echo $BASE
+
 vim -Nu <(cat << EOF
 filetype off
 set rtp+=~/.vim/plugged/vader.vim
-set rtp+=../../translate-shell.vim
+set rtp+=..
 filetype plugin indent on
 syntax enable
-EOF) +Vader*
+EOF) +Vader!*
