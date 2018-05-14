@@ -10,7 +10,6 @@ let s:trans_default_options = "-no-theme -no-ansi" " TODO: -dump
 
 " List of languages supported by translate-shell
 let s:trans_supported_languages_dict = {
-    \'':         'Autodetect',
     \'af':       'Afrikaans',
     \'am':       'Amharic',
     \'ar':       'Arabic',
@@ -130,7 +129,7 @@ let s:trans_supported_languages_dict = {
     \'yue':      'Cantonese',
     \'zh-CN':    'Chinese Simplified',
     \'zh-TW':    'Chinese Traditional',
-    \'zu':       'Zulu'
+    \'zu':       'Zulu',
 \}
 
 function! common#trans#getPathToBin()
@@ -161,12 +160,17 @@ function! common#trans#getHumanDirectionsList()
         let str = "["
         let i = 0
         for lang in direction
-            if i == 0
-                let str = str."".s:trans_supported_languages_dict[lang]." -> "
-            elseif i == 1
-                let str = str."".s:trans_supported_languages_dict[lang]
+            if strlen(lang) > 0
+                let langname = s:trans_supported_languages_dict[lang]
             else
-                let str = str.", ".s:trans_supported_languages_dict[lang]
+                let langname = 'Autodetect'
+            endif
+            if i == 0
+                let str = str."".langname." -> "
+            elseif i == 1
+                let str = str."".langname
+            else
+                let str = str.", ".langname
             endif
             let i += 1
         endfor
