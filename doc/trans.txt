@@ -80,8 +80,80 @@ to install plugin by the following command: >
 ==============================================================================
 USAGE                                                              *trans-usage*
 
-There are several different ways to use translate-shell.vim. 
-TODO: Add information
+There are several different ways to use |translate-shell.vim|:
+
+1. Translate word under cursor (with default parameters):~
+
+   Run command |:Trans| and word under cursor will be translated. Target
+   language determines by using variable |g:trans_default_direction|.
+
+   Exercise (translate word): `Hello`
+
+2. Translate visual selection (with default parameters):~
+
+   Run command |:TransVisual| and word under cursor will be translated. Target
+   language determines by using variable |g:trans_default_direction|.
+
+   Exercise (translate sentence): `Hello github world!`
+
+3. Translate word under cursor (with parameters from command line):~
+
+   You can pass any arguments to command |:Trans|. Try to translate word on
+   German in brief mode by command: `:Trans -brief` `:de`.
+
+   Exercise (translate word): `Hello`
+
+4. Translate visual selection (with parameters from command line):~
+
+   You can pass any arguments to command |:TransVisual|. Try to translate word
+   on German in brief mode by command: `:TransVisual -brief` `:de`.
+
+   Exercise (translate sentence): `Hello github world!`
+
+5. Translate word with choosing direction:~
+
+   You can translate word and choose target translation from predefined list
+   |g:trans_directions_list|. Just run command |:TransSelectDirection|.
+
+   Exercise (translate word): `Hello`
+
+6. Translate visual selection with choosing direction:~
+
+   You can translate visual selection and choose target translation from
+   predefined list |g:trans_directions_list|. Just run command
+   |:TransVisualSelectDirection|.
+
+   Exercise (translate sentence): `Hello github world!`
+
+7. Interactive translation (translate user input):~
+
+   You can translate anything that you wish "on fly" by using command
+   |:TransInteractive|. Target language determines by using variable
+   |g:trans_default_direction|.
+
+   Exercise: Translate something with `:TransInteractive`
+
+8. Interactive translation (translate user input):~
+
+   You can translate anything that you wish "on fly" by using command
+   |:TransInteractive|. Try to pass options from command line.
+
+   Exercise: Translate something with `:TransInteractive -brief :de`
+
+9. Translate terminal (works only in Vim 8):~
+
+   You can open terminal with translate-shell and work in it by command
+   |:TransTerm|. Target language determines by using variable
+   |g:trans_default_direction|.
+
+   Exercise: Translate something with `:TransTerm`
+
+10. Translate terminal with parameters from command line (works only in Vim 8):~
+
+   You can open terminal with translate-shell and work in it by command
+   |:TransTerm|. Try to pass options from command line.
+
+   Exercise: Translate something with `:TransTerm -brief :de`
 
 ------------------------------------------------------------------------------
 COMMANDS                                                        *trans-commands*
@@ -141,7 +213,6 @@ TODO                                                                *trans-todo*
     - Update readme
     - Update vim doc
     - Possibility to join lines for better translate
-    - Add examples to commands.
     - Refactor and join translate funcitons (visual and not)
 
 ==============================================================================

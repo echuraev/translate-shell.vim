@@ -17,5 +17,6 @@
 
 ## Getting Started
 
-## Screenshots
+## Screencast
+![translate-shell.vim screencast](doc/screencast.gif)
 
