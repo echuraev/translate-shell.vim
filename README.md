@@ -86,6 +86,8 @@ nnoremap <silent> <leader>t :Trans<CR>
 vnoremap <silent> <leader>t :TransVisual<CR>
 ```
 
+For more information please look at [doc/trans.txt](doc/trans.txt) or open Vim and run `:h trans`.
+
 ## Screencast
 ![translate-shell.vim screencast](doc/screencast.gif)
 
