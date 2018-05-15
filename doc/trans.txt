@@ -195,7 +195,7 @@ COMMANDS                                                        *trans-commands*
       ignored. For more details see section |trans-usage|.
 
 :TransTerm [{options}]                                              *:TransTerm*
-    Open terminal with interactive translate-shell. That works only on VIM 8.
+    Open terminal with interactive translate-shell. That works only in VIM 8.
 
     - If you call it without any parameters it will run with default
       parameters from variable |g:trans_default_direction|.
@@ -328,7 +328,7 @@ Example:
 ==============================================================================
 CHANGELOG                                                      *trans-changelog*
 
-1.0 (2018-05-)
+1.0 (2018-05-15)
     - Initial release
 
 ==============================================================================
@@ -337,8 +337,7 @@ TODO                                                                *trans-todo*
     - Keep translate story
         - Choose the better translate to save
     - Nice syntax highlighting
-    - Folding for translation
-    - Update readme
+    - Folding for translation on multiple languages
     - Possibility to join lines for better translate
     - Refactor and join translate functions (visual and not)
 
