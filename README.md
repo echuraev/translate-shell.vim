@@ -8,7 +8,7 @@
 provides a window that displays the translate of word under cursor, selected
 text or you can use "on fly" translation and translate inserted text.
 
-To see the plugin in action, please look at [Screencast](#screencast) section.
+![translate-shell.vim screencast](doc/screencast.gif)
 
 ## Table of Contents
 
@@ -19,7 +19,6 @@ To see the plugin in action, please look at [Screencast](#screencast) section.
 * [Installation](#installation)
     * [Installation with vim-plug](#installation-with-vim-plug)
 * [Getting Started](#getting-started)
-* [Screencast](#screencast)
 * [TODO List](#todo-list)
 * [References](#references)
     * [Author](#author)
@@ -87,9 +86,6 @@ vnoremap <silent> <leader>t :TransVisual<CR>
 ```
 
 For more information please look at [doc/trans.txt](doc/trans.txt) or open Vim and run `:h trans`.
-
-## Screencast
-![translate-shell.vim screencast](doc/screencast.gif)
 
 ## TODO List
 - [ ] Keep translate story
