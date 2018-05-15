@@ -18,6 +18,9 @@ endif
 if !exists('g:trans_default_direction')
     let g:trans_default_direction = ""
 endif
+if !exists('g:trans_directions_list')
+    let g:trans_directions_list = []
+endif
 if !exists('g:trans_advanced_options')
     let g:trans_advanced_options = ""
 endif
@@ -29,9 +32,6 @@ if !exists('g:trans_win_height')
 endif
 if !exists('g:trans_win_position')
     let g:trans_win_position = 'bottom'
-endif
-if !exists('g:trans_directions_list')
-    let g:trans_directions_list = []
 endif
 " }}} Default configuration "
 " Commands {{{ "

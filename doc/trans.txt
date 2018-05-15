@@ -59,8 +59,9 @@ translate-shell.vim:
 ==============================================================================
 INSTALLATION                                                *trans-installation*
 
-You can install translate-shell.vim by using any vim plugin manager such as
-vim-plug. Installation process by using vim-plug is described below:
+You can install translate-shell.vim by using any vim plugin manager.
+
+Installation with vim-plug:~
 
 If you doesn't have installed translate-shell in path, you can install plugin
 by the following command: >
@@ -158,27 +159,48 @@ There are several different ways to use |translate-shell.vim|:
 ------------------------------------------------------------------------------
 COMMANDS                                                        *trans-commands*
 
-:Trans                                                                  *:Trans*
+:Trans [{options}]                                                      *:Trans*
     Translate word under cursor.
 
-:TransVisual                                                      *:TransVisual*
+    - If you call it without any parameters it will run with default
+      parameters from variable |g:trans_default_direction|.
+    - If you pass options then variable |g:trans_default_direction| will be
+      ignored. For more details see section |trans-usage|.
+
+:TransVisual [{options}]                                          *:TransVisual*
     Translate text in visual selection.
+
+    - If you call it without any parameters it will run with default
+      parameters from variable |g:trans_default_direction|.
+    - If you pass options then variable |g:trans_default_direction| will be
+      ignored. For more details see section |trans-usage|.
 
 :TransSelectDirection                                    *:TransSelectDirection*
     Gives a choice of translate direction and translate word under cursor.
     Translate directions are determined in predefined list
-    |g:trans_directions_list|
+    |g:trans_directions_list|. For more details see section |trans-usage|.
 
 :TransVisualSelectDirection                        *:TransVisualSelectDirection*
     Gives a choice of translate direction and translate text in visual
     selection.  Translate directions are determined in predefined list
-    |g:trans_directions_list|
+    |g:trans_directions_list|. For more details see section |trans-usage|.
 
-:TransInteractive                                            *:TransInteractive*
+:TransInteractive [{options}]                                *:TransInteractive*
     Gives a choice of translate direction and translate text of user.
 
-:TransTerm                                                          *:TransTerm*
+    - If you call it without any parameters it will run with default
+      parameters from variable |g:trans_default_direction| or will give a
+      choice if list |g:trans_directions_list| is specified.
+    - If you pass options then variable |g:trans_default_direction| will be
+      ignored. For more details see section |trans-usage|.
+
+:TransTerm [{options}]                                              *:TransTerm*
     Open terminal with interactive translate-shell. That works only on VIM 8.
+
+    - If you call it without any parameters it will run with default
+      parameters from variable |g:trans_default_direction|.
+    - If you pass options then variable |g:trans_default_direction| will be
+      ignored. For more details see section |trans-usage|.
 
 ------------------------------------------------------------------------------
 KEY MAPPING                                                         *trans-keys*
@@ -197,6 +219,112 @@ You can map all other commands in this way.
 ==============================================================================
 CONFIGURATION                                              *trans-configuration*
 
+                                                                  *g:trans_bin*
+g:trans_bin~
+Default: empty
+
+Use this option to specify the location of your translate-shell executable.
+Only needed if it is not in one of the directories in your $PATH environment
+variable.
+
+Example:
+>
+    let g:trans_bin = "~/.vim"
+<
+                                                    *g:trans_default_direction*
+g:trans_default_direction~
+Default: empty
+
+Use this option to specify default direction of translate. If variable is
+empty then the source text translates into the language of your `locale`.
+
+Example:
+>
+    let g:trans_default_direction = ":ru"
+<
+    or to specify two target languages:
+>
+    let g:trans_default_direction = ":ru+de"
+<
+                                                      *g:trans_directions_list*
+g:trans_directions_list~
+Default: empty list
+
+Use this option to specify the list of your translate directions. This list is
+used in the following commands:
+    |:TransSelectDirection|, |:TransVisualSelectDirection|, |:TransInteractive|.
+
+This list contains lists of direction. First member of the list is source text
+language, second and other are the target translation languages. If member is
+empty (`''`) then language will be automatically determined.
+
+Example:
+>
+    let g:trans_directions_list = [
+        \['en', 'ru'],
+        \['ru', 'en'],
+        \['en', 'de'],
+        \['en', 'ru', 'de'],
+        \['', 'ru'],
+        \['', ''],
+    \]
+<
+    For this list you get the following choose:
+>
+    Select languages:
+    1. [English -> Russian]
+    2. [Russian -> English]
+    3. [English -> German]
+    4. [English -> Russian, German]
+    5. [Autodetect -> Russian]
+    6. [Autodetect -> Autodetect]
+<
+                                                     *g:trans_advanced_options*
+g:trans_advanced_options~
+Default: empty
+
+Use this option to specify additional options for translate-shell.
+
+Example:
+>
+    let g:trans_advanced_options = "-brief"
+<
+                                                            *g:trans_win_width*
+g:trans_win_width~
+Default: 50
+
+Width of the translate windows in characters.
+
+Example:
+>
+    let g:trans_win_width = 40
+<
+                                                           *g:trans_win_height*
+g:trans_win_height~
+Default: 15
+
+Height of the translate windows in characters.
+
+Example:
+>
+    let g:trans_win_height = 30
+<
+                                                         *g:trans_win_position*
+g:trans_win_position~
+Default: 'bottom'
+
+This variable determines position of translate window.
+
+Possible values are:
+    'bottom': Windows is in the bottom of the screen.
+    'up': Windows is in the up of the screen.
+    'left': Windows is in the left side of the screen.
+    'right': Windows is in the right side of the screen.
+
+Example:
+>
+    let g:trans_win_position = "right"
+<
 ==============================================================================
 CHANGELOG                                                      *trans-changelog*
 
@@ -211,9 +339,8 @@ TODO                                                                *trans-todo*
     - Nice syntax highlighting
     - Folding for translation
     - Update readme
-    - Update vim doc
     - Possibility to join lines for better translate
-    - Refactor and join translate funcitons (visual and not)
+    - Refactor and join translate functions (visual and not)
 
 ==============================================================================
  vim: tw=78 ts=8 sw=4 sts=4 et ft=help
