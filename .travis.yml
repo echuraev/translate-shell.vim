@@ -9,6 +9,7 @@ before_script: |
   sudo apt-get install gawk
   git clone https://github.com/junegunn/vader.vim.git
   wget git.io/trans
+  chmod +x ./trans
   export PATH=$PWD:$PATH
   echo $PATH
 
