@@ -94,7 +94,7 @@ For more information please look at [doc/trans.txt](doc/trans.txt) or open Vim a
     - [ ] Choose the better translate to save
 - [ ] Nice syntax highlighting
 - [ ] Folding for translation on multiple languages
-- [ ] Possibility to join lines for better translation
+- [x] Possibility to join lines for better translation
 - [ ] Refactor and join translate functions (visual and not)
 
 ## References
