@@ -16,4 +16,3 @@ Test cases for the following features are currently missing:
 
 * TransTerm
 * TransSelectDirection
-* Test on setting args from command line

@@ -85,6 +85,8 @@ nnoremap <silent> <leader>t :Trans<CR>
 vnoremap <silent> <leader>t :TransVisual<CR>
 ```
 
+Codes of languages you can find [here](https://github.com/soimort/translate-shell#code-list).
+
 For more information please look at [doc/trans.txt](doc/trans.txt) or open Vim and run `:h trans`.
 
 ## TODO List

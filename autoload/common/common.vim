@@ -17,7 +17,10 @@ function! common#common#GetVisualSelection() abort
   endtry
 endfunction
 
-function! common#common#shieldQuotes(text)
-    let text = substitute(a:text, "\"", "\\\\\"", "g")
+function! common#common#joinLinesInText(text)
+    let text = substitute(a:text, "  ", " ", "g")
+    let text = substitute(text, "\n", " ", "g")
+    let text = substitute(text, "  ", "\n", "g")
     return text
 endfunction
+

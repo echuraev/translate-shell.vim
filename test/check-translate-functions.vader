@@ -1,5 +1,5 @@
 Execute (Check human readable list):
-  let g:trans_directions_list = [['en', 'ru'], ['ru', 'en'],['en', 'de'], ['en', 'ru', 'de', 'it']]
+  let g:trans_directions_list = [['en', 'ru'], ['ru', 'en'],['en', 'de'], ['en', 'ru', 'de', 'it'], ['en', ''], ['', 'ru'], ['', '']]
   silent! put = common#trans#getHumanDirectionsList()
 
 Expect text:
@@ -8,9 +8,12 @@ Expect text:
   [Russian -> English]
   [English -> German]
   [English -> Russian, German, Italian]
+  [English -> Autodetect]
+  [Autodetect -> Russian]
+  [Autodetect -> Autodetect]
 
 Execute (Check items for itemlist):
-  let g:trans_directions_list = [['en', 'ru'], ['ru', 'en'],['en', 'de'], ['en', 'ru', 'de', 'it']]
+  let g:trans_directions_list = [['en', 'ru'], ['ru', 'en'],['en', 'de'], ['en', 'ru', 'de', 'it'], ['en', ''], ['', 'ru'], ['', '']]
   silent! put = common#trans#getItemsForInputlist()
 
 Expect text:
@@ -20,15 +23,21 @@ Expect text:
   2. [Russian -> English]
   3. [English -> German]
   4. [English -> Russian, German, Italian]
+  5. [English -> Autodetect]
+  6. [Autodetect -> Russian]
+  7. [Autodetect -> Autodetect]
 
 Execute (Check generated translation direction):
-  let g:trans_directions_list = [['en', 'ru'], ['ru', 'en'],['en', 'de'], ['en', 'ru', 'de', 'it']]
+  let g:trans_directions_list = [['en', 'ru'], ['ru', 'en'],['en', 'de'], ['en', 'ru', 'de', 'it'], ['en', ''], ['', 'ru'], ['', '']]
   silent! put = common#trans#generateTranslateDirection(-10)
   silent! put = common#trans#generateTranslateDirection(10)
   silent! put = common#trans#generateTranslateDirection(0)
   silent! put = common#trans#generateTranslateDirection(1)
   silent! put = common#trans#generateTranslateDirection(2)
   silent! put = common#trans#generateTranslateDirection(3)
+  silent! put = common#trans#generateTranslateDirection(4)
+  silent! put = common#trans#generateTranslateDirection(5)
+  silent! put = common#trans#generateTranslateDirection(6)
 
 Expect text:
 
@@ -38,6 +47,9 @@ Expect text:
   ru:en
   en:de
   en:ru+de+it
+  en:
+  :ru
+  :
 
 Execute (Generate cmd without parameters):
   silent! put = common#trans#generateCMD()
@@ -107,4 +119,21 @@ Expect text:
   Hello "world"!
   Translate "on fly" this
   """""""""
+
+Execute (Check join lines function):
+  let text = "Hello!\n\nI would like to see\nhow lines will\njoined!!!"
+  silent! put = text
+  silent! put = ''
+  silent! put = common#common#joinLinesInText(text)
+
+Expect text:
+
+  Hello!
+
+  I would like to see
+  how lines will
+  joined!!!
+
+  Hello!
+  I would like to see how lines will joined!!!
 

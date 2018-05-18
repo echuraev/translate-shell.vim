@@ -1,6 +1,9 @@
 Given text:
   Hello beautiful world!
 
+  How is it
+  going?
+
 Do (Translate one word):
   /bea\<CR>
   :let g:trans_default_direction = ":ru"\<CR>
@@ -38,39 +41,59 @@ Expect text:
 
 Do (Translate multiline text):
   :let g:trans_default_direction = ":ru"\<CR>
+  :let g:trans_join_lines = 1\<CR>
   VG
   :TransVisual\<CR>
 
 Expect text:
 
   Hello beautiful world!
+   How is it going?
 
   Привет, красивый мир!
-  (Privet, krasivyy mir!)
+  Как дела?
+  (Privet, krasivyy mir!
+  Kak dela?)
 
   Translations of Hello beautiful world!
+   How is it going?
   [ English -> Русский ]
 
   Hello beautiful world!
       Привет, красивый мир!, Привет прекрасный мир!
+
+
+      
+  How is it going?
+      Как дела?, Как это происходит?
 
 Do (Translate multiline text 2):
   :let g:trans_default_direction = ":ru"\<CR>
+  :let g:trans_join_lines = 1\<CR>
   VG
   :TransVisual\<CR>
 
 Expect text:
 
   Hello beautiful world!
+   How is it going?
 
   Привет, красивый мир!
-  (Privet, krasivyy mir!)
+  Как дела?
+  (Privet, krasivyy mir!
+  Kak dela?)
 
   Translations of Hello beautiful world!
+   How is it going?
   [ English -> Русский ]
 
   Hello beautiful world!
       Привет, красивый мир!, Привет прекрасный мир!
+
+
+      
+  How is it going?
+      Как дела?, Как это происходит?
 
 Do (Translate one word 2):
   /wor\<CR>
@@ -206,4 +229,22 @@ Expect text:
 
   Hello beautiful world!
       Ciao bel mondo!, Ciao bello il mondo!
+
+Do (Translate one word with command line arguments):
+  /bea\<CR>
+  :Trans -brief :de\<CR>
+
+Expect text:
+
+  schön
+
+Do (Translate multiple lines with command line arguments):
+  :let g:trans_join_lines = 1\<CR>
+  VG
+  :TransVisual -brief :de\<CR>
+
+Expect text:
+
+  Hallo schöne Welt!
+  Wie gehts?
 

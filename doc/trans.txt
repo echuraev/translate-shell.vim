@@ -246,6 +246,10 @@ Example:
 >
     let g:trans_default_direction = ":ru+de"
 <
+Note: Codes of languages you can find here:
+
+    https://github.com/soimort/translate-shell#code-list
+
                                                       *g:trans_directions_list*
 g:trans_directions_list~
 Default: empty list
@@ -279,6 +283,10 @@ Example:
     5. [Autodetect -> Russian]
     6. [Autodetect -> Autodetect]
 <
+Note: Codes of languages you can find here:
+
+    https://github.com/soimort/translate-shell#code-list
+
                                                      *g:trans_advanced_options*
 g:trans_advanced_options~
 Default: empty
@@ -324,6 +332,23 @@ Possible values are:
 Example:
 >
     let g:trans_win_position = "right"
+<
+                                                           *g:trans_join_lines*
+g:trans_join_lines~
+Default: 0
+
+This option is important only for visual selection. By default the
+translate-shell.vim will not join lines but sometimes it could add some
+inaccuracies in translation especially when automatic text wrapping is
+enabled.  It's happen because google translate thinks that every new line is
+the new sentence.
+
+If |g:trans_join_lines| is used then lines for translate will join to one. And
+it can improve the quality of translation.
+
+Example:
+>
+    let g:trans_join_lines = 1
 <
 ==============================================================================
 CHANGELOG                                                      *trans-changelog*

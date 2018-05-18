@@ -33,6 +33,9 @@ endif
 if !exists('g:trans_win_position')
     let g:trans_win_position = 'bottom'
 endif
+if !exists('g:trans_join_lines')
+    let g:trans_join_lines = 0
+endif
 " }}} Default configuration "
 " Commands {{{ "
 command! -nargs=* TransTerm call trans#TransTerm(<f-args>)
