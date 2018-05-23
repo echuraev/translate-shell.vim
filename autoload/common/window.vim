@@ -11,6 +11,7 @@ let s:trans_win_name = "__Translate__"
 function! common#window#OpenTrans(cmd)
     call common#window#GotoTransWindow()
 
+    call s:maps()
     setlocal buftype=nofile
     setlocal complete=.
     setlocal noswapfile
@@ -58,5 +59,24 @@ function! common#window#GotoTransWindow()
         let trans_winnr = bufwinnr(s:trans_win_name)
     endif
     exec trans_winnr . "wincmd w"
+endfunction
+
+function! s:maps()
+    nnoremap <silent> <buffer> <CR> :call common#window#SaveSelectedTranslation()<CR>
+endfunction
+
+function! common#window#SaveSelectedTranslation()
+    if g:trans_save_history == 0
+        redraw | echohl WarningMsg | echo "Cannot save translation. g:trans_save_history is zero" | echohl None
+        return
+    endif
+    let source_text = common#trans#getCurrentSourceText()
+    " Get and trim selected line
+    let translation = substitute(getline('.'), '^\s*\(.\{-}\)\s*$', '\1', '')
+    let history_file =  common#trans#addTranslationToHistory(source_text, translation)
+    if g:trans_close_window_after_saving > 0
+        q
+    endif
+    redraw | echo "Saved: ".source_text." -> ".translation.". To file: ".history_file
 endfunction
 

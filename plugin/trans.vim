@@ -36,6 +36,37 @@ endif
 if !exists('g:trans_join_lines')
     let g:trans_join_lines = 0
 endif
+if !exists('g:trans_save_history')
+    let g:trans_save_history = 0
+endif
+if !exists('g:trans_separate_history_files')
+    let g:trans_separate_history_files = 0
+endif
+if !exists('g:trans_history_file')
+    let g:trans_history_file = ''
+endif
+if !exists('g:trans_history_format')
+    let g:trans_history_format = '%s;%t'
+endif
+if !exists('g:trans_close_window_after_saving')
+    let g:trans_close_window_after_saving = 0
+endif
+if !exists('g:trans_save_only_unique')
+    let g:trans_save_only_unique = 0
+endif
+if !exists('g:trans_save_raw_history')
+    let g:trans_save_raw_history = 0
+endif
+if !exists('g:trans_raw_history_file')
+    let g:trans_history_raw_file = '~/.vim/.trans_raw_history'
+endif
+    let g:trans_save_history = 1
+    let g:trans_separate_history_files = 1 " 1 and 2 are possible values
+    let g:trans_history_file = '~/Desktop/trans_history.csv'
+    let g:trans_close_window_after_saving = 1
+    let g:trans_save_only_unique = 1
+    let g:trans_history_format = '%s;%t;%sa;%ta'
+    let g:trans_save_raw_history = 1
 " }}} Default configuration "
 " Commands {{{ "
 command! -nargs=* TransTerm call trans#TransTerm(<f-args>)

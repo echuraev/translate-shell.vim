@@ -52,7 +52,8 @@ Expect text:
   :
 
 Execute (Generate cmd without parameters):
-  silent! put = common#trans#generateCMD()
+  let args = ""
+  put = common#trans#generateCMD(args)
 
 Expect text:
 

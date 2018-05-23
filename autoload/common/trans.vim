@@ -7,6 +7,9 @@
 " ============================================================================
 
 let s:trans_default_options = "-no-theme -no-ansi" " TODO: -dump
+let s:trans_current_source_text = ""
+let s:trans_source_lang = ""
+let s:trans_target_lang = ""
 
 " List of languages supported by translate-shell
 let s:trans_supported_languages_dict = {
@@ -142,16 +145,41 @@ function! common#trans#getPathToBin()
     return cmd
 endfunction
 
-function! common#trans#generateCMD(...)
+function! common#trans#generateCMD(args, ...)
+    call s:getTranslateLanguages(a:args)
     let cmd = common#trans#getPathToBin()
     let cmd = cmd."trans ".s:trans_default_options
     if strlen(g:trans_advanced_options) > 0
         let cmd = cmd." ".g:trans_advanced_options
     endif
+    if strlen(a:args) > 0
+        let cmd = cmd." ".a:args
+    endif
     for arg in a:000
         let cmd = cmd." ".arg
     endfor
     return cmd
+endfunction
+
+function! s:getTranslateLanguages(args)
+    let lst = []
+    call substitute(a:args, '\([a-z]*\):\([a-z\+]*\)', '\=add(lst, [submatch(1), submatch(2)])', 'g')
+    if len(lst) == 0
+        return
+    endif
+    let s:trans_source_lang = lst[0][0]
+    let s:trans_target_lang = lst[0][1]
+endfunction
+
+function! common#trans#generateArgs(default, args)
+    let args = a:default
+    if len(a:args) > 0
+        let args = ""
+        for arg in a:args
+            let args = args." ".arg
+        endfor
+    endif
+    return args
 endfunction
 
 function! common#trans#getHumanDirectionsList()
@@ -204,5 +232,94 @@ function! common#trans#generateTranslateDirection(direction_id)
     endfor
     let trans_direction = trans_direction.":".trans_dest
     return trans_direction
+endfunction
+
+function! common#trans#prepareTextToTranslating(text)
+    let text = escape(a:text, "\"")
+    let s:trans_current_source_text = text
+    if g:trans_save_raw_history > 0
+        call s:writeTextToFile(g:trans_history_raw_file, text)
+    endif
+    let text = "\"".text."\""
+    return text
+endfunction
+
+function! common#trans#getCurrentSourceText()
+    return s:trans_current_source_text
+endfunction
+
+function! common#trans#addTranslationToHistory(source, translation)
+    if strlen(g:trans_history_file) == 0
+        return
+    endif
+    let line = substitute(g:trans_history_format, "%s", a:source, 'g')
+    let line = substitute(line, "%t", a:translation, 'g')
+    let filename = s:getHistoryFileName(g:trans_history_file, a:translation)
+    call s:writeTextToFile(filename, line)
+    return filename
+endfunction
+
+function! s:getHistoryFileName(filename, translation)
+    let filename = a:filename
+    if g:trans_separate_history_files > 0
+        let split_filename = split(filename, "\\.")
+        let len_of_split_filename = len(split_filename)
+        let file_ext = ""
+        if len_of_split_filename > 2
+            let filename = join(split_filename[0:(len_of_split_filename-2)])
+            let file_ext = split_filename[len_of_split_filename-1]
+        else
+            let filename = split_filename[0]
+            if len_of_split_filename == 2
+                let file_ext = split_filename[1]
+            endif
+        endif
+        let filename = filename."_".s:getSourceLang()
+        if g:trans_separate_history_files == 2
+            let filename = filename."_".s:getTargetLang(a:translation)
+        endif
+        if strlen(file_ext) > 0
+            let filename = filename.".".file_ext
+        endif
+    endif
+    return filename
+endfunction
+
+function! s:getSourceLang()
+    if strlen(s:trans_source_lang) > 0
+        return s:trans_source_lang
+    endif
+    return s:determineLang(s:trans_current_source_text)
+endfunction
+
+function! s:getTargetLang(text)
+    if strlen(s:trans_target_lang) > 0 && len(split(s:trans_target_lang, '+')) == 1
+        return s:trans_target_lang
+    endif
+    return s:determineLang(a:text)
+endfunction
+
+function! s:determineLang(text)
+    let text = "\"".a:text."\""
+    let cmd = common#trans#generateCMD("-id", text)
+    let ret_list = split(system(cmd), "\\n")
+    let lang = ""
+    for item in ret_list
+        let spl = split(item, " ")
+        if spl[0] == "Code"
+            let lang = spl[-1]
+        endif
+    endfor
+    return lang
+endfunction
+
+function! s:writeTextToFile(filename, text)
+    tabedit
+    setlocal buftype=nofile bufhidden=hide noswapfile nobuflisted
+    silent! put = a:text
+    " Remove empty lines
+    g/^$/d
+    silent! execute 'w! >>' a:filename
+    q
 endfunction
 
