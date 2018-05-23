@@ -39,9 +39,6 @@ endif
 if !exists('g:trans_save_history')
     let g:trans_save_history = 0
 endif
-if !exists('g:trans_separate_history_files')
-    let g:trans_separate_history_files = 0
-endif
 if !exists('g:trans_history_file')
     let g:trans_history_file = ''
 endif
@@ -60,12 +57,11 @@ endif
 if !exists('g:trans_raw_history_file')
     let g:trans_history_raw_file = '~/.vim/.trans_raw_history'
 endif
-    let g:trans_save_history = 1
-    let g:trans_separate_history_files = 1 " 1 and 2 are possible values
+    let g:trans_save_history = 2 " 1, 2 and 3 are possible values
     let g:trans_history_file = '~/Desktop/trans_history.csv'
-    let g:trans_close_window_after_saving = 1
-    let g:trans_save_only_unique = 1
-    let g:trans_history_format = '%s;%t;%sa;%ta'
+    let g:trans_close_window_after_saving = 0
+    let g:trans_save_only_unique = 2 " 1 and 2 are possible values
+    let g:trans_history_format = '%s;%t;%as;%at'
     let g:trans_save_raw_history = 1
 " }}} Default configuration "
 " Commands {{{ "

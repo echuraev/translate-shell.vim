@@ -135,12 +135,20 @@ let s:trans_supported_languages_dict = {
     \'zu':       'Zulu',
 \}
 
+function! common#trans#processPath(path)
+    let path = a:path
+    if strlen(path) > 0
+        let path = substitute(path, "$HOME", $HOME, "g")
+        let path = substitute(path, "\\~", $HOME, "g")
+    endif
+    return path
+endfunction
+
 function! common#trans#getPathToBin()
     let cmd = ""
     if strlen(g:trans_bin) > 0
         let cmd = g:trans_bin."/"
-        let cmd = substitute(cmd, "$HOME", $HOME, "g")
-        let cmd = substitute(cmd, "\\~", $HOME, "g")
+        let cmd = common#trans#processPath(cmd)
     endif
     return cmd
 endfunction
@@ -250,18 +258,28 @@ endfunction
 
 function! common#trans#addTranslationToHistory(source, translation)
     if strlen(g:trans_history_file) == 0
-        return
+        return "Error! g:trans_history_file not defined."
     endif
     let line = substitute(g:trans_history_format, "%s", a:source, 'g')
     let line = substitute(line, "%t", a:translation, 'g')
     let filename = s:getHistoryFileName(g:trans_history_file, a:translation)
+    if g:trans_save_only_unique > 0
+        let line_num = s:getLineNumWithText(filename, a:source)
+        if line_num > 0
+            if g:trans_save_only_unique == 1
+                return "Error! Cannot add translation for '".a:source."' because it is already in ".g:trans_history_file
+            endif
+            call s:appendTranslationToFile(filename, line_num, a:translation)
+            return filename
+        endif
+    endif
     call s:writeTextToFile(filename, line)
     return filename
 endfunction
 
 function! s:getHistoryFileName(filename, translation)
     let filename = a:filename
-    if g:trans_separate_history_files > 0
+    if g:trans_save_history > 1
         let split_filename = split(filename, "\\.")
         let len_of_split_filename = len(split_filename)
         let file_ext = ""
@@ -275,7 +293,7 @@ function! s:getHistoryFileName(filename, translation)
             endif
         endif
         let filename = filename."_".s:getSourceLang()
-        if g:trans_separate_history_files == 2
+        if g:trans_save_history == 3
             let filename = filename."_".s:getTargetLang(a:translation)
         endif
         if strlen(file_ext) > 0
@@ -313,6 +331,22 @@ function! s:determineLang(text)
     return lang
 endfunction
 
+function! s:getLineNumWithText(filename, text)
+    let filename = common#trans#processPath(a:filename)
+    if !filereadable(filename)
+        return 0
+    endif
+    let lines = readfile(filename)
+    for i in range(0, len(lines) - 1)
+        let line = lines[i]
+        let find = match(line, a:text)
+        if find > -1
+            return i + 1
+        endif
+    endfor
+    return 0
+endfunction
+
 function! s:writeTextToFile(filename, text)
     tabedit
     setlocal buftype=nofile bufhidden=hide noswapfile nobuflisted
@@ -321,5 +355,31 @@ function! s:writeTextToFile(filename, text)
     g/^$/d
     silent! execute 'w! >>' a:filename
     q
+endfunction
+
+function! s:appendTranslationToFile(filename, line_num, translation)
+    let filename = common#trans#processPath(a:filename)
+    if !filereadable(filename)
+        return
+    endif
+    let lines = readfile(filename)
+    " Change format to regex
+    let regex = substitute(g:trans_history_format, "%s", ".*", "g")
+    let regex = substitute(regex, "%t", "\\\\(.*\\\\)", "g")
+    let regex = substitute(regex, "%as", ".*", "g")
+    let regex = substitute(regex, "%at", ".*", "g")
+    let lst = []
+    call substitute(lines[a:line_num-1], regex, '\=add(lst, submatch(1))', 'g')
+    if len(lst) == 0
+        return
+    endif
+    let trans_from_file = lst[0]
+    if match(trans_from_file, a:translation) > -1
+        return
+    endif
+    let translation = trans_from_file.", ".a:translation
+    let lines[a:line_num-1] = substitute(lines[a:line_num-1], trans_from_file, translation, "g")
+
+    call writefile(lines, filename, "w")
 endfunction
 

@@ -74,6 +74,10 @@ function! common#window#SaveSelectedTranslation()
     " Get and trim selected line
     let translation = substitute(getline('.'), '^\s*\(.\{-}\)\s*$', '\1', '')
     let history_file =  common#trans#addTranslationToHistory(source_text, translation)
+    if history_file =~ "^Error!"
+        redraw | echo history_file
+        return
+    endif
     if g:trans_close_window_after_saving > 0
         q
     endif
