@@ -17,7 +17,7 @@ function! common#common#GetVisualSelection() abort
   endtry
 endfunction
 
-function! common#common#joinLinesInText(text)
+function! common#common#JoinLinesInText(text)
     let text = substitute(a:text, "  ", " ", "g")
     let text = substitute(text, "\n", " ", "g")
     let text = substitute(text, "  ", "\\n", "g")

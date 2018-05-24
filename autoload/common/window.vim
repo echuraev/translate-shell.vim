@@ -76,8 +76,8 @@ function! common#window#SaveSelectedTranslation()
         redraw | echohl WarningMsg | echo "Cannot save translation for empty line." | echohl None
         return
     endif
-    let source_text = common#trans#getCurrentSourceText()
-    let history_file =  common#history#addTranslationToHistory(source_text, translation)
+    let source_text = common#trans#GetCurrentSourceText()
+    let history_file =  common#history#AddTranslationToHistory(source_text, translation)
     if history_file =~ "^Error!"
         redraw | echo history_file
         return

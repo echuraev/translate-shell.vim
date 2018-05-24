@@ -6,7 +6,7 @@
 "
 " ============================================================================
 
-function! common#history#addTranslationToHistory(source, translation)
+function! common#history#AddTranslationToHistory(source, translation)
     if strlen(g:trans_history_file) == 0
         return "Error! g:trans_history_file not defined."
     endif
@@ -27,7 +27,7 @@ function! common#history#addTranslationToHistory(source, translation)
     if g:trans_save_audio > 0
         let directory = fnamemodify(filename, ":h")
 
-        let source_audio = s:downloadAudioFile(directory, common#trans#getCurrentSourceText())
+        let source_audio = s:downloadAudioFile(directory, common#trans#GetCurrentSourceText())
         if strlen(source_audio) > 0
             let source_audio = "[sound:".fnamemodify(source_audio, ":t")."]"
             let source_audio = substitute(source_audio, "'", "", "g")
@@ -42,19 +42,19 @@ function! common#history#addTranslationToHistory(source, translation)
         let line = substitute(line, "%at", trans_audio, 'g')
     endif
 
-    call common#history#appendTextToFile(filename, line)
+    call common#history#AppendTextToFile(filename, line)
 
     return filename
 endfunction
 
 function! s:downloadAudioFile(directory, text)
     redraw | echo "Downloading audio for ".a:text."..."
-    let lang = common#trans#determineLang(a:text)
+    let lang = common#trans#DetermineLang(a:text)
     if index(g:trans_ignore_audio_for_langs, lang) > -1
         return ""
     endif
     let audio_file = s:getAudioFileName(a:directory, a:text)
-    let cmd = common#trans#generateCMDForDownloadAudio(audio_file, lang, a:text)
+    let cmd = common#trans#GenerateCMDForDownloadAudio(audio_file, lang, a:text)
     call system(cmd)
     redraw | echo "Downloading is done!"
     return audio_file
@@ -72,9 +72,9 @@ function! s:getHistoryFileName(filename, translation)
     if g:trans_save_history > 1
         let filename = fnamemodify(a:filename, ":r")
         let file_ext = fnamemodify(a:filename, ":e")
-        let filename = filename."_".common#trans#getSourceLang()
+        let filename = filename."_".common#trans#GetSourceLang()
         if g:trans_save_history == 3
-            let filename = filename."_".common#trans#getTargetLang(a:translation)
+            let filename = filename."_".common#trans#GetTargetLang(a:translation)
         endif
         if strlen(file_ext) > 0
             let filename = filename.".".file_ext
@@ -99,7 +99,7 @@ function! s:getLineNumWithText(filename, text)
     return 0
 endfunction
 
-function! common#history#appendTextToFile(filename, text)
+function! common#history#AppendTextToFile(filename, text)
     tabedit
     setlocal buftype=nofile bufhidden=hide noswapfile nobuflisted
     silent! put = a:text

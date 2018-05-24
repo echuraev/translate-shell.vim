@@ -135,7 +135,7 @@ let s:trans_supported_languages_dict = {
     \'zu':       'Zulu',
 \}
 
-function! common#trans#getPathToBin()
+function! common#trans#GetPathToBin()
     let cmd = ""
     if strlen(g:trans_bin) > 0
         let cmd = g:trans_bin."/"
@@ -144,9 +144,9 @@ function! common#trans#getPathToBin()
     return cmd
 endfunction
 
-function! common#trans#generateCMD(args, ...)
+function! common#trans#GenerateCMD(args, ...)
     call s:getTranslateLanguages(a:args)
-    let cmd = common#trans#getPathToBin()
+    let cmd = common#trans#GetPathToBin()
     let cmd = cmd."trans ".s:trans_default_options
     if strlen(g:trans_advanced_options) > 0
         let cmd = cmd." ".g:trans_advanced_options
@@ -160,9 +160,9 @@ function! common#trans#generateCMD(args, ...)
     return cmd
 endfunction
 
-function! common#trans#generateCMDForDownloadAudio(file, language, text)
+function! common#trans#GenerateCMDForDownloadAudio(file, language, text)
     let text = "\"".a:text."\""
-    let cmd = common#trans#getPathToBin()
+    let cmd = common#trans#GetPathToBin()
     let cmd = cmd."trans -download-audio-as=".a:file
     let cmd = cmd." :".a:language." ".text
     return cmd
@@ -178,7 +178,7 @@ function! s:getTranslateLanguages(args)
     let s:trans_target_lang = lst[0][1]
 endfunction
 
-function! common#trans#generateArgs(default, args)
+function! common#trans#GenerateArgs(default, args)
     let args = a:default
     if len(a:args) > 0
         let args = ""
@@ -189,7 +189,7 @@ function! common#trans#generateArgs(default, args)
     return args
 endfunction
 
-function! common#trans#getHumanDirectionsList()
+function! common#trans#GetHumanDirectionsList()
     let human_directions_list = []
     for direction in g:trans_directions_list
         let str = "["
@@ -215,12 +215,12 @@ function! common#trans#getHumanDirectionsList()
     return human_directions_list
 endfunction
 
-function! common#trans#getItemsForInputlist()
-    let human_directions_list = common#trans#getHumanDirectionsList()
+function! common#trans#GetItemsForInputlist()
+    let human_directions_list = common#trans#GetHumanDirectionsList()
     return common#common#GenerateInputlist("Select languages:", human_directions_list)
 endfunction
 
-function! common#trans#generateTranslateDirection(direction_id)
+function! common#trans#GenerateTranslateDirection(direction_id)
     if len(g:trans_directions_list) == 0
         return ""
     endif
@@ -237,37 +237,37 @@ function! common#trans#generateTranslateDirection(direction_id)
     return trans_direction
 endfunction
 
-function! common#trans#prepareTextToTranslating(text)
+function! common#trans#PrepareTextToTranslating(text)
     let text = escape(a:text, "\"")
     let s:trans_current_source_text = text
     if g:trans_save_raw_history > 0
-        call common#history#appendTextToFile(g:trans_history_raw_file, text)
+        call common#history#AppendTextToFile(g:trans_history_raw_file, text)
     endif
     let text = "\"".text."\""
     return text
 endfunction
 
-function! common#trans#getCurrentSourceText()
+function! common#trans#GetCurrentSourceText()
     return s:trans_current_source_text
 endfunction
 
-function! common#trans#getSourceLang()
+function! common#trans#GetSourceLang()
     if strlen(s:trans_source_lang) > 0
         return s:trans_source_lang
     endif
-    return common#trans#determineLang(s:trans_current_source_text)
+    return common#trans#DetermineLang(s:trans_current_source_text)
 endfunction
 
-function! common#trans#getTargetLang(text)
+function! common#trans#GetTargetLang(text)
     if strlen(s:trans_target_lang) > 0 && len(split(s:trans_target_lang, '+')) == 1
         return s:trans_target_lang
     endif
-    return common#trans#determineLang(a:text)
+    return common#trans#DetermineLang(a:text)
 endfunction
 
-function! common#trans#determineLang(text)
+function! common#trans#DetermineLang(text)
     let text = "\"".a:text."\""
-    let cmd = common#trans#generateCMD("-id", text)
+    let cmd = common#trans#GenerateCMD("-id", text)
     let ret_list = split(system(cmd), "\\n")
     let lang = ""
     for item in ret_list
