@@ -135,20 +135,11 @@ let s:trans_supported_languages_dict = {
     \'zu':       'Zulu',
 \}
 
-function! common#trans#processPath(path)
-    let path = a:path
-    if strlen(path) > 0
-        let path = substitute(path, "$HOME", $HOME, "g")
-        let path = substitute(path, "\\~", $HOME, "g")
-    endif
-    return path
-endfunction
-
 function! common#trans#getPathToBin()
     let cmd = ""
     if strlen(g:trans_bin) > 0
         let cmd = g:trans_bin."/"
-        let cmd = common#trans#processPath(cmd)
+        let cmd = expand(cmd)
     endif
     return cmd
 endfunction
@@ -218,11 +209,7 @@ endfunction
 
 function! common#trans#getItemsForInputlist()
     let human_directions_list = common#trans#getHumanDirectionsList()
-    let shown_items = ['Select languages:']
-    for i in range(1, len(human_directions_list))
-        call add(shown_items, i.'. '.human_directions_list[i-1])
-    endfor
-    return shown_items
+    return common#common#GenerateInputlist("Select languages:", human_directions_list)
 endfunction
 
 function! common#trans#generateTranslateDirection(direction_id)
@@ -280,18 +267,8 @@ endfunction
 function! s:getHistoryFileName(filename, translation)
     let filename = a:filename
     if g:trans_save_history > 1
-        let split_filename = split(filename, "\\.")
-        let len_of_split_filename = len(split_filename)
-        let file_ext = ""
-        if len_of_split_filename > 2
-            let filename = join(split_filename[0:(len_of_split_filename-2)])
-            let file_ext = split_filename[len_of_split_filename-1]
-        else
-            let filename = split_filename[0]
-            if len_of_split_filename == 2
-                let file_ext = split_filename[1]
-            endif
-        endif
+        let filename = fnamemodify(a:filename, ":r")
+        let file_ext = fnamemodify(a:filename, ":e")
         let filename = filename."_".s:getSourceLang()
         if g:trans_save_history == 3
             let filename = filename."_".s:getTargetLang(a:translation)
@@ -332,7 +309,7 @@ function! s:determineLang(text)
 endfunction
 
 function! s:getLineNumWithText(filename, text)
-    let filename = common#trans#processPath(a:filename)
+    let filename = expand(a:filename)
     if !filereadable(filename)
         return 0
     endif
@@ -358,7 +335,7 @@ function! s:writeTextToFile(filename, text)
 endfunction
 
 function! s:appendTranslationToFile(filename, line_num, translation)
-    let filename = common#trans#processPath(a:filename)
+    let filename = expand(a:filename)
     if !filereadable(filename)
         return
     endif
@@ -381,5 +358,37 @@ function! s:appendTranslationToFile(filename, line_num, translation)
     let lines[a:line_num-1] = substitute(lines[a:line_num-1], trans_from_file, translation, "g")
 
     call writefile(lines, filename, "w")
+endfunction
+
+function! common#trans#GetListOfHistoryFiles()
+    if g:trans_save_history == 0
+        return []
+    endif
+    if g:trans_save_history == 1
+        return [g:trans_history_file]
+    endif
+
+    let history_list = []
+    let path = fnamemodify(g:trans_history_file, ":h")
+    let filename = fnamemodify(g:trans_history_file, ":t:r")
+    let file_ext = fnamemodify(g:trans_history_file, ":e")
+    if strlen(file_ext) == 0
+        let pathlist = split(globpath(path, '*'), '\n')
+    else
+        let pathlist = split(globpath(path, '*.'.file_ext), '\n')
+    endif
+    if g:trans_save_history == 2
+        let regexp = "^".filename."_[a-z\\-]\\+$"
+    else
+        let regexp = "^".filename."_[a-z\\-]\\+_[a-z\\-]\\+$"
+    endif
+
+    for file in pathlist
+        let name = fnamemodify(file, ":t:r")
+        if name =~ regexp
+            call add(history_list, file)
+        endif
+    endfor
+    return history_list
 endfunction
 

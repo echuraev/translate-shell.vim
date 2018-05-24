@@ -24,3 +24,11 @@ function! common#common#joinLinesInText(text)
     return text
 endfunction
 
+function! common#common#GenerateInputlist(text, list)
+    let shown_items = [a:text]
+    for i in range(1, len(a:list))
+        call add(shown_items, i.'. '.a:list[i-1])
+    endfor
+    return shown_items
+endfunction
+

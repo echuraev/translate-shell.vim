@@ -71,5 +71,6 @@ command! -nargs=0 TransSelectDirection call trans#TransSelectDirection()
 command! -nargs=* TransInteractive call trans#TransInteractive(<f-args>)
 command! -nargs=* -range TransVisual call trans#TransVisual(<f-args>)
 command! -nargs=0 -range TransVisualSelectDirection call trans#TransVisualSelectDirection()
+command! -nargs=0 TransOpenHistoryWindow call trans#TransOpenHistoryWindow()
 " }}} Commands "
 

@@ -84,3 +84,36 @@ function! common#window#SaveSelectedTranslation()
     redraw | echo "Saved: ".source_text." -> ".translation.". To file: ".history_file
 endfunction
 
+function! common#window#OpenTransHistoryWindow()
+    let history_list = common#trans#GetListOfHistoryFiles()
+    let history_list_size = len(history_list)
+    if history_list_size == 0
+        return
+    endif
+
+    if history_list_size == 1
+        let history_file = history_list[0]
+    else
+        let shown_items = common#common#GenerateInputlist("Select history file:", history_list)
+        let selected = inputlist(shown_items) - 1
+        let history_file = history_list[selected]
+    endif
+
+    if bufname("%") == history_file
+        return
+    endif
+
+    let trans_winnr = bufwinnr(history_file)
+    if trans_winnr == -1
+        let bufnum = bufnr(history_file)
+        let bufwinnum = bufwinnr(history_file)
+
+        if bufnum == -1 || bufwinnum == -1
+            let wcmd = history_file
+            exe 'silent! botright ' . g:trans_win_height . 'split ' . wcmd
+            let trans_winnr = bufwinnr(history_file)
+        endif
+    endif
+    exec trans_winnr . "wincmd w"
+endfunction
+

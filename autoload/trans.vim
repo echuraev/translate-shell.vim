@@ -119,6 +119,13 @@ function! trans#TransInteractive(...)
     call common#window#OpenTrans(cmd)
 endfunction
 
+function! trans#TransOpenHistoryWindow()
+    if s:check()
+        return
+    endif
+    call common#window#OpenTransHistoryWindow()
+endfunction
+
 function! s:check() abort
     let cmd = common#trans#getPathToBin()
     let cmd = cmd.'trans'
