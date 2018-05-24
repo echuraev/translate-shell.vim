@@ -73,7 +73,7 @@ function! common#window#SaveSelectedTranslation()
     let source_text = common#trans#getCurrentSourceText()
     " Get and trim selected line
     let translation = substitute(getline('.'), '^\s*\(.\{-}\)\s*$', '\1', '')
-    let history_file =  common#trans#addTranslationToHistory(source_text, translation)
+    let history_file =  common#history#addTranslationToHistory(source_text, translation)
     if history_file =~ "^Error!"
         redraw | echo history_file
         return
@@ -85,7 +85,7 @@ function! common#window#SaveSelectedTranslation()
 endfunction
 
 function! common#window#OpenTransHistoryWindow()
-    let history_list = common#trans#GetListOfHistoryFiles()
+    let history_list = common#history#GetListOfHistoryFiles()
     let history_list_size = len(history_list)
     if history_list_size == 0
         return
