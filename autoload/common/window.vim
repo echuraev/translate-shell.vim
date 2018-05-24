@@ -70,9 +70,13 @@ function! common#window#SaveSelectedTranslation()
         redraw | echohl WarningMsg | echo "Cannot save translation. g:trans_save_history is zero" | echohl None
         return
     endif
-    let source_text = common#trans#getCurrentSourceText()
     " Get and trim selected line
     let translation = substitute(getline('.'), '^\s*\(.\{-}\)\s*$', '\1', '')
+    if strlen(translation) == 0
+        redraw | echohl WarningMsg | echo "Cannot save translation for empty line." | echohl None
+        return
+    endif
+    let source_text = common#trans#getCurrentSourceText()
     let history_file =  common#history#addTranslationToHistory(source_text, translation)
     if history_file =~ "^Error!"
         redraw | echo history_file
