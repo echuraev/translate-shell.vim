@@ -51,6 +51,12 @@ endif
 if !exists('g:trans_save_only_unique')
     let g:trans_save_only_unique = 0
 endif
+if !exists('g:trans_save_audio')
+    let g:trans_save_audio = 0
+endif
+if !exists('g:trans_ignore_audio_for_langs')
+    let g:trans_ignore_audio_for_langs = []
+endif
 if !exists('g:trans_save_raw_history')
     let g:trans_save_raw_history = 0
 endif
@@ -63,6 +69,8 @@ endif
     let g:trans_save_only_unique = 2 " 1 and 2 are possible values
     let g:trans_history_format = '%s;%t;%as;%at'
     let g:trans_save_raw_history = 1
+    let g:trans_save_audio = 1
+    let g:trans_ignore_audio_for_langs = ['ru']
 " }}} Default configuration "
 " Commands {{{ "
 command! -nargs=* TransTerm call trans#TransTerm(<f-args>)

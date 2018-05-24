@@ -160,6 +160,14 @@ function! common#trans#generateCMD(args, ...)
     return cmd
 endfunction
 
+function! common#trans#generateCMDForDownloadAudio(file, language, text)
+    let text = "\"".a:text."\""
+    let cmd = common#trans#getPathToBin()
+    let cmd = cmd."trans -download-audio-as=".a:file
+    let cmd = cmd." :".a:language." ".text
+    return cmd
+endfunction
+
 function! s:getTranslateLanguages(args)
     let lst = []
     call substitute(a:args, '\([a-z]*\):\([a-z\+]*\)', '\=add(lst, [submatch(1), submatch(2)])', 'g')

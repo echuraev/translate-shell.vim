@@ -23,8 +23,48 @@ function! common#history#addTranslationToHistory(source, translation)
             return filename
         endif
     endif
+
+    if g:trans_save_audio > 0
+        let directory = fnamemodify(filename, ":h")
+
+        let source_audio = s:downloadAudioFile(directory, common#trans#getCurrentSourceText())
+        if strlen(source_audio) > 0
+            let source_audio = "[sound:".fnamemodify(source_audio, ":t")."]"
+            let source_audio = substitute(source_audio, "'", "", "g")
+        endif
+        let line = substitute(line, "%as", source_audio, 'g')
+
+        let trans_audio = s:downloadAudioFile(directory, a:translation)
+        if strlen(trans_audio) > 0
+            let trans_audio = "[sound:".fnamemodify(trans_audio, ":t")."]"
+            let trans_audio = substitute(trans_audio, "'", "", "g")
+        endif
+        let line = substitute(line, "%at", trans_audio, 'g')
+    endif
+
     call common#history#appendTextToFile(filename, line)
+
     return filename
+endfunction
+
+function! s:downloadAudioFile(directory, text)
+    redraw | echo "Downloading audio for ".a:text."..."
+    let lang = common#trans#determineLang(a:text)
+    if index(g:trans_ignore_audio_for_langs, lang) > -1
+        return ""
+    endif
+    let audio_file = s:getAudioFileName(a:directory, a:text)
+    let cmd = common#trans#generateCMDForDownloadAudio(audio_file, lang, a:text)
+    call system(cmd)
+    redraw | echo "Downloading is done!"
+    return audio_file
+endfunction
+
+function! s:getAudioFileName(directory, text)
+    let file = a:directory."/".a:text.".mp3"
+    let file = expand(file)
+    let file = shellescape(file)
+    return file
 endfunction
 
 function! s:getHistoryFileName(filename, translation)
