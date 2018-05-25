@@ -27,7 +27,7 @@ function! common#history#AddTranslationToHistory(source, translation)
     if g:trans_save_audio > 0
         let directory = fnamemodify(filename, ":h")
 
-        let source_audio = s:downloadAudioFile(directory, common#trans#GetCurrentSourceText())
+        let source_audio = s:downloadAudioFile(directory, a:source)
         if strlen(source_audio) > 0
             let source_audio = "[sound:".fnamemodify(source_audio, ":t")."]"
             let source_audio = substitute(source_audio, "'", "", "g")
@@ -68,6 +68,9 @@ function! s:getAudioFileName(directory, text)
 endfunction
 
 function! s:getHistoryFileName(filename, translation)
+    if g:trans_save_history == 0
+        return ""
+    endif
     let filename = a:filename
     if g:trans_save_history > 1
         let filename = fnamemodify(a:filename, ":r")

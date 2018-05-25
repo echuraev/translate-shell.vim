@@ -4,7 +4,7 @@ Given text:
   How is it
   going?
 
-Do (Translate one word):
+Do (:Trans: Translate one word):
   /bea\<CR>
   :let g:trans_default_direction = ":ru"\<CR>
   :Trans\<CR>
@@ -39,7 +39,7 @@ Expect text:
   beautiful
       красивая, красивый, прекрасный
 
-Do (Translate multiline text):
+Do (:TransVisual: Translate multiline text):
   :let g:trans_default_direction = ":ru"\<CR>
   :let g:trans_join_lines = 1\<CR>
   VG
@@ -67,7 +67,7 @@ Expect text:
   How is it going?
       Как дела?, Как это происходит?
 
-Do (Translate multiline text 2):
+Do (:TransVisual: Translate multiline text 2):
   :let g:trans_default_direction = ":ru"\<CR>
   :let g:trans_join_lines = 1\<CR>
   VG
@@ -95,7 +95,7 @@ Expect text:
   How is it going?
       Как дела?, Как это происходит?
 
-Do (Translate one word 2):
+Do (:Trans: Translate one word 2):
   /wor\<CR>
   :let g:trans_default_direction = ":ru"\<CR>
   :Trans\<CR>
@@ -140,10 +140,10 @@ Expect text:
   world
       Мир
 
-Do (TransSelectDirection with empty list):
+Do (:TransSelectDirection: with empty list):
   :let g:trans_default_direction = ":ru"\<CR>
   :let g:trans_directions_list = []\<CR>
-  :call trans#TransSelectDirection()\<CR>
+  :TransSelectDirection\<CR>
 
 Expect text:
 
@@ -166,11 +166,11 @@ Expect text:
   Hello
       Здравствуйте, Привет
 
-Do (TransVisualSelectDirection with empty list):
+Do (:TransVisualSelectDirection: with empty list):
   :let g:trans_default_direction = ":ru"\<CR>
   :let g:trans_directions_list = []\<CR>
   V
-  :call trans#TransVisualSelectDirection()\<CR>
+  :TransVisualSelectDirection\<CR>
 
 Expect text:
 
@@ -185,9 +185,9 @@ Expect text:
   Hello beautiful world!
       Привет, красивый мир!, Привет прекрасный мир!
 
-Do (TransSelectDirection with list with one item):
+Do (:TransSelectDirection: with list with one item):
   :let g:trans_directions_list = [['en', 'it']]\<CR>
-  :call trans#TransSelectDirection()\<CR>
+  :TransSelectDirection\<CR>
 
 Expect text:
 
@@ -213,10 +213,10 @@ Expect text:
   Hello
       Ciao
 
-Do (TransVisualSelectDirection with list with one item):
+Do (:TransVisualSelectDirection: with list with one item):
   :let g:trans_directions_list = [['en', 'it']]\<CR>
   V
-  :call trans#TransVisualSelectDirection()\<CR>
+  :TransVisualSelectDirection\<CR>
 
 Expect text:
 
@@ -230,7 +230,7 @@ Expect text:
   Hello beautiful world!
       Ciao bel mondo!, Ciao bello il mondo!
 
-Do (Translate one word with command line arguments):
+Do (:Trans: Translate one word with command line arguments):
   /bea\<CR>
   :Trans -brief :de\<CR>
 
@@ -238,7 +238,7 @@ Expect text:
 
   schön
 
-Do (Translate multiple lines with command line arguments):
+Do (:TransVisual: Translate multiple lines with command line arguments):
   :let g:trans_join_lines = 1\<CR>
   VG
   :TransVisual -brief :de\<CR>

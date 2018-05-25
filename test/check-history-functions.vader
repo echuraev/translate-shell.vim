@@ -1,0 +1,219 @@
+Execute (common#history#AddTranslationToHistory: Check add functionality):
+  let file = '/tmp/trans-add-translation-to-history.csv'
+  silent put = file
+  call delete(file) " Close file if buffer is open
+  let g:trans_history_format = '%s;%t'
+  let g:trans_history_file = ''
+  let g:trans_save_only_unique = 0
+  let g:trans_save_audio = 0
+  let g:trans_save_history = 1
+  let source = "Hello"
+  let translation = "Здравствуйте"
+
+  Log "common#history#AddTranslationToHistory: g:trans_history_file not defined"
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual 'Error! g:trans_history_file not defined.', ret
+
+  Log "common#history#AddTranslationToHistory: Add translation: '".source."' -> '".translation."' to file"
+  let g:trans_history_file = file
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual file, ret
+
+  Log "common#history#AddTranslationToHistory: Add translation: '".source."' -> '".translation."' to file"
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual file, ret
+
+  Log "common#history#AddTranslationToHistory: g:trans_save_only_unique=1, '".source."' is already in file"
+  let g:trans_save_only_unique = 1
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual 'Error! Cannot add translation for ''Hello'' because it is already in '.file, ret
+
+  Log "common#history#AddTranslationToHistory: g:trans_save_only_unique=2, append new translation of '".source."' to file"
+  let g:trans_save_only_unique = 2
+  let translation = "Привет!"
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual file, ret
+
+  execute 'edit' file
+
+Expect text:
+  Hello;Здравствуйте, Привет!
+  Hello;Здравствуйте
+
+Execute (common#history#AddTranslationToHistory: Check history file name):
+  let file = '/tmp/trans-check-history-file-name'
+  silent put = file
+  call delete(file) " Close file if buffer is open
+  let g:trans_history_format = '%s;%t'
+  let g:trans_history_file = file
+  let g:trans_save_only_unique = 0
+  let g:trans_save_history = 0
+  let source = "Hello"
+  let translation = "Здравствуйте"
+
+  let args = "en:ru"
+  call common#trans#GenerateCMD(args)
+
+  Log "common#history#AddTranslationToHistory: Add translation: '".source."' -> '".translation."' to file g:trans_save_history = 0"
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual '', ret
+
+  Log "common#history#AddTranslationToHistory: Add translation: '".source."' -> '".translation."' to file g:trans_save_history = 1"
+  let g:trans_save_history = 1
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual file, ret
+
+  Log "common#history#AddTranslationToHistory: Add translation: '".source."' -> '".translation."' to file g:trans_save_history = 2"
+  let g:trans_save_history = 2
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual file.'_en', ret
+
+  Log "common#history#AddTranslationToHistory: Add translation: '".source."' -> '".translation."' to file g:trans_save_history = 3"
+  let g:trans_save_history = 3
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual file.'_en_ru', ret
+
+  let args = "de:ru"
+  call common#trans#GenerateCMD(args)
+
+  let source = "Hallo"
+  Log "common#history#AddTranslationToHistory: Add translation: '".source."' -> '".translation."' to file g:trans_save_history = 1"
+  let g:trans_save_history = 1
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual file, ret
+
+  let source = "Hallo"
+  Log "common#history#AddTranslationToHistory: Add translation: '".source."' -> '".translation."' to file g:trans_save_history = 2"
+  let g:trans_save_history = 2
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual file.'_de', ret
+
+  Log "common#history#AddTranslationToHistory: Add translation: '".source."' -> '".translation."' to file g:trans_save_history = 3"
+  let g:trans_save_history = 3
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual file.'_de_ru', ret
+
+Execute (common#history#AddTranslationToHistory: Check audio downloading):
+  let file = '/tmp/trans-check-audio-downloading'
+  silent put = file
+  call delete(file)
+  let g:trans_history_file = file
+  let g:trans_history_format = '%s;%t;%as;%at'
+  let g:trans_ignore_audio_for_langs = ['de']
+  let g:trans_save_only_unique = 0
+  let g:trans_save_audio = 1
+  let g:trans_save_history = 1
+  let source = "Hello"
+  let translation = "Здравствуйте"
+
+  let args = "en:ru"
+  call common#trans#GenerateCMD(args)
+
+  Log "common#history#AddTranslationToHistory: Add translation: '".source."' -> '".translation."' to file g:trans_save_history = 1"
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual file, ret
+  let source_audio = "/tmp/Hello.mp3"
+  let target_audio = "/tmp/Здравствуйте.mp3"
+  AssertEqual 1, filereadable(source_audio)
+  AssertEqual 1, filereadable(target_audio)
+
+  let args = "de:en"
+  call common#trans#GenerateCMD(args)
+  let source = "Zeit"
+  let translation = "Time"
+
+  Log "common#history#AddTranslationToHistory: Add translation: '".source."' -> '".translation."' to file g:trans_save_history = 1"
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual file, ret
+  let source_audio = "/tmp/Zeit.mp3"
+  let target_audio = "/tmp/Time.mp3"
+  AssertEqual 0, filereadable(source_audio)
+  AssertEqual 1, filereadable(target_audio)
+
+  execute 'edit' file
+
+Expect text:
+  Hello;Здравствуйте;[sound:Hello.mp3];[sound:Здравствуйте.mp3]
+  Zeit;Time;;[sound:Time.mp3]
+
+Execute (common#history#AppendTextToFile: Check adding text to file):
+  let file = '/tmp/trans-test-append'
+  call delete(file)
+  let text = "Test text"
+  call common#history#AppendTextToFile(file, text)
+  let text = "Hello world"
+  call common#history#AppendTextToFile(file, text)
+  let text = "translate"
+  call common#history#AppendTextToFile(file, text)
+  execute 'edit' file
+
+Expect text:
+  Test text
+  Hello world
+  translate
+
+Execute (common#history#GetListOfHistoryFiles: Check list):
+  let file = "/tmp/trans-get-list-of-files.csv"
+  let g:trans_history_file = file
+  let g:trans_save_history = 0
+  let g:trans_save_only_unique = 0
+  let g:trans_save_audio = 0
+
+  let text = "g:trans_save_history = 0"
+  silent put = text
+  silent put = common#history#GetListOfHistoryFiles()
+
+  let g:trans_save_history = 1
+  let text = "g:trans_save_history = 1"
+  silent put = text
+  silent put = common#history#GetListOfHistoryFiles()
+
+  let g:trans_save_history = 2
+  let text = "g:trans_save_history = 2"
+  let args = "en:ru"
+  call common#trans#GenerateCMD(args)
+  let source = "Hello"
+  let translation = "Здравствуйте"
+  call common#history#AddTranslationToHistory(source, translation)
+  let args = "de:ru"
+  call common#trans#GenerateCMD(args)
+  let source = "Hallo"
+  let translation = "Здравствуйте"
+  call common#history#AddTranslationToHistory(source, translation)
+  silent put = text
+  silent put = common#history#GetListOfHistoryFiles()
+
+  let g:trans_save_history = 3
+  let text = "g:trans_save_history = 3"
+  let args = "en:ru"
+  call common#trans#GenerateCMD(args)
+  let source = "Hello"
+  let translation = "Здравствуйте"
+  call common#history#AddTranslationToHistory(source, translation)
+  let args = "de:ru"
+  call common#trans#GenerateCMD(args)
+  let source = "Hallo"
+  let translation = "Здравствуйте"
+  call common#history#AddTranslationToHistory(source, translation)
+  let args = "de:en"
+  call common#trans#GenerateCMD(args)
+  let source = "Hallo"
+  let translation = "Hello"
+  call common#history#AddTranslationToHistory(source, translation)
+  silent put = text
+  silent put = common#history#GetListOfHistoryFiles()
+
+Expect text:
+
+  g:trans_save_history = 0
+
+  g:trans_save_history = 1
+  /tmp/trans-get-list-of-files.csv
+  g:trans_save_history = 2
+  /tmp/trans-get-list-of-files_de.csv
+  /tmp/trans-get-list-of-files_en.csv
+  g:trans_save_history = 3
+  /tmp/trans-get-list-of-files_de_en.csv
+  /tmp/trans-get-list-of-files_de_ru.csv
+  /tmp/trans-get-list-of-files_en_ru.csv
+

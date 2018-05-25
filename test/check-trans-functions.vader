@@ -1,0 +1,245 @@
+Execute (common#trans#GetHumanDirectionsList: Check human readable list):
+  let g:trans_directions_list = [['en', 'ru'], ['ru', 'en'],['en', 'de'], ['en', 'ru', 'de', 'it'], ['en', ''], ['', 'ru'], ['', '']]
+  silent! put = common#trans#GetHumanDirectionsList()
+
+Expect text:
+
+  [English -> Russian]
+  [Russian -> English]
+  [English -> German]
+  [English -> Russian, German, Italian]
+  [English -> Autodetect]
+  [Autodetect -> Russian]
+  [Autodetect -> Autodetect]
+
+Execute (common#trans#GetItemsForInputlist: Check items for itemlist):
+  let g:trans_directions_list = [['en', 'ru'], ['ru', 'en'],['en', 'de'], ['en', 'ru', 'de', 'it'], ['en', ''], ['', 'ru'], ['', '']]
+  silent! put = common#trans#GetItemsForInputlist()
+
+Expect text:
+
+  Select languages:
+  1. [English -> Russian]
+  2. [Russian -> English]
+  3. [English -> German]
+  4. [English -> Russian, German, Italian]
+  5. [English -> Autodetect]
+  6. [Autodetect -> Russian]
+  7. [Autodetect -> Autodetect]
+
+Execute (common#trans#GenerateTranslateDirection: Check generated translation direction):
+  let g:trans_directions_list = [['en', 'ru'], ['ru', 'en'],['en', 'de'], ['en', 'ru', 'de', 'it'], ['en', ''], ['', 'ru'], ['', '']]
+  silent! put = common#trans#GenerateTranslateDirection(-10)
+  silent! put = common#trans#GenerateTranslateDirection(10)
+  silent! put = common#trans#GenerateTranslateDirection(0)
+  silent! put = common#trans#GenerateTranslateDirection(1)
+  silent! put = common#trans#GenerateTranslateDirection(2)
+  silent! put = common#trans#GenerateTranslateDirection(3)
+  silent! put = common#trans#GenerateTranslateDirection(4)
+  silent! put = common#trans#GenerateTranslateDirection(5)
+  silent! put = common#trans#GenerateTranslateDirection(6)
+
+Expect text:
+
+
+
+  en:ru
+  ru:en
+  en:de
+  en:ru+de+it
+  en:
+  :ru
+  :
+
+Execute (common#trans#GenerateCMD: Generate cmd without parameters):
+  let args = ""
+  put = common#trans#GenerateCMD(args)
+
+Expect text:
+
+  trans -no-theme -no-ansi
+
+Execute (common#trans#GenerateCMD: Generate cmd with text parameter):
+  let text = "text"
+  silent! put = common#trans#GenerateCMD(text)
+
+Expect text:
+
+  trans -no-theme -no-ansi text
+
+Execute (common#trans#GenerateCMD: Generate cmd with path to bin):
+  let g:trans_bin = "/usr/bin"
+  let text = "text"
+  silent! put = common#trans#GenerateCMD(text)
+  let g:trans_bin = ""
+
+Expect text:
+
+  /usr/bin/trans -no-theme -no-ansi text
+
+Execute (common#trans#GenerateCMD: Generate cmd with g:trans_default_direction parameter):
+  let g:trans_default_direction = ":ru"
+  let text = "\"text\""
+  silent! put = common#trans#GenerateCMD(g:trans_default_direction, text)
+
+Expect text:
+
+  trans -no-theme -no-ansi :ru "text"
+
+Execute (common#trans#GenerateCMD: Generate cmd with trans_direction parameter):
+  let g:trans_directions_list = [['en', 'ru'], ['ru', 'en'],['en', 'de'], ['en', 'ru', 'de', 'it']]
+  let trans_direction = common#trans#GenerateTranslateDirection(3)
+  let text = "\"Long text\""
+  silent! put = common#trans#GenerateCMD(trans_direction, text)
+
+Expect text:
+
+  trans -no-theme -no-ansi en:ru+de+it "Long text"
+
+Execute (common#trans#GenerateArgs: Generate args with default parameter and list):
+  let default = "-brief"
+  let args = []
+  silent! put = common#trans#GenerateArgs(default, args)
+  let default = ""
+  let args = ["-arg1", "-arg2", "-arg3"]
+  silent! put = common#trans#GenerateArgs(default, args)
+  let default = "-brief"
+  let args = ["-arg1", "-arg2", "-arg3"]
+  silent! put = common#trans#GenerateArgs(default, args)
+
+Expect text:
+
+  -brief
+   -arg1 -arg2 -arg3
+   -arg1 -arg2 -arg3
+
+Execute (common#trans#GenerateCMDForDownloadAudio: Generate cmd for audio downloading):
+  let file = "~/Downloads/audio/test_audio.mp3"
+  let lang = "en"
+  let text = "Hello"
+  silent! put = common#trans#GenerateCMDForDownloadAudio(file, lang, text)
+
+  let file = "~/Downloads/audio/test audio.mp3"
+  let lang = "de"
+  let text = "Hallo"
+  let file = shellescape(file)
+  silent! put = common#trans#GenerateCMDForDownloadAudio(file, lang, text)
+
+Expect text:
+
+  trans -download-audio-as=~/Downloads/audio/test_audio.mp3 :en "Hello"
+  trans -download-audio-as='~/Downloads/audio/test audio.mp3' :de "Hallo"
+
+Execute (common#trans#DetermineLang: Determine language by text):
+  let text = "Привет"
+  silent put = common#trans#DetermineLang(text)
+  let text = "Hello"
+  silent put = common#trans#DetermineLang(text)
+  let text = "Hallo"
+  silent put = common#trans#DetermineLang(text)
+
+Expect text:
+
+  ru
+  en
+  de
+
+Execute (common#trans#PrepareTextToTranslating: Prepare text):
+  let text = "Hello world"
+  silent put = text
+  silent put = common#trans#PrepareTextToTranslating(text)
+  let text = "Hello \"small\" world"
+  silent put = text
+  silent put = common#trans#PrepareTextToTranslating(text)
+
+Expect text:
+
+  Hello world
+  "Hello world"
+  Hello "small" world
+  "Hello \"small\" world"
+
+Execute (common#trans#PrepareTextToTranslating: Save raw history):
+  let g:trans_save_raw_history = 1
+  let g:trans_history_raw_file = '/tmp/trans-raw-history'.strftime('%Y%m%d%H%M%S')
+  let text = "world"
+  call common#trans#PrepareTextToTranslating(text)
+  let text = "test"
+  call common#trans#PrepareTextToTranslating(text)
+  let g:trans_save_raw_history = 0
+  execute 'edit' g:trans_history_raw_file
+
+Expect text:
+  world
+  test
+
+Execute (common#trans#GetCurrentSourceText: Check getting source text):
+  let text = "Hello world"
+  call common#trans#PrepareTextToTranslating(text)
+  silent put = common#trans#GetCurrentSourceText()
+
+Expect text:
+
+  Hello world
+
+Execute (common#trans#GetSourceLang: Getting source from s:trans_source_lang):
+  let args = "it:ru"
+  call common#trans#GenerateCMD(args)
+  silent put = common#trans#GetSourceLang()
+  let args = "de:ru"
+  call common#trans#GenerateCMD(args)
+  silent put = common#trans#GetSourceLang()
+  let args = ":ru"
+  call common#trans#GenerateCMD(args)
+  silent put = common#trans#GetSourceLang()
+
+Expect text:
+
+  it
+  de
+  en
+
+Execute (common#trans#GetSourceLang: Getting source from s:trans_current_source_text):
+  let args = ":ru"
+  call common#trans#GenerateCMD(args)
+  let text = "Zeit"
+  call common#trans#PrepareTextToTranslating(text)
+  silent put = common#trans#GetSourceLang()
+
+Expect text:
+
+  de
+
+Execute (common#trans#GetTargetLang: Getting target from s:trans_target_lang):
+  let text = "test"
+  let args = "it:ru"
+  call common#trans#GenerateCMD(args)
+  silent put = common#trans#GetTargetLang(text)
+  let args = "de:en"
+  call common#trans#GenerateCMD(args)
+  silent put = common#trans#GetTargetLang(text)
+  let args = ":fr"
+  call common#trans#GenerateCMD(args)
+  silent put = common#trans#GetTargetLang(text)
+
+Expect text:
+
+  ru
+  en
+  fr
+
+Execute (common#trans#GetSourceLang: Getting target from a:text):
+  let text = "Привет"
+  let args = "en:"
+  call common#trans#GenerateCMD(args)
+  silent put = common#trans#GetTargetLang(text)
+  let text = "Zeit"
+  let args = "it:ru+en"
+  call common#trans#GenerateCMD(args)
+  silent put = common#trans#GetTargetLang(text)
+
+Expect text:
+
+  ru
+  de
+

@@ -63,14 +63,6 @@ endif
 if !exists('g:trans_raw_history_file')
     let g:trans_history_raw_file = '~/.vim/.trans_raw_history'
 endif
-    let g:trans_save_history = 2 " 1, 2 and 3 are possible values
-    let g:trans_history_file = '~/Desktop/trans_history.csv'
-    let g:trans_close_window_after_saving = 1
-    let g:trans_save_only_unique = 2 " 1 and 2 are possible values
-    let g:trans_history_format = '%s;%t;%as;%at'
-    let g:trans_save_raw_history = 1
-    let g:trans_save_audio = 1
-    let g:trans_ignore_audio_for_langs = ['ru']
 " }}} Default configuration "
 " Commands {{{ "
 command! -nargs=* TransTerm call trans#TransTerm(<f-args>)

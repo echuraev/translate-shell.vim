@@ -1,0 +1,27 @@
+Execute (common#window#OpenTransHistoryWindow: Check list):
+  let g:trans_history_format = '%s;%t'
+  let file = "/tmp/trans-open-trans-hist-win.csv"
+  call delete(file)
+  let g:trans_history_file = file
+  let g:trans_save_history = 1
+  let g:trans_save_only_unique = 0
+  let g:trans_save_audio = 0
+
+  let g:trans_save_history = 1
+  let args = "en:ru"
+  call common#trans#GenerateCMD(args)
+  let source = "Hello"
+  let translation = "Здравствуйте"
+  call common#history#AddTranslationToHistory(source, translation)
+  call common#history#AddTranslationToHistory(source, translation)
+  let source = "time"
+  let translation = "время"
+  call common#history#AddTranslationToHistory(source, translation)
+
+  call common#window#OpenTransHistoryWindow()
+
+Expect text:
+  Hello;Здравствуйте
+  Hello;Здравствуйте
+  time;время
+

@@ -1,0 +1,29 @@
+Execute (common#common#JoinLinesInText: Check join lines function):
+  let text = "Hello!\n\nI would like to see\nhow lines will\njoined!!!"
+  silent! put = text
+  silent! put = ''
+  silent! put = common#common#JoinLinesInText(text)
+
+Expect text:
+
+  Hello!
+
+  I would like to see
+  how lines will
+  joined!!!
+
+  Hello!
+  I would like to see how lines will joined!!!
+
+Execute (common#common#GenerateInputlist: Check generation of inputlist):
+  let text = "Select item:"
+  let list = ['item 1', 'item 2', 'item 3']
+  silent! put = common#common#GenerateInputlist(text, list)
+
+Expect text:
+
+  Select item:
+  1. item 1
+  2. item 2
+  3. item 3
+
