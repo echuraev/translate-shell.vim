@@ -13,7 +13,7 @@ function! common#history#AddTranslationToHistory(source, translation)
     let line = substitute(g:trans_history_format, "%s", a:source, 'g')
     let line = substitute(line, "%t", a:translation, 'g')
     let filename = s:getHistoryFileName(g:trans_history_file, a:translation)
-    let history_dir = fnamemodify(filename, ":h")
+    let history_dir = fnamemodify(expand(filename), ":h")
     if !isdirectory(history_dir)
         call mkdir(history_dir, "p")
     endif
