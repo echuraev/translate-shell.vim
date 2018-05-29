@@ -10,7 +10,7 @@
 Author:         Egor Churaev <egor.churaev@gmail.com>
 Licence:        GPLv3
 Homepage:       https://github.com/echuraev/translate-shell.vim
-Version:        1.0
+Version:        1.1
 
 ==============================================================================
 CONTENTS                               *trans* *translate-shell.vim* *trans-context*
@@ -22,6 +22,7 @@ CONTENTS                               *trans* *translate-shell.vim* *trans-cont
         4. Usage ............................ |trans-usage|
             Commands ........................ |trans-commands|
             Key mappings .................... |trans-keys|
+            Import history to Anki .......... |trans-Anki|
         5. Configuration .................... |trans-configuration|
         6. Changelog ........................ |trans-changelog|
         7. Todo ............................. |trans-todo|
@@ -31,7 +32,8 @@ INTRO                                                              *trans-intro*
 
 Translate-shell.vim is a plugin for translating text without leaving Vim. It
 provides a window that displays the translate of word under cursor, selected
-text or you can use "on fly" translation and translate inserted text. More
+text or you can use "on fly" translation and translate inserted text. Also,
+you can save your translate story to file and import it to Anki. More
 information you can find in |trans-commands|.
 
 ------------------------------------------------------------------------------
@@ -43,6 +45,9 @@ The following features are supported by translate-shell.vim:
     - Select direction of translate from predefined list.
     - Interactive translation.
     - Open interactive terminal with translate-shell (only Vim 8).
+    - Keep translate story. Choose the better translate to save.
+    - Download audio for translation.
+    - Import translation history to Anki.
 
 ==============================================================================
 REQUIREMENTS                                                *trans-requirements*
@@ -202,11 +207,21 @@ COMMANDS                                                        *trans-commands*
     - If you pass options then variable |g:trans_default_direction| will be
       ignored. For more details see section |trans-usage|.
 
+:TransOpenHistoryWindow                                *:TransOpenHistoryWindow*
+    Open file with translate history. In this window you can edit the history
+    file. In case it there are several history files e.g.
+    |g:trans_save_history| has value 2 or 3, you can choose which file you
+    would like to open.
+
 ------------------------------------------------------------------------------
 KEY MAPPING                                                         *trans-keys*
 
-By default plugin doesn't provide any mapped keys. But you can create your own
-key mapping for fast translation.
+The following mappings are valid in the translate window:
+
+<CR>/<Enter>    Add translation under cursor to history file.
+
+By default plugin doesn't provide any global  mapped keys. But you can create
+your own key mapping for fast translation.
 
 Example of key mapping: >
 
@@ -215,6 +230,32 @@ Example of key mapping: >
     vnoremap <silent> <leader>t :TransVisual<CR>
 
 You can map all other commands in this way.
+
+------------------------------------------------------------------------------
+IMPORT HISTORY TO ANKI                                              *trans-Anki*
+
+Full instruction you can find on wiki:
+
+    https://github.com/echuraev/translate-shell.vim/wiki/Create-and-import-Anki-cards
+
+You can import your history file to Anki.
+1. You can configure format of your history file to one of format that
+supports by Anki by setting |g:trans_history_format|, for example csv format:
+>
+    let g:trans_history_format = '%s;%t;%as;%at'
+<
+2. Create type of cards that supports your fields.
+
+3. Import your history file and copy all '*.mp3' files from directory with
+history file to Anki media directory:
+>
+    cp -f <path_to_dir_with_history_file>/*.mp3 <path_to_anki_media_dir>
+<
+By default Anki media directory is:
+>
+    ~/Documents/Anki/<UserName>/collection.media/
+<
+4. Learn your cards with Anki :)
 
 ==============================================================================
 CONFIGURATION                                              *trans-configuration*
@@ -350,8 +391,181 @@ Example:
 >
     let g:trans_join_lines = 1
 <
+                                                     *g:trans_save_raw_history*
+g:trans_save_raw_history~
+Default: 0
+
+Use this option to enable saving history. This variable should be set in pair
+with |g:trans_history_raw_file|. 'raw history' means that it will save all
+history of using plugin and will save only words (without translation) that
+were translated.
+
+Example:
+>
+    let g:trans_save_raw_history = 1
+<
+                                                     *g:trans_history_raw_file*
+g:trans_history_raw_file
+Default: '~/.vim/.trans_raw_history'
+
+Use this option to specify the location of your raw history file. Only needed
+if variable |g:trans_save_raw_history| was set.
+
+Example:
+>
+    let g:trans_history_raw_file = '~/.trans_raw_history'
+<
+                                                         *g:trans_save_history*
+g:trans_save_history~
+Default: 0
+
+Use this option to enable saving history. This variable should be set in pair
+with |g:trans_history_file|. Use this variable to save history of translation
+with selected translation. If this variable is specified then you can press
+<Enter> in translate window to select translation to saving. Format of saved
+file you can specify with |g:trans_history_format|.
+
+Possible values are:
+    0: Saving history is disabled.
+    1: Save all translations to one file that specified in
+       |g:trans_history_file|.
+    2: Save all translations in separate files. Files are separated by the
+       source language. To the name of file that specified in
+       |g:trans_history_file| will be added postfix with code of source
+       language.
+
+       Example:
+       - We specified |g:trans_history_file| in the following way:
+>
+          let g:trans_history_file = '~/trans_history/trans_history.csv'
+<
+       - All translations from English will be saved in the following file:
+>
+          ~/trans_history/trans_history_en.csv
+<
+       - All translations from German will be saved in the following file:
+>
+          ~/trans_history/trans_history_de.csv
+<
+    3: Save all translations in separate files. Files are separated by the
+       source language and target language. To the name of file that specified
+       in |g:trans_history_file| will be added postfix with code of source
+       language and code of target language.
+
+       Example:
+       - We specified |g:trans_history_file| in the following way:
+>
+          let g:trans_history_file = '~/trans_history/trans_history.csv'
+<
+       - All translations from English to Russian will be saved in the
+         following file:
+>
+          ~/trans_history/trans_history_en_ru.csv
+<
+       - All translations from English to German will be saved in the
+         following file:
+>
+          ~/trans_history/trans_history_en_de.csv
+<
+Example:
+>
+    let g:trans_save_history = 1
+<
+                                                         *g:trans_history_file*
+g:trans_history_file
+Default: ''
+
+Use this option to specify the location of your translate history file. Only
+needed if variable |g:trans_save_history| was set. If directory where history
+file should be saved doesn't exist, when try to create the directory.
+
+Example:
+>
+    let g:trans_history_file = '~/trans_history/trans_history.csv'
+<
+                                                       *g:trans_history_format*
+g:trans_history_format
+Default: '%s;%t'
+
+Use this option to specify the format of translate history file. Only needed
+if variable |g:trans_save_history| was set. Use flags to specify format. You
+can import this file to Anki (see |trans-Anki|).
+
+Possible flags are:
+    '%s': on place of this flag will be putted source word.
+    '%t': on place of this flag will be putted target word.
+    '%as': on place of this flag will be putted string with audio file for
+           source word. You should use this flag with option
+           |g:trans_save_audio|.
+    '%at': on place of this flag will be putted string with audio file for
+           target word. You should use this flag with option
+           |g:trans_save_audio|.
+
+Example:
+>
+    let g:trans_history_format = '%s;%t;%as;%at'
+<
+                                            *g:trans_close_window_after_saving*
+g:trans_close_window_after_saving~
+Default: 0
+
+Use this option to specify that translate window should be closed after
+selecting translation to save.
+
+Example:
+>
+    let g:trans_close_window_after_saving = 1
+<
+                                                     *g:trans_save_only_unique*
+g:trans_save_only_unique~
+Default: 0
+
+Use this option to specify that only new words should be added to
+|g:trans_history_file|.
+
+Possible values are:
+    0: Doesn't check is word unique or not.
+    1: If word is already in |g:trans_history_file| will print message about it.
+    2: If word is already in |g:trans_history_file| will add new translation
+       to this word.
+
+Example:
+>
+    let g:trans_save_only_unique = 2
+<
+                                                           *g:trans_save_audio*
+g:trans_save_audio~
+Default: 0
+
+Use this option to specify that you'd like to download audio files for
+translation. The audio will be downloaded in the same directory where
+|g:trans_history_file| is located. After that you could import this history
+and audio to Anki. See |trans-Anki| for more details.
+
+Example:
+>
+    let g:trans_save_audio = 1
+<
+                                               *g:trans_ignore_audio_for_langs*
+g:trans_ignore_audio_for_langs~
+Default: empty list
+
+Use this option to specify the list of languages for which you don't want to
+download audio files.
+
+Example:
+>
+    let g:trans_ignore_audio_for_langs = ['ru', 'de']
+<
+    In this case audio files for Russian and German languages won't download.
+
 ==============================================================================
 CHANGELOG                                                      *trans-changelog*
+
+1.1 (2018-05-29)
+    - Keep translate story. Choose the better translate to save.
+    - Download audio for translation.
+    - Import translation history to Anki.
 
 1.0 (2018-05-15)
     - Initial release
@@ -359,12 +573,12 @@ CHANGELOG                                                      *trans-changelog*
 ==============================================================================
 TODO                                                                *trans-todo*
 
-    - Keep translate story
-        - Choose the better translate to save
     - Nice syntax highlighting
     - Folding for translation on multiple languages
     - Possibility to join lines for better translate
     - Refactor and join translate functions (visual and not)
+    - Async downloading audio for vim 8 (may be for all system calls)
+    - Limit on the size of history files
 
 ==============================================================================
  vim: tw=78 ts=8 sw=4 sts=4 et ft=help

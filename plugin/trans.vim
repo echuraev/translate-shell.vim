@@ -60,7 +60,7 @@ endif
 if !exists('g:trans_save_raw_history')
     let g:trans_save_raw_history = 0
 endif
-if !exists('g:trans_raw_history_file')
+if !exists('g:trans_history_raw_file')
     let g:trans_history_raw_file = '~/.vim/.trans_raw_history'
 endif
 " }}} Default configuration "
