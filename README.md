@@ -72,7 +72,7 @@ Plug 'echuraev/translate-shell.vim'
 
 ## Getting Started
 
-Translate-shell.vim provides 6 commands for translation:
+Translate-shell.vim provides the following commands for translation:
 * `:Trans [{options}]` - Translate word under cursor.
 * `:TransVisual [{options}]` - Translate text in visual selection.
 * `:TransSelectDirection` - Translate word under cursor with selecting translate
