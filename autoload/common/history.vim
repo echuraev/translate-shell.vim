@@ -13,6 +13,10 @@ function! common#history#AddTranslationToHistory(source, translation)
     let line = substitute(g:trans_history_format, "%s", a:source, 'g')
     let line = substitute(line, "%t", a:translation, 'g')
     let filename = s:getHistoryFileName(g:trans_history_file, a:translation)
+    let history_dir = fnamemodify(filename, ":h")
+    if !isdirectory(history_dir)
+        call mkdir(history_dir, "p")
+    endif
     if g:trans_save_only_unique > 0
         let line_num = s:getLineNumWithText(filename, a:source)
         if line_num > 0

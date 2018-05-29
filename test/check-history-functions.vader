@@ -93,6 +93,25 @@ Execute (common#history#AddTranslationToHistory: Check history file name):
   let ret = common#history#AddTranslationToHistory(source, translation)
   AssertEqual file.'_de_ru', ret
 
+Execute (common#history#AddTranslationToHistory: Check directory creation):
+  let file = '/tmp/trans-history-'.strftime('%Y%m%d%H%M%S').'/trans-history-file.csv'
+  let history_dir = fnamemodify(file, ":h")
+  let g:trans_history_format = '%s;%t'
+  let g:trans_history_file = file
+  let g:trans_save_only_unique = 0
+  let g:trans_save_history = 1
+  let source = "Hello"
+  let translation = "Здравствуйте"
+
+  let args = "en:ru"
+  call common#trans#GenerateCMD(args)
+
+  Log "common#history#AddTranslationToHistory: Check that directory doesn't exist"
+  AssertEqual 0, isdirectory(history_dir)
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  Log "common#history#AddTranslationToHistory: Check that directory exists"
+  AssertEqual 1, isdirectory(history_dir)
+
 Execute (common#history#AddTranslationToHistory: Check audio downloading):
   let file = '/tmp/trans-check-audio-downloading'
   silent put = file
