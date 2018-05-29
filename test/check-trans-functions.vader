@@ -98,14 +98,14 @@ Expect text:
 
 Execute (common#trans#GenerateArgs: Generate args with default parameter and list):
   let default = "-brief"
-  let args = []
-  silent! put = common#trans#GenerateArgs(default, args)
+  let args_list = []
+  silent! put = common#trans#GenerateArgs(default, args_list)
   let default = ""
-  let args = ["-arg1", "-arg2", "-arg3"]
-  silent! put = common#trans#GenerateArgs(default, args)
+  let args_list = ["-arg1", "-arg2", "-arg3"]
+  silent! put = common#trans#GenerateArgs(default, args_list)
   let default = "-brief"
-  let args = ["-arg1", "-arg2", "-arg3"]
-  silent! put = common#trans#GenerateArgs(default, args)
+  let args_list = ["-arg1", "-arg2", "-arg3"]
+  silent! put = common#trans#GenerateArgs(default, args_list)
 
 Expect text:
 
