@@ -6,7 +6,8 @@
 
 ***Translate-shell.vim*** is a plugin for translating text without leaving Vim. It
 provides a window that displays the translate of word under cursor, selected
-text or you can use "on fly" translation and translate inserted text.
+text or you can use "on fly" translation and translate inserted text. Also,
+you can save your translate story to file and import it to [Anki](https://apps.ankiweb.net/).
 
 ![translate-shell.vim screencast](doc/screencast.gif)
 
@@ -19,6 +20,7 @@ text or you can use "on fly" translation and translate inserted text.
 * [Installation](#installation)
     * [Installation with vim-plug](#installation-with-vim-plug)
 * [Getting Started](#getting-started)
+* [Import history of translating to Anki](#import-history-of-translating-to-anki)
 * [TODO List](#todo-list)
 * [References](#references)
     * [Author](#author)
@@ -35,6 +37,9 @@ The following features are supported by translate-shell.vim:
 * Select direction of translate from predefined list.
 * Interactive translation.
 * Open interactive terminal with translate-shell (only **Vim 8**).
+* Keep translate story. Choose the better translate to save.
+* Download audio for translation.
+* Import translation history to Anki.
 
 ## Requirements
 
@@ -51,17 +56,17 @@ You can install translate-shell.vim by using any vim plugin manager.
 
 If you doesn't have installed translate-shell in path, you can install plugin
 by the following command:
-```
+```vim
 Plug 'echuraev/translate-shell.vim', { 'do': 'wget -O ~/.vim/trans git.io/trans && chmod +x ~/.vim/trans' }
 ```
 And after it you should specify path to translate-shell by defining
 `g:trans_bin` variable e.g:
-```
+```vim
 let g:trans_bin = "~/.vim"
 ```
 If you already have installed translate-shell in your PATH then it is enough
 to install plugin by the following command:
-```
+```vim
 Plug 'echuraev/translate-shell.vim'
 ```
 
@@ -77,6 +82,7 @@ Translate-shell.vim provides 6 commands for translation:
 * `:TransInteractive [{options}]` - Translate inserted text.
 * `:TransTerm [{options}]` - Open terminal with interactive translate-shell.
     That works only in Vim 8.
+* `:TransOpenHistoryWindow` - Open file with translate history.
 
 For more convenience, you can create key mapping for these commands e.g:
 ```
@@ -85,17 +91,26 @@ nnoremap <silent> <leader>t :Trans<CR>
 vnoremap <silent> <leader>t :TransVisual<CR>
 ```
 
-Codes of languages you can find [here](https://github.com/soimort/translate-shell#code-list).
-
+Codes of languages you can find [here](https://github.com/soimort/translate-shell#code-list) or run the following command:
+```bash
+trans -R
+```
 For more information please look at [doc/trans.txt](doc/trans.txt) or open Vim and run `:h trans`.
 
+## Import history of translating to Anki
+
+You can add history of your translation to Anki and learn new words. Full
+information you can find on [wiki](https://github.com/echuraev/translate-shell.vim/wiki/Create-and-import-Anki-cards).
+
 ## TODO List
-- [ ] Keep translate story
-    - [ ] Choose the better translate to save
+- [x] Keep translate story
+    - [x] Choose the better translate to save
 - [ ] Nice syntax highlighting
 - [ ] Folding for translation on multiple languages
 - [x] Possibility to join lines for better translation
 - [ ] Refactor and join translate functions (visual and not)
+- [ ] Async downloading audio for vim 8 (may be for all system calls)
+- [ ] Limit on the size of history files
 
 ## References
 
