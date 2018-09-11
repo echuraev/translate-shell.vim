@@ -566,7 +566,6 @@ CHANGELOG                                                      *trans-changelog*
       - Notifications about audio downloading are only for words that will be
       downloaded.
       - Fix issue with adding words to history file if file was open.
-      - Added tests on the fix.
 
 1.1   (2018-05-29)
       - Keep translate story. Choose the better translate to save.
