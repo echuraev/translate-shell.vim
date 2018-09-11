@@ -52,11 +52,11 @@ function! common#history#AddTranslationToHistory(source, translation)
 endfunction
 
 function! s:downloadAudioFile(directory, text)
-    redraw | echo "Downloading audio for ".a:text."..."
     let lang = common#trans#DetermineLang(a:text)
     if index(g:trans_ignore_audio_for_langs, lang) > -1
         return ""
     endif
+    redraw | echo "Downloading audio for ".a:text."..."
     let audio_file = s:getAudioFileName(a:directory, a:text)
     let cmd = common#trans#GenerateCMDForDownloadAudio(audio_file, lang, a:text)
     call system(cmd)
