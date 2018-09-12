@@ -1,3 +1,5 @@
+Include: common.vader
+
 Execute (common#trans#GetHumanDirectionsList: Check human readable list):
   let g:trans_directions_list = [['en', 'ru'], ['ru', 'en'],['en', 'de'], ['en', 'ru', 'de', 'it'], ['en', ''], ['', 'ru'], ['', '']]
   silent! put = common#trans#GetHumanDirectionsList()
@@ -166,7 +168,6 @@ Execute (common#trans#PrepareTextToTranslating: Save raw history):
   call common#trans#PrepareTextToTranslating(text)
   let text = "test"
   call common#trans#PrepareTextToTranslating(text)
-  let g:trans_save_raw_history = 0
   execute 'edit' g:trans_history_raw_file
 
 Expect text:

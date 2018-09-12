@@ -1,10 +1,8 @@
+Include: common.vader
+
 Execute (common#history#AddTranslationToHistory: Check add functionality):
   let file = '/tmp/trans-add-translation-to-history.csv'
-  call delete(file) " Close file if buffer is open
-  let g:trans_history_format = '%s;%t'
-  let g:trans_history_file = ''
-  let g:trans_save_only_unique = 0
-  let g:trans_save_audio = 0
+  call delete(file)
   let g:trans_save_history = 1
   let source = "Hello"
   let translation = "Здравствуйте"
@@ -41,11 +39,8 @@ Expect text:
 
 Execute (common#history#AddTranslationToHistory: Check history file name):
   let file = '/tmp/trans-check-history-file-name'
-  call delete(file) " Close file if buffer is open
-  let g:trans_history_format = '%s;%t'
+  call delete(file)
   let g:trans_history_file = file
-  let g:trans_save_only_unique = 0
-  let g:trans_save_history = 0
   let source = "Hello"
   let translation = "Здравствуйте"
 
@@ -93,10 +88,9 @@ Execute (common#history#AddTranslationToHistory: Check history file name):
 
 Execute (common#history#AddTranslationToHistory: Check directory creation):
   let file = '/tmp/trans-history-'.strftime('%Y%m%d%H%M%S').'/trans-history-file.csv'
+  call delete(file)
   let history_dir = fnamemodify(file, ":h")
-  let g:trans_history_format = '%s;%t'
   let g:trans_history_file = file
-  let g:trans_save_only_unique = 0
   let g:trans_save_history = 1
   let source = "Hello"
   let translation = "Здравствуйте"
@@ -116,7 +110,6 @@ Execute (common#history#AddTranslationToHistory: Check audio downloading):
   let g:trans_history_file = file
   let g:trans_history_format = '%s;%t;%as;%at'
   let g:trans_ignore_audio_for_langs = ['de']
-  let g:trans_save_only_unique = 0
   let g:trans_save_audio = 1
   let g:trans_save_history = 1
   let source = "Hello"
@@ -170,10 +163,8 @@ Expect text:
 
 Execute (common#history#GetListOfHistoryFiles: Check list):
   let file = "/tmp/trans-get-list-of-files.csv"
+  call delete(file)
   let g:trans_history_file = file
-  let g:trans_save_history = 0
-  let g:trans_save_only_unique = 0
-  let g:trans_save_audio = 0
 
   let text = "g:trans_save_history = 0"
   silent put = text
@@ -236,16 +227,13 @@ Expect text:
 Execute (AddTranslationToOpenHistoryFile: Check add functionality if file was open):
   let file = '/tmp/trans-add-translation-to-history-and-open.csv'
   call delete(file)
-  let g:trans_history_format = '%s;%t'
-  let g:trans_history_file = ''
+  let g:trans_history_file = file
   let g:trans_save_only_unique = 1
-  let g:trans_save_audio = 0
   let g:trans_save_history = 1
   let source = "Hello"
   let translation = "Здравствуйте"
 
   Log "AddTranslationToOpenHistoryFile: Add translation: '".source."' -> '".translation."' to file"
-  let g:trans_history_file = file
   let ret = common#history#AddTranslationToHistory(source, translation)
   AssertEqual file, ret
 
@@ -257,7 +245,7 @@ Execute (AddTranslationToOpenHistoryFile: Check add functionality if file was op
 
   Log "AddTranslationToOpenHistoryFile: Open History file and close it"
   call common#window#OpenTransHistoryWindow()
-  execute 'q'
+  quit
 
   let source = "Close"
   let translation = "Закрыть"

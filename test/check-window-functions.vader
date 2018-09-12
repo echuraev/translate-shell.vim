@@ -1,12 +1,9 @@
+Include: common.vader
+
 Execute (common#window#OpenTransHistoryWindow: Check list):
-  let g:trans_history_format = '%s;%t'
   let file = "/tmp/trans-open-trans-hist-win.csv"
   call delete(file)
   let g:trans_history_file = file
-  let g:trans_save_history = 1
-  let g:trans_save_only_unique = 0
-  let g:trans_save_audio = 0
-
   let g:trans_save_history = 1
   let args = "en:ru"
   call common#trans#GenerateCMD(args)
