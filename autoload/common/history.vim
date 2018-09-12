@@ -107,13 +107,16 @@ function! s:getLineNumWithText(filename, text)
 endfunction
 
 function! common#history#AppendTextToFile(filename, text)
+    " Delete buffer with this file
+    silent! execute 'tabedit '.a:filename
+    bd
     tabedit
     setlocal buftype=nofile bufhidden=hide noswapfile nobuflisted
     silent! put = a:text
     " Remove empty lines
     g/^$/d
     silent! execute 'w! >>' a:filename
-    q
+    quit
 endfunction
 
 function! s:appendTranslationToFile(filename, line_num, translation)
