@@ -128,7 +128,7 @@ function! common#history#AppendTextToFile(filename, text)
     if hist_winnr != -1
         exec current_window . "wincmd w"
     else
-        quit
+        bd
     endif
 endfunction
 
@@ -154,7 +154,7 @@ function! s:appendTranslationToFile(filename, line_num, translation)
         if hist_winnr != -1
             exec current_window . "wincmd w"
         else
-            quit
+            bd
         endif
         return
     endif
@@ -170,7 +170,7 @@ function! s:appendTranslationToFile(filename, line_num, translation)
     if hist_winnr != -1
         exec current_window . "wincmd w"
     else
-        quit
+        bd
     endif
 endfunction
 
