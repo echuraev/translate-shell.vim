@@ -13,6 +13,9 @@ function! common#history#AddTranslationToHistory(source, translation)
     let line = substitute(g:trans_history_format, "%s", a:source, 'g')
     let line = substitute(line, "%t", a:translation, 'g')
     let filename = s:getHistoryFileName(g:trans_history_file, a:translation)
+    if strlen(filename) == 0
+        return filename
+    endif
     let history_dir = fnamemodify(expand(filename), ":h")
     if !isdirectory(history_dir)
         call mkdir(history_dir, "p")
@@ -107,16 +110,26 @@ function! s:getLineNumWithText(filename, text)
 endfunction
 
 function! common#history#AppendTextToFile(filename, text)
-    " Delete buffer with this file
-    silent! execute 'tabedit '.a:filename
-    bd
-    tabedit
-    setlocal buftype=nofile bufhidden=hide noswapfile nobuflisted
+    let hist_winnr = bufwinnr(a:filename)
+    let current_window = winnr()
+    if hist_winnr != -1
+        exec hist_winnr . "wincmd w"
+    else
+        silent! execute 'tabedit '.a:filename
+    endif
+
+    edit!
+    $
     silent! put = a:text
     " Remove empty lines
-    g/^$/d
-    silent! execute 'w! >>' a:filename
-    quit
+    silent! g/^$/d
+    write
+
+    if hist_winnr != -1
+        exec current_window . "wincmd w"
+    else
+        bd
+    endif
 endfunction
 
 function! s:appendTranslationToFile(filename, line_num, translation)
@@ -124,25 +137,41 @@ function! s:appendTranslationToFile(filename, line_num, translation)
     if !filereadable(filename)
         return
     endif
-    let lines = readfile(filename)
+
+    let current_window = winnr()
+    let hist_winnr = bufwinnr(filename)
+    if hist_winnr != -1
+        exec hist_winnr . "wincmd w"
+    else
+        silent! execute 'tabedit '.filename
+    endif
+
+    edit!
+    call cursor(a:line_num, 1)
+    let line=getline('.')
+    " If this translation is already in file
+    if match(line, a:translation) > -1
+        if hist_winnr != -1
+            exec current_window . "wincmd w"
+        else
+            quit
+        endif
+        return
+    endif
+
     " Change format to regex
     let regex = substitute(g:trans_history_format, "%s", ".*", "g")
-    let regex = substitute(regex, "%t", "\\\\(.*\\\\)", "g")
+    let regex = substitute(regex, "%t", ".*\\\\zs\\\\ze", "g")
     let regex = substitute(regex, "%as", ".*", "g")
     let regex = substitute(regex, "%at", ".*", "g")
-    let lst = []
-    call substitute(lines[a:line_num-1], regex, '\=add(lst, submatch(1))', 'g')
-    if len(lst) == 0
-        return
-    endif
-    let trans_from_file = lst[0]
-    if match(trans_from_file, a:translation) > -1
-        return
-    endif
-    let translation = trans_from_file.", ".a:translation
-    let lines[a:line_num-1] = substitute(lines[a:line_num-1], trans_from_file, translation, "g")
+    execute 's/'.regex.'/, '.a:translation.'/g'
 
-    call writefile(lines, filename, "w")
+    write
+    if hist_winnr != -1
+        exec current_window . "wincmd w"
+    else
+        quit
+    endif
 endfunction
 
 function! common#history#GetListOfHistoryFiles()
