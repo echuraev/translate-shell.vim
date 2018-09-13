@@ -128,7 +128,7 @@ function! common#history#AppendTextToFile(filename, text)
     if hist_winnr != -1
         exec current_window . "wincmd w"
     else
-        bd
+        quit
     endif
 endfunction
 
