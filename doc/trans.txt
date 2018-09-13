@@ -565,7 +565,9 @@ CHANGELOG                                                      *trans-changelog*
 1.1.1 (2018-)
       - Notifications about audio downloading are only for words that will be
       downloaded.
-      - Fix issue with adding words to history file if file was open.
+      - Fix issue with adding words to history file if buffer is open.
+      - Fix issue with adding words to history file if file is open and on the
+      screen.
       - Change engine if one of it is off.
       - Check language doesn't work when google is off.
 
