@@ -447,3 +447,28 @@ Expect text:
   Hello;Здравствуйте, Привет
   Hi;Привет
 
+Execute (common#history#AddTranslationToHistory: Check add functionality):
+  let file = '/tmp/trans-add-different-words.csv'
+  call delete(file)
+  let g:trans_history_file = file
+  let g:trans_save_history = 1
+  let g:trans_save_only_unique = 2
+  let source = "niemanden"
+  let translation = "кто-нибудь"
+
+  Log "common#history#AddTranslationToHistory: Add translation: '".source."' -> '".translation."' to file"
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual file, ret
+
+  let source = "niemand"
+  let translation = "никто"
+  Log "common#history#AddTranslationToHistory: Add translation: '".source."' -> '".translation."' to file"
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual file, ret
+
+  execute 'edit' file
+
+Expect text:
+  niemanden;кто-нибудь
+  niemand;никто
+

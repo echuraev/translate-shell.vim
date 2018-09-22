@@ -568,6 +568,7 @@ CHANGELOG                                                      *trans-changelog*
       - Fix issue with adding words to history file if buffer is open.
       - Fix issue with adding words to history file if file is open and on the
       screen.
+      - Fix issue with same words: niemanden and niemand.
       - Change engine if one of it is off.
       - Check language doesn't work when google is off.
 

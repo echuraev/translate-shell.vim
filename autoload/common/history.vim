@@ -101,7 +101,7 @@ function! s:getLineNumWithText(filename, text)
     let lines = readfile(filename)
     for i in range(0, len(lines) - 1)
         let line = lines[i]
-        let find = match(line, a:text)
+        let find = match(line, '\\<'.a:text.'\\>')
         if find > -1
             return i + 1
         endif
