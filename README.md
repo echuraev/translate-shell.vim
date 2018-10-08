@@ -1,6 +1,7 @@
 # translate-shell.vim
 
 [![Build Status](https://travis-ci.org/echuraev/translate-shell.vim.svg?branch=master)](https://travis-ci.org/echuraev/translate-shell.vim)
+[![License](https://img.shields.io/badge/license-GNU_GPL_3.0-red.svg)](https://github.com/echuraev/translate-shell.vim/blob/master/LICENSE)
 
 ## Intro
 
@@ -24,7 +25,6 @@ you can save your translate story to file and import it to [Anki](https://apps.a
 * [TODO List](#todo-list)
 * [References](#references)
     * [Author](#author)
-    * [Licence](#licence)
 
 <!-- vim-markdown-toc -->
 
@@ -117,8 +117,4 @@ information you can find on [wiki](https://github.com/echuraev/translate-shell.v
 ### Author
 
 Egor Churaev egor.churaev@gmail.com
-
-### Licence
-
-GPL-3.0
 

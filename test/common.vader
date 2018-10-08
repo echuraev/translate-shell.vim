@@ -1,0 +1,19 @@
+Before (Set default parameters):
+  let g:trans_bin = ""
+  let g:trans_default_direction = ""
+  let g:trans_directions_list = []
+  let g:trans_advanced_options = ""
+  let g:trans_win_width = 50
+  let g:trans_win_height = 15
+  let g:trans_win_position = 'bottom'
+  let g:trans_join_lines = 0
+  let g:trans_save_history = 0
+  let g:trans_history_file = ''
+  let g:trans_history_format = '%s;%t'
+  let g:trans_close_window_after_saving = 0
+  let g:trans_save_only_unique = 0
+  let g:trans_save_audio = 0
+  let g:trans_ignore_audio_for_langs = []
+  let g:trans_save_raw_history = 0
+  let g:trans_history_raw_file = '~/.vim/.trans_raw_history'
+

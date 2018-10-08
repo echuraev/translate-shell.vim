@@ -1,11 +1,8 @@
+Include: common.vader
+
 Execute (common#history#AddTranslationToHistory: Check add functionality):
   let file = '/tmp/trans-add-translation-to-history.csv'
-  silent put = file
-  call delete(file) " Close file if buffer is open
-  let g:trans_history_format = '%s;%t'
-  let g:trans_history_file = ''
-  let g:trans_save_only_unique = 0
-  let g:trans_save_audio = 0
+  call delete(file)
   let g:trans_save_history = 1
   let source = "Hello"
   let translation = "Здравствуйте"
@@ -42,12 +39,8 @@ Expect text:
 
 Execute (common#history#AddTranslationToHistory: Check history file name):
   let file = '/tmp/trans-check-history-file-name'
-  silent put = file
-  call delete(file) " Close file if buffer is open
-  let g:trans_history_format = '%s;%t'
+  call delete(file)
   let g:trans_history_file = file
-  let g:trans_save_only_unique = 0
-  let g:trans_save_history = 0
   let source = "Hello"
   let translation = "Здравствуйте"
 
@@ -95,10 +88,9 @@ Execute (common#history#AddTranslationToHistory: Check history file name):
 
 Execute (common#history#AddTranslationToHistory: Check directory creation):
   let file = '/tmp/trans-history-'.strftime('%Y%m%d%H%M%S').'/trans-history-file.csv'
+  call delete(file)
   let history_dir = fnamemodify(file, ":h")
-  let g:trans_history_format = '%s;%t'
   let g:trans_history_file = file
-  let g:trans_save_only_unique = 0
   let g:trans_save_history = 1
   let source = "Hello"
   let translation = "Здравствуйте"
@@ -114,12 +106,10 @@ Execute (common#history#AddTranslationToHistory: Check directory creation):
 
 Execute (common#history#AddTranslationToHistory: Check audio downloading):
   let file = '/tmp/trans-check-audio-downloading'
-  silent put = file
   call delete(file)
   let g:trans_history_file = file
   let g:trans_history_format = '%s;%t;%as;%at'
   let g:trans_ignore_audio_for_langs = ['de']
-  let g:trans_save_only_unique = 0
   let g:trans_save_audio = 1
   let g:trans_save_history = 1
   let source = "Hello"
@@ -173,10 +163,8 @@ Expect text:
 
 Execute (common#history#GetListOfHistoryFiles: Check list):
   let file = "/tmp/trans-get-list-of-files.csv"
+  call delete(file)
   let g:trans_history_file = file
-  let g:trans_save_history = 0
-  let g:trans_save_only_unique = 0
-  let g:trans_save_audio = 0
 
   let text = "g:trans_save_history = 0"
   silent put = text
@@ -235,4 +223,252 @@ Expect text:
   /tmp/trans-get-list-of-files_de_en.csv
   /tmp/trans-get-list-of-files_de_ru.csv
   /tmp/trans-get-list-of-files_en_ru.csv
+
+Execute (AddTranslationToOpenHistoryFile: Check add functionality if file was open):
+  let file = '/tmp/trans-add-translation-to-history-and-open.csv'
+  call delete(file)
+  let g:trans_history_file = file
+  let g:trans_save_only_unique = 1
+  let g:trans_save_history = 1
+  let source = "Hello"
+  let translation = "Здравствуйте"
+
+  Log "AddTranslationToOpenHistoryFile: Add translation: '".source."' -> '".translation."' to file"
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual file, ret
+
+  let source = "Hi"
+  let translation = "Привет"
+  Log "AddTranslationToOpenHistoryFile: Add translation: '".source."' -> '".translation."' to file"
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual file, ret
+
+  Log "AddTranslationToOpenHistoryFile: Open History file and close it"
+  call common#window#OpenTransHistoryWindow()
+  quit
+
+  let source = "Close"
+  let translation = "Закрыть"
+  Log "AddTranslationToOpenHistoryFile: Add translation: '".source."' -> '".translation."' to file"
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual file, ret
+
+  Log "AddTranslationToOpenHistoryFile: Open History file"
+  call common#window#OpenTransHistoryWindow()
+
+Expect text:
+  Hello;Здравствуйте
+  Hi;Привет
+  Close;Закрыть
+
+Execute (AddTranslationToOpenHistoryFile: Check add functionality if file was open and set hidden):
+  set hidden
+  let file = '/tmp/trans-add-translation-to-history-and-open.csv'
+  call delete(file)
+  let g:trans_history_file = file
+  let g:trans_save_only_unique = 1
+  let g:trans_save_history = 1
+  let source = "Hello"
+  let translation = "Здравствуйте"
+
+  Log "AddTranslationToOpenHistoryFile: Add translation: '".source."' -> '".translation."' to file"
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual file, ret
+
+  let source = "Hi"
+  let translation = "Привет"
+  Log "AddTranslationToOpenHistoryFile: Add translation: '".source."' -> '".translation."' to file"
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual file, ret
+
+  Log "AddTranslationToOpenHistoryFile: Open History file and close it"
+  call common#window#OpenTransHistoryWindow()
+  quit
+
+  let source = "Close"
+  let translation = "Закрыть"
+  Log "AddTranslationToOpenHistoryFile: Add translation: '".source."' -> '".translation."' to file"
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual file, ret
+
+  Log "AddTranslationToOpenHistoryFile: Open History file"
+  call common#window#OpenTransHistoryWindow()
+
+Expect text:
+  Hello;Здравствуйте
+  Hi;Привет
+  Close;Закрыть
+
+Execute (AddTranslationToOpenHistoryFile: Check add functionality if file was open and on the screen):
+  let file = '/tmp/trans-add-translation-to-history-and-open.csv'
+  call delete(file)
+  let g:trans_history_file = file
+  let g:trans_save_only_unique = 1
+  let g:trans_save_history = 1
+  let source = "Hello"
+  let translation = "Здравствуйте"
+
+  Log "AddTranslationToOpenHistoryFile: Add translation: '".source."' -> '".translation."' to file"
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual file, ret
+
+  let source = "Hi"
+  let translation = "Привет"
+  Log "AddTranslationToOpenHistoryFile: Add translation: '".source."' -> '".translation."' to file"
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual file, ret
+
+  Log "AddTranslationToOpenHistoryFile: Open History file"
+  call common#window#OpenTransHistoryWindow()
+
+  let source = "Close"
+  let translation = "Закрыть"
+  Log "AddTranslationToOpenHistoryFile: Add translation: '".source."' -> '".translation."' to file"
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual file, ret
+
+Expect text:
+  Hello;Здравствуйте
+  Hi;Привет
+  Close;Закрыть
+
+Execute (AddTranslationToOpenHistoryFile: Check append functionality if file was open):
+  let file = '/tmp/trans-add-translation-to-history-and-open.csv'
+  call delete(file)
+  let g:trans_history_file = file
+  let g:trans_save_only_unique = 2
+  let g:trans_save_history = 1
+  let source = "Hello"
+  let translation = "Здравствуйте"
+
+  Log "AddTranslationToOpenHistoryFile: Add translation: '".source."' -> '".translation."' to file"
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual file, ret
+
+  let source = "Hi"
+  let translation = "Привет"
+  Log "AddTranslationToOpenHistoryFile: Add translation: '".source."' -> '".translation."' to file"
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual file, ret
+
+  Log "AddTranslationToOpenHistoryFile: Open History file and close it"
+  call common#window#OpenTransHistoryWindow()
+  quit
+
+  let source = "Hello"
+  let translation = "Привет"
+  Log "AddTranslationToOpenHistoryFile: Add translation: '".source."' -> '".translation."' to file"
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual file, ret
+  Log "AddTranslationToOpenHistoryFile: Add translation: '".source."' -> '".translation."' to file"
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual file, ret
+
+  Log "AddTranslationToOpenHistoryFile: Open History file"
+  call common#window#OpenTransHistoryWindow()
+
+Expect text:
+  Hello;Здравствуйте, Привет
+  Hi;Привет
+
+Execute (AddTranslationToOpenHistoryFile: Check append functionality if file was open and set hidden):
+  set hidden
+  let file = '/tmp/trans-add-translation-to-history-and-open.csv'
+  call delete(file)
+  let g:trans_history_file = file
+  let g:trans_save_only_unique = 2
+  let g:trans_save_history = 1
+  let source = "Hello"
+  let translation = "Здравствуйте"
+
+  Log "AddTranslationToOpenHistoryFile: Add translation: '".source."' -> '".translation."' to file"
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual file, ret
+
+  let source = "Hi"
+  let translation = "Привет"
+  Log "AddTranslationToOpenHistoryFile: Add translation: '".source."' -> '".translation."' to file"
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual file, ret
+
+  Log "AddTranslationToOpenHistoryFile: Open History file and close it"
+  call common#window#OpenTransHistoryWindow()
+  quit
+
+  let source = "Hello"
+  let translation = "Привет"
+  Log "AddTranslationToOpenHistoryFile: Add translation: '".source."' -> '".translation."' to file"
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual file, ret
+
+  Log "AddTranslationToOpenHistoryFile: Add translation: '".source."' -> '".translation."' to file"
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual file, ret
+
+  Log "AddTranslationToOpenHistoryFile: Open History file"
+  call common#window#OpenTransHistoryWindow()
+
+Expect text:
+  Hello;Здравствуйте, Привет
+  Hi;Привет
+
+Execute (AddTranslationToOpenHistoryFile: Check append functionality if file was open and on the screen):
+  let file = '/tmp/trans-add-translation-to-history-and-open.csv'
+  call delete(file)
+  let g:trans_history_file = file
+  let g:trans_save_only_unique = 2
+  let g:trans_save_history = 1
+  let source = "Hello"
+  let translation = "Здравствуйте"
+
+  Log "AddTranslationToOpenHistoryFile: Add translation: '".source."' -> '".translation."' to file"
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual file, ret
+
+  let source = "Hi"
+  let translation = "Привет"
+  Log "AddTranslationToOpenHistoryFile: Add translation: '".source."' -> '".translation."' to file"
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual file, ret
+
+  Log "AddTranslationToOpenHistoryFile: Open History file"
+  call common#window#OpenTransHistoryWindow()
+
+  let source = "Hello"
+  let translation = "Привет"
+  Log "AddTranslationToOpenHistoryFile: Add translation: '".source."' -> '".translation."' to file"
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual file, ret
+  Log "AddTranslationToOpenHistoryFile: Add translation: '".source."' -> '".translation."' to file"
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual file, ret
+
+Expect text:
+  Hello;Здравствуйте, Привет
+  Hi;Привет
+
+Execute (common#history#AddTranslationToHistory: Check add functionality):
+  let file = '/tmp/trans-add-different-words.csv'
+  call delete(file)
+  let g:trans_history_file = file
+  let g:trans_save_history = 1
+  let g:trans_save_only_unique = 2
+  let source = "niemanden"
+  let translation = "кто-нибудь"
+
+  Log "common#history#AddTranslationToHistory: Add translation: '".source."' -> '".translation."' to file"
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual file, ret
+
+  let source = "niemand"
+  let translation = "никто"
+  Log "common#history#AddTranslationToHistory: Add translation: '".source."' -> '".translation."' to file"
+  let ret = common#history#AddTranslationToHistory(source, translation)
+  AssertEqual file, ret
+
+  execute 'edit' file
+
+Expect text:
+  niemanden;кто-нибудь
+  niemand;никто
 

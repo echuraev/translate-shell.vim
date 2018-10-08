@@ -1,16 +1,16 @@
-language: vim
+language: generic
 
 os:
   - linux
 
-before_script: |
-  sudo add-apt-repository ppa:schot/gawk -y
-  sudo apt-get update -q
-  sudo apt-get install gawk
-  git clone https://github.com/junegunn/vader.vim.git
-  wget git.io/trans
-  chmod +x ./trans
-  export PATH=$PWD:$PATH
-  echo $PATH
+before_script:
+  - sudo add-apt-repository ppa:schot/gawk -y
+  - sudo apt-get update -q
+  - sudo apt-get install gawk
+  - git clone https://github.com/junegunn/vader.vim.git
+  - wget git.io/trans
+  - chmod +x ./trans
+  - export PATH=$PWD:$PATH
+  - echo $PATH
 
 script: test/run

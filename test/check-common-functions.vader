@@ -1,3 +1,5 @@
+Include: common.vader
+
 Execute (common#common#JoinLinesInText: Check join lines function):
   let text = "Hello!\n\nI would like to see\nhow lines will\njoined!!!"
   silent! put = text

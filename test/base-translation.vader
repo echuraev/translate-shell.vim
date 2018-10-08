@@ -1,3 +1,5 @@
+Include: common.vader
+
 Given text:
   Hello beautiful world!
 
