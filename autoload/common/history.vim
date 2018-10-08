@@ -110,28 +110,6 @@ function! s:getLineNumWithText(filename, text)
 endfunction
 
 function! common#history#AppendTextToFile(filename, text)
-    "let hist_winnr = bufwinnr(a:filename)
-    "if hist_winnr != -1
-    "    let current_window = winnr()
-    "    exec hist_winnr . "wincmd w"
-    "    edit!
-    "    $
-    "    silent! put = a:text
-    "    write
-    "    exec current_window . "wincmd w"
-    "    "return
-    "endik
-    "" Delete buffer with this file
-    "silent! execute 'tabedit '.a:filename
-    "bd
-    "tabedit
-    "setlocal buftype=nofile bufhidden=hide noswapfile nobuflisted
-    "silent! put = a:text
-    "" Remove empty lines
-    "g/^$/d
-    "silent! execute 'w! >>' a:filename
-    "quit
-
     let hist_winnr = bufwinnr(a:filename)
     let current_window = winnr()
     if hist_winnr != -1
