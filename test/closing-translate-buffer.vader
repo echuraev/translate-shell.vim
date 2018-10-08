@@ -1,20 +1,20 @@
 Include: common.vader
 
-Given text:
-  Hello beautiful world!
-
-Execute (trans#Trans: Translate, close window, and translate again):
-  new
-  let num_of_buffers = len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
-  Log "Before assert: " . num_of_buffers . " : " . len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
-  AssertEqual num_of_buffers, len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
-  call trans#Trans()
-  Log "Before assert: " . num_of_buffers . " : " . len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
-  AssertEqual num_of_buffers, len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
-  close
-  Log "Before assert: " . num_of_buffers . " : " . len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
-  AssertEqual num_of_buffers, len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
-  call trans#Trans()
-  Log "Before assert: " . num_of_buffers . " : " . len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
-  AssertEqual num_of_buffers, len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
+#Given text:
+#  Hello beautiful world!
+#
+#Execute (trans#Trans: Translate, close window, and translate again):
+#  new
+#  let num_of_buffers = len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
+#  Log "Before assert: " . num_of_buffers . " : " . len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
+#  AssertEqual num_of_buffers, len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
+#  call trans#Trans()
+#  Log "Before assert: " . num_of_buffers . " : " . len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
+#  AssertEqual num_of_buffers, len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
+#  close
+#  Log "Before assert: " . num_of_buffers . " : " . len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
+#  AssertEqual num_of_buffers, len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
+#  call trans#Trans()
+#  Log "Before assert: " . num_of_buffers . " : " . len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
+#  AssertEqual num_of_buffers, len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
 
