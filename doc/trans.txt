@@ -219,6 +219,7 @@ KEY MAPPING                                                         *trans-keys*
 The following mappings are valid in the translate window:
 
 <CR>/<Enter>    Add translation under cursor to history file.
+q               Close the translation window
 
 By default plugin doesn't provide any global  mapped keys. But you can create
 your own key mapping for fast translation.
@@ -561,6 +562,9 @@ Example:
 
 ==============================================================================
 CHANGELOG                                                      *trans-changelog*
+
+1.1.2 ()
+      - Pressing |q| in translate buffer will close translate window
 
 1.1.1 (2018-10-08)
       - Notifications about audio downloading are only for words that will be

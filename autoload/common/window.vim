@@ -63,6 +63,7 @@ endfunction
 
 function! s:maps()
     nnoremap <silent> <buffer> <CR> :call common#window#SaveSelectedTranslation()<CR>
+    nnoremap <silent> <buffer> q :q<CR>
 endfunction
 
 function! common#window#SaveSelectedTranslation()
