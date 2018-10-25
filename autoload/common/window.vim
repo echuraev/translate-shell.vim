@@ -9,6 +9,11 @@
 let s:trans_win_name = "__Translate__"
 
 function! common#window#OpenTrans(cmd)
+    let translate = system(a:cmd)
+    let find = match(a:cmd, '\V-no-translate')
+    if find > -1 && strlen(translate) == 0
+        return
+    endif
     call common#window#GotoTransWindow()
 
     call s:maps()
@@ -21,7 +26,6 @@ function! common#window#OpenTrans(cmd)
     setlocal ft=trans
     setlocal modifiable
 
-    let translate = system(a:cmd)
     %delete
     silent! put = translate
     normal gg
