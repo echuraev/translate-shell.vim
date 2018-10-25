@@ -10,7 +10,7 @@
 Author:         Egor Churaev <egor.churaev@gmail.com>
 Licence:        GPLv3
 Homepage:       https://github.com/echuraev/translate-shell.vim
-Version:        1.1.1
+Version:        1.2
 
 ==============================================================================
 CONTENTS                               *trans* *translate-shell.vim* *trans-context*
@@ -563,8 +563,10 @@ Example:
 ==============================================================================
 CHANGELOG                                                      *trans-changelog*
 
-1.1.2 ()
+1.2   (2018-10-25)
       - Pressing |q| in translate buffer will close translate window
+      - Do not open buffer is result is empty and option -no-translate was
+      passed
 
 1.1.1 (2018-10-08)
       - Notifications about audio downloading are only for words that will be
