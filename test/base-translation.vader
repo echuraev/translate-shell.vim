@@ -16,15 +16,15 @@ Expect text:
   beautiful
   /ˈbyo͞otəfəl/
 
-  красивая
-  (krasivaya)
+  прекрасный
+  (prekrasnyy)
 
   Definitions of beautiful
   [ English -> Русский ]
 
   adjective
       прекрасный
-          beautiful, fine, great, glorious, lovely, beauteous
+          beautiful, fine, great, lovely, beauteous, glorious
       красивый
           beautiful, handsome, nice, lovely, goodly, fair
       превосходный
@@ -39,7 +39,7 @@ Expect text:
           beautiful
 
   beautiful
-      красивая, красивый, прекрасный
+      прекрасный, красивый, красивая
 
 Do (:TransVisual: Translate multiline text):
   :let g:trans_default_direction = ":ru"\<CR>
@@ -125,13 +125,13 @@ Expect text:
       царство
           kingdom, world, raj
       кругозор
-          horizon, outlook, purview, scope, view, world
+          horizon, outlook, purview, scope, ken, world
       деятельность
           activity, action, performance, working, practice, world
-      множество
-          multiplicity, plurality, variety, multitude, plenty, world
       куча
           heap, pile, stack, jumble, peck, world
+      множество
+          plurality, variety, multitude, plenty, host, world
 
   adjective
       мировой
@@ -151,8 +151,8 @@ Expect text:
 
   Hello
 
-  Здравствуйте
-  (Zdravstvuyte)
+  Привет
+  (Privet)
 
   Definitions of Hello
   [ English -> Русский ]
@@ -166,7 +166,7 @@ Expect text:
           Hello!, Hallo!, Hullo!
 
   Hello
-      Здравствуйте, Привет
+      Привет, Здравствуйте
 
 Do (:TransVisualSelectDirection: with empty list):
   :let g:trans_default_direction = ":ru"\<CR>
@@ -238,7 +238,7 @@ Do (:Trans: Translate one word with command line arguments):
 
 Expect text:
 
-  schön
+  wunderschönen
 
 Do (:TransVisual: Translate multiple lines with command line arguments):
   :let g:trans_join_lines = 1\<CR>
