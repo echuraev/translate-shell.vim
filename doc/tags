@@ -3,8 +3,6 @@
 :TransOpenHistoryWindow	trans.txt	/*:TransOpenHistoryWindow*
 :TransSelectDirection	trans.txt	/*:TransSelectDirection*
 :TransTerm	trans.txt	/*:TransTerm*
-:TransVisual	trans.txt	/*:TransVisual*
-:TransVisualSelectDirection	trans.txt	/*:TransVisualSelectDirection*
 g:trans_advanced_options	trans.txt	/*g:trans_advanced_options*
 g:trans_bin	trans.txt	/*g:trans_bin*
 g:trans_close_window_after_saving	trans.txt	/*g:trans_close_window_after_saving*

@@ -41,11 +41,11 @@ Expect text:
   beautiful
       прекрасный, красивый, красивая
 
-Do (:TransVisual: Translate multiline text):
+Do (:Trans: Translate multiline text):
   :let g:trans_default_direction = ":ru"\<CR>
   :let g:trans_join_lines = 1\<CR>
   VG
-  :TransVisual\<CR>
+  :Trans\<CR>
 
 Expect text:
 
@@ -69,11 +69,11 @@ Expect text:
   How is it going?
       Как дела?, Как это происходит?
 
-Do (:TransVisual: Translate multiline text 2):
+Do (:Trans: Translate multiline text 2):
   :let g:trans_default_direction = ":ru"\<CR>
   :let g:trans_join_lines = 1\<CR>
   VG
-  :TransVisual\<CR>
+  :Trans\<CR>
 
 Expect text:
 
@@ -168,11 +168,11 @@ Expect text:
   Hello
       Привет, Здравствуйте
 
-Do (:TransVisualSelectDirection: with empty list):
+Do (:TransSelectDirection: with empty list):
   :let g:trans_default_direction = ":ru"\<CR>
   :let g:trans_directions_list = []\<CR>
   V
-  :TransVisualSelectDirection\<CR>
+  :TransSelectDirection\<CR>
 
 Expect text:
 
@@ -215,10 +215,10 @@ Expect text:
   Hello
       Ciao
 
-Do (:TransVisualSelectDirection: with list with one item):
+Do (:TransSelectDirection: with list with one item):
   :let g:trans_directions_list = [['en', 'it']]\<CR>
   V
-  :TransVisualSelectDirection\<CR>
+  :TransSelectDirection\<CR>
 
 Expect text:
 
@@ -240,10 +240,10 @@ Expect text:
 
   wunderschönen
 
-Do (:TransVisual: Translate multiple lines with command line arguments):
+Do (:Trans: Translate multiple lines with command line arguments):
   :let g:trans_join_lines = 1\<CR>
   VG
-  :TransVisual -brief :de\<CR>
+  :Trans -brief :de\<CR>
 
 Expect text:
 

@@ -37,7 +37,7 @@ The following features are supported by translate-shell.vim:
 * Select direction of translate from predefined list.
 * Interactive translation.
 * Open interactive terminal with translate-shell (only **Vim 8**).
-* Keep translate story. Choose the better translate to save.
+* Keep translate history. Choose the better translate to save.
 * Download audio for translation.
 * Import translation history to Anki.
 
@@ -74,10 +74,10 @@ Plug 'echuraev/translate-shell.vim'
 
 Translate-shell.vim provides the following commands for translation:
 * `:Trans [{options}]` - Translate word under cursor.
-* `:TransVisual [{options}]` - Translate text in visual selection.
+* `:'<,'>Trans [{options}]` - Translate text in visual selection.
 * `:TransSelectDirection` - Translate word under cursor with selecting translate
     direction.
-* `:TransVisualSelectDirection` - Translate text in visual selection with
+* `:'<,'>TransSelectDirection` - Translate text in visual selection with
     selecting translate direction.
 * `:TransInteractive [{options}]` - Translate inserted text.
 * `:TransTerm [{options}]` - Open terminal with interactive translate-shell.
@@ -88,9 +88,10 @@ For more convenience, you can create key mapping for these commands e.g:
 ```
 inoremap <silent> <leader>t <ESC>:Trans<CR>
 nnoremap <silent> <leader>t :Trans<CR>
-vnoremap <silent> <leader>t :TransVisual<CR>
+vnoremap <silent> <leader>t :Trans<CR>
+nnoremap <silent> <leader>td :TransSelectDirection<CR>
+vnoremap <silent> <leader>td :TransSelectDirection<CR>
 ```
-
 Codes of languages you can find [here](https://github.com/soimort/translate-shell#code-list) or run the following command:
 ```bash
 trans -R
@@ -108,7 +109,7 @@ information you can find on [wiki](https://github.com/echuraev/translate-shell.v
 - [ ] Nice syntax highlighting
 - [ ] Folding for translation on multiple languages
 - [x] Possibility to join lines for better translation
-- [ ] Refactor and join translate functions (visual and not)
+- [x] Refactor and join translate functions (visual and not)
 - [ ] Async downloading audio for vim 8 (may be for all system calls)
 - [ ] Limit on the size of history files
 
