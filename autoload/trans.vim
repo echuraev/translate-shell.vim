@@ -10,7 +10,7 @@ function! trans#TransTerm(...)
     if s:check() || v:version < 800
         return
     endif
-    let args = common#trans#GenerateArgs(g:trans_default_direction, a:000)
+    let args = common#trans#GenerateArgs(a:000)
     let cmd = common#trans#GenerateCMD(args)
     execute "term ".cmd
 endfunction
@@ -20,7 +20,7 @@ function! trans#Trans(line1, line2, count, ...)
         return
     endif
     let text = s:prepareText(a:count)
-    let args = common#trans#GenerateArgs(g:trans_default_direction, a:000)
+    let args = common#trans#GenerateArgs(a:000)
     let cmd = common#trans#GenerateCMD(args, text)
     call common#window#OpenTrans(cmd)
 endfunction
@@ -64,7 +64,7 @@ function! trans#TransInteractive(...)
 
     let args = common#trans#GenerateTranslateDirection(selected_number)
     if args == "" || len(a:000) > 0
-        let args = common#trans#GenerateArgs(g:trans_default_direction, a:000)
+        let args = common#trans#GenerateArgs(a:000)
         let text = input("Translate (cmd: ".common#trans#GenerateCMD(args)."): ")
     else
         let human_direction = common#trans#GetHumanDirectionsList()[selected_number]

@@ -178,13 +178,16 @@ function! s:getTranslateLanguages(args)
     let s:trans_target_lang = lst[0][1]
 endfunction
 
-function! common#trans#GenerateArgs(default, args)
-    let args = a:default
+function! common#trans#GenerateArgs(args)
+    let args = ""
     if len(a:args) > 0
-        let args = ""
         for arg in a:args
             let args = args." ".arg
         endfor
+    endif
+    let is_direction_in_args = match(args, '\v[a-z-]*:[a-z-]*')
+    if is_direction_in_args == -1
+        let args = args." ".g:trans_default_direction
     endif
     return args
 endfunction

@@ -288,6 +288,8 @@ Note: Codes of languages you can find here:
 
     https://github.com/soimort/translate-shell#code-list
 
+    Or run the following command in terminal: `trans -R`
+
                                                       *g:trans_directions_list*
 g:trans_directions_list~
 Default: empty list

@@ -99,21 +99,22 @@ Expect text:
   trans -no-theme -no-ansi en:ru+de+it "Long text"
 
 Execute (common#trans#GenerateArgs: Generate args with default parameter and list):
-  let default = "-brief"
+  let g:trans_default_direction = ":ru"
   let args_list = []
-  silent! put = common#trans#GenerateArgs(default, args_list)
-  let default = ""
+  silent! put = common#trans#GenerateArgs(args_list)
   let args_list = ["-arg1", "-arg2", "-arg3"]
-  silent! put = common#trans#GenerateArgs(default, args_list)
-  let default = "-brief"
-  let args_list = ["-arg1", "-arg2", "-arg3"]
-  silent! put = common#trans#GenerateArgs(default, args_list)
+  silent! put = common#trans#GenerateArgs(args_list)
+  let args_list = ["-brief"]
+  silent! put = common#trans#GenerateArgs(args_list)
+  let args_list = ["-brief", ":de"]
+  silent! put = common#trans#GenerateArgs(args_list)
 
 Expect text:
 
-  -brief
-   -arg1 -arg2 -arg3
-   -arg1 -arg2 -arg3
+   :ru
+   -arg1 -arg2 -arg3 :ru
+   -brief :ru
+   -brief :de
 
 Execute (common#trans#GenerateCMDForDownloadAudio: Generate cmd for audio downloading):
   let file = "~/Downloads/audio/test_audio.mp3"
