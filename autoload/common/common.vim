@@ -18,9 +18,16 @@ function! common#common#GetVisualSelection() abort
 endfunction
 
 function! common#common#JoinLinesInText(text)
-    let text = substitute(a:text, "  ", " ", "g")
-    let text = substitute(text, "\n", " ", "g")
-    let text = substitute(text, "  ", "\\n", "g")
+    let text = substitute(a:text, '\t', ' ', 'g')
+    let lines = split(text, '\n')
+    let final_lines = []
+    for line in lines
+        let line = substitute(line, '\v^[ ]*', '', 'g') " Remove spaces in the beginning of the line
+        let line = substitute(line, '\v[ ]{2,}', ' ', 'g') " Remove more than one space in one place
+        call add(final_lines, line)
+    endfor
+    let text = join(final_lines, ' ')
+    let text = substitute(text, '  ', '\n', 'g')
     return text
 endfunction
 

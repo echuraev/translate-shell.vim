@@ -10,7 +10,7 @@
 Author:         Egor Churaev <egor.churaev@gmail.com>
 Licence:        GPLv3
 Homepage:       https://github.com/echuraev/translate-shell.vim
-Version:        2.0
+Version:        2.0.1
 
 ==============================================================================
 CONTENTS                               *trans* *translate-shell.vim* *trans-context*
@@ -560,6 +560,10 @@ Example:
 
 ==============================================================================
 CHANGELOG                                                      *trans-changelog*
+
+2.0.1 (2018-11-09)
+      - Added search of translate direction in passed args
+      - Enhanced function for line joining
 
 2.0   (2018-11-03)
       - Unified :Trans and :TransVisual functions

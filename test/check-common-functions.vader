@@ -17,6 +17,27 @@ Expect text:
   Hello!
   I would like to see how lines will joined!!!
 
+Execute (common#common#JoinLinesInText: Check join lines with spaces in the beginning):
+  let text = "Header!\n\nList to join:\n    * item1\n    * Long item 2\n    * Multiline item\n      with text\n\t* Mutliple item\n\t\ttext with tab"
+  silent! put = text
+  silent! put = ''
+  silent! put = common#common#JoinLinesInText(text)
+
+Expect text:
+
+  Header!
+
+  List to join:
+      * item1
+      * Long item 2
+      * Multiline item
+        with text
+  	* Mutliple item
+  		text with tab
+
+  Header!
+  List to join: * item1 * Long item 2 * Multiline item with text * Mutliple item text with tab
+
 Execute (common#common#GenerateInputlist: Check generation of inputlist):
   let text = "Select item:"
   let list = ['item 1', 'item 2', 'item 3']
