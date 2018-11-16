@@ -113,7 +113,7 @@ There are several different ways to use |translate-shell.vim|:
 
    You can pass any arguments to command |:'<,'>Trans|. Try to translate
    sentence from English to German in brief mode by command:
-   `:Trans -brief` `:de`.
+   `:'<,'>Trans -brief` `:de`.
 
    Exercise (translate sentence): `Hello github world!`
 
@@ -594,7 +594,6 @@ TODO                                                                *trans-todo*
 
     - Nice syntax highlighting
     - Folding for translation on multiple languages
-    - Possibility to join lines for better translate
     - Async downloading audio for vim 8 (may be for all system calls)
     - Limit on the size of history files
 

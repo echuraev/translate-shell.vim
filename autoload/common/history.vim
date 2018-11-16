@@ -123,7 +123,8 @@ function! common#history#AppendTextToFile(filename, text)
     silent! put = a:text
     " Remove empty lines
     silent! g/^$/d
-    write
+    setlocal key=
+    silent! write ++enc=utf-8
 
     if hist_winnr != -1
         exec current_window . "wincmd w"
@@ -166,7 +167,8 @@ function! s:appendTranslationToFile(filename, line_num, translation)
     let regex = substitute(regex, "%at", ".*", "g")
     execute 's/'.regex.'/, '.a:translation.'/g'
 
-    write
+    setlocal key=
+    silent! write ++enc=utf-8
     if hist_winnr != -1
         exec current_window . "wincmd w"
     else
