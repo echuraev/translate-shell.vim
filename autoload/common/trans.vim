@@ -241,7 +241,11 @@ function! common#trans#GenerateTranslateDirection(direction_id)
 endfunction
 
 function! common#trans#PrepareTextToTranslating(text)
-    let text = escape(a:text, "\"")
+    let escape_symbols = ["\"", "`"]
+    let text = a:text
+    for symbol in escape_symbols
+        let text = escape(text, symbol)
+    endfor
     let s:trans_current_source_text = text
     if g:trans_save_raw_history > 0
         call common#history#AppendTextToFile(g:trans_history_raw_file, text)

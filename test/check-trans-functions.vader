@@ -154,6 +154,9 @@ Execute (common#trans#PrepareTextToTranslating: Prepare text):
   let text = "Hello \"small\" world"
   silent put = text
   silent put = common#trans#PrepareTextToTranslating(text)
+  let text = "Hello `markdown` world"
+  silent put = text
+  silent put = common#trans#PrepareTextToTranslating(text)
 
 Expect text:
 
@@ -161,6 +164,8 @@ Expect text:
   "Hello world"
   Hello "small" world
   "Hello \"small\" world"
+  Hello `markdown` world
+  "Hello \`markdown\` world"
 
 Execute (common#trans#PrepareTextToTranslating: Save raw history):
   let g:trans_save_raw_history = 1
