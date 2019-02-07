@@ -135,6 +135,26 @@ let s:trans_supported_languages_dict = {
     \'zu':       'Zulu',
 \}
 
+function! common#trans#GetLanguagesList()
+    return sort(values(s:trans_supported_languages_dict))
+endfunction
+
+function! common#trans#GetCodesList()
+    return sort(keys(s:trans_supported_languages_dict))
+endfunction
+
+function! common#trans#GetLanguagesDict()
+    let lang_dict = {}
+    for [key, item] in items(s:trans_supported_languages_dict)
+        let lang_dict[item] = key
+    endfor
+    return lang_dict
+endfunction
+
+function! common#trans#GetCodesDict()
+    return s:trans_supported_languages_dict
+endfunction
+
 function! common#trans#GetPathToBin()
     let cmd = ""
     if strlen(g:trans_bin) > 0
@@ -199,7 +219,7 @@ function! common#trans#GetHumanDirectionsList()
         let i = 0
         for lang in direction
             if strlen(lang) > 0
-                let langname = s:trans_supported_languages_dict[lang]
+                let langname = common#trans#GetCodesDict()[lang]
             else
                 let langname = 'Autodetect'
             endif
