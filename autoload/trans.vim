@@ -86,6 +86,12 @@ function! s:check() abort
     let cmd = common#trans#GetPathToBin()
     let cmd = cmd.'trans'
     if !executable(cmd)
+        if has('win32')
+            silent! let l:status = system(cmd.' -h')
+            if strlen(l:status) > 0
+                return 0
+            endif
+        endif
         echohl WarningMsg | echomsg "Trans unavailable! CMD: ".cmd | echohl None
         return 1
     endif
