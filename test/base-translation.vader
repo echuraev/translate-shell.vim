@@ -42,7 +42,7 @@ Expect text:
       прекрасный, красивый, красивая
 
 Do (:Trans: Translate multiline text):
-  :let g:trans_default_direction = ":ru"\<CR>
+  :let g:trans_default_direction = ":de"\<CR>
   :let g:trans_join_lines = 1\<CR>
   VG
   :Trans\<CR>
@@ -52,25 +52,23 @@ Expect text:
   Hello beautiful world!
    How is it going?
 
-  Привет, красивый мир!
-  Как дела?
-  (Privet, krasivyy mir!
-  Kak dela?)
+  Hallo schöne Welt!
+  Wie gehts?
 
   Translations of Hello beautiful world!
    How is it going?
-  [ English -> Русский ]
+  [ English -> Deutsch ]
 
   Hello beautiful world!
-      Привет, красивый мир!, Привет прекрасный мир!
+      Hallo schöne Welt!
 
 
       
   How is it going?
-      Как дела?, Как это происходит?
+      Wie gehts?, Wie geht es?, Wie geht's?, Wie geht es Ihnen?, Wie läuft es?
 
 Do (:Trans: Translate multiline text 2):
-  :let g:trans_default_direction = ":ru"\<CR>
+  :let g:trans_default_direction = ":de"\<CR>
   :let g:trans_join_lines = 1\<CR>
   VG
   :Trans\<CR>
@@ -80,22 +78,20 @@ Expect text:
   Hello beautiful world!
    How is it going?
 
-  Привет, красивый мир!
-  Как дела?
-  (Privet, krasivyy mir!
-  Kak dela?)
+  Hallo schöne Welt!
+  Wie gehts?
 
   Translations of Hello beautiful world!
    How is it going?
-  [ English -> Русский ]
+  [ English -> Deutsch ]
 
   Hello beautiful world!
-      Привет, красивый мир!, Привет прекрасный мир!
+      Hallo schöne Welt!
 
 
       
   How is it going?
-      Как дела?, Как это происходит?
+      Wie gehts?, Wie geht es?, Wie geht's?, Wie geht es Ihnen?, Wie läuft es?
 
 Do (:Trans: Translate one word 2):
   /wor\<CR>
@@ -169,7 +165,7 @@ Expect text:
       Привет, Здравствуйте
 
 Do (:TransSelectDirection: with empty list):
-  :let g:trans_default_direction = ":ru"\<CR>
+  :let g:trans_default_direction = ":de"\<CR>
   :let g:trans_directions_list = []\<CR>
   V
   :TransSelectDirection\<CR>
@@ -177,15 +173,14 @@ Do (:TransSelectDirection: with empty list):
 Expect text:
 
   Hello beautiful world!
-
-  Привет, красивый мир!
-  (Privet, krasivyy mir!)
-
+  
+  Hallo schöne Welt!
+  
   Translations of Hello beautiful world!
-  [ English -> Русский ]
-
+  [ English -> Deutsch ]
+  
   Hello beautiful world!
-      Привет, красивый мир!, Привет прекрасный мир!
+      Hallo schöne Welt!
 
 Do (:TransSelectDirection: with list with one item):
   :let g:trans_directions_list = [['en', 'it']]\<CR>
