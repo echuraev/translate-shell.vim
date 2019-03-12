@@ -6,6 +6,7 @@
 "
 " ============================================================================
 
+" Public functions {{{ "
 function! trans#TransTerm(...)
     if s:check() || v:version < 800
         return
@@ -82,6 +83,33 @@ function! trans#TransOpenHistoryWindow()
     call common#window#OpenTransHistoryWindow()
 endfunction
 
+function! trans#TransChangeDefaultDirection()
+    if s:check()
+        return
+    endif
+    let directions_list = ['Autodetect']
+    let directions_list = directions_list + common#trans#GetLanguagesList()
+
+    let shown_items = common#common#GenerateInputlist("Select from direction:", directions_list)
+    let selected = inputlist(shown_items) - 1
+    let from = directions_list[selected]
+
+    let shown_items = common#common#GenerateInputlist("Select to direction:", directions_list)
+    let selected = inputlist(shown_items) - 1
+    let to = directions_list[selected]
+
+    let from_code = ""
+    if from != 'Autodetect'
+        let from_code = common#trans#GetLanguagesDict()[from]
+    endif
+    let to_code = ""
+    if to != 'Autodetect'
+        let to_code = common#trans#GetLanguagesDict()[to]
+    endif
+    let g:trans_default_direction = from_code.":".to_code
+endfunction
+" }}} Public functions "
+" Private functions {{{ "
 function! s:check() abort
     let cmd = common#trans#GetPathToBin()
     let cmd = cmd.'trans'
@@ -109,4 +137,5 @@ function! s:prepareText(count)
     endif
     return common#trans#PrepareTextToTranslating(text)
 endfunction
+" }}} Private functions "
 

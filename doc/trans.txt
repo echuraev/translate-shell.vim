@@ -207,6 +207,16 @@ COMMANDS                                                        *trans-commands*
     |g:trans_save_history| has value 2 or 3, you can choose which file you
     would like to open.
 
+:TransChangeDefaultDirection                      *:TransChangeDefaultDirection*
+    You can change default direction for translating for a session by
+    changing vim variable |g:trans_default_direction| e.g.:
+>
+        let g:trans_default_direction="de:en"
+<
+    This command was added only for more comfortable changing default
+    translate direction. It give you choice to select languages from the list
+    of all available languages. And don't remember a language code.
+
 ------------------------------------------------------------------------------
 KEY MAPPING                                                         *trans-keys*
 

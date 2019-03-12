@@ -70,5 +70,6 @@ command! -nargs=* -range Trans call trans#Trans(<line1>, <line2>, <count>, <f-ar
 command! -nargs=0 -range TransSelectDirection call trans#TransSelectDirection(<line1>, <line2>, <count>)
 command! -nargs=* TransInteractive call trans#TransInteractive(<f-args>)
 command! -nargs=0 TransOpenHistoryWindow call trans#TransOpenHistoryWindow()
+command! -nargs=0 TransChangeDefaultDirection call trans#TransChangeDefaultDirection()
 " }}} Commands "
 

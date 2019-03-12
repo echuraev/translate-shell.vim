@@ -6,6 +6,7 @@
 "
 " ============================================================================
 
+" Variables {{{ "
 let s:trans_default_options = "-no-theme -no-ansi" " TODO: -dump
 let s:trans_current_source_text = ""
 let s:trans_source_lang = ""
@@ -134,15 +135,20 @@ let s:trans_supported_languages_dict = {
     \'zh-TW':    'Chinese Traditional',
     \'zu':       'Zulu',
 \}
+" }}} Variables "
 
+" Returns sorted list of human readable languages
 function! common#trans#GetLanguagesList()
     return sort(values(s:trans_supported_languages_dict))
 endfunction
 
+" Returns sorted list of language codes
 function! common#trans#GetCodesList()
     return sort(keys(s:trans_supported_languages_dict))
 endfunction
 
+" Returns dictionary where human readable name of language is a key and
+" language code is a value
 function! common#trans#GetLanguagesDict()
     let lang_dict = {}
     for [key, item] in items(s:trans_supported_languages_dict)
@@ -151,6 +157,8 @@ function! common#trans#GetLanguagesDict()
     return lang_dict
 endfunction
 
+" Returns dictionary where language code is a key and human readable name of
+" language is a value
 function! common#trans#GetCodesDict()
     return s:trans_supported_languages_dict
 endfunction
