@@ -8,7 +8,7 @@
 
 " Public functions {{{ "
 function! trans#TransTerm(...)
-    if s:check() || v:version < 800
+    if trans#Check() || v:version < 800
         return
     endif
     let args = common#trans#GenerateArgs(a:000)
@@ -17,7 +17,7 @@ function! trans#TransTerm(...)
 endfunction
 
 function! trans#Trans(line1, line2, count, ...)
-    if s:check()
+    if trans#Check()
         return
     endif
     let text = s:prepareText(a:count)
@@ -26,24 +26,21 @@ function! trans#Trans(line1, line2, count, ...)
     call common#window#OpenTrans(cmd)
 endfunction
 
-function! trans#TransSelectDirection(line1, line2, count)
-    if s:check()
+" select list is a variable for choise the way for selecting translate
+" direction:
+" 0 - vim way by using inputlist
+" 1 - by using fzf
+function! trans#TransSelectDirection(select_list, line1, line2, count)
+    if trans#Check()
         return
     endif
 
-    let size_trans_directions_list = len(g:trans_directions_list)
-    if size_trans_directions_list == 0
-        call trans#Trans(a:line1, a:line2, a:count)
-        return
+    let trans_direction = ""
+    if a:select_list == 0
+        let trans_direction = common#trans#TransGetPredefinedDirection()
+    else
+        let trans_direction = fzf#trans#TransGetPredefinedDirection()
     endif
-
-    let selected_number = 0
-    if size_trans_directions_list > 1
-        let shown_items = common#trans#GetItemsForInputlist()
-        let selected_number = inputlist(shown_items) - 1
-    endif
-
-    let trans_direction = common#trans#GenerateTranslateDirection(selected_number)
     if trans_direction == ""
         return
     endif
@@ -52,65 +49,49 @@ function! trans#TransSelectDirection(line1, line2, count)
     call common#window#OpenTrans(cmd)
 endfunction
 
-function! trans#TransInteractive(...)
-    if s:check()
+" select list is a variable for choise the way for selecting translate
+" direction:
+" 0 - vim way by using inputlist
+" 1 - by using fzf
+function! trans#TransInteractive(select_list, ...)
+    if trans#Check()
         return
     endif
 
-    let selected_number = 0
-    if len(g:trans_directions_list) > 1 && len(a:000) == 0
-        let shown_items = common#trans#GetItemsForInputlist()
-        let selected_number = inputlist(shown_items) - 1
+    let trans_direction = ""
+    if a:select_list == 0
+        let trans_direction = common#trans#TransGetPredefinedDirection()
+    else
+        let trans_direction = fzf#trans#TransGetPredefinedDirection()
     endif
-
-    let args = common#trans#GenerateTranslateDirection(selected_number)
-    if args == "" || len(a:000) > 0
+    if trans_direction == "" || len(a:000) > 0
         let args = common#trans#GenerateArgs(a:000)
         let text = input("Translate (cmd: ".common#trans#GenerateCMD(args)."): ")
     else
-        let human_direction = common#trans#GetHumanDirectionsList()[selected_number]
+        let direction_list = common#trans#TextDirectionToList(trans_direction)
+        let human_direction = common#trans#DirectionToHuman(direction_list)
         let text = input(human_direction." Translate: ")
     endif
     let text = common#trans#PrepareTextToTranslating(text)
-    let cmd = common#trans#GenerateCMD(args, text)
+    let cmd = common#trans#GenerateCMD(trans_direction, text)
     call common#window#OpenTrans(cmd)
 endfunction
 
 function! trans#TransOpenHistoryWindow()
-    if s:check()
+    if trans#Check()
         return
     endif
     call common#window#OpenTransHistoryWindow()
 endfunction
 
 function! trans#TransChangeDefaultDirection()
-    if s:check()
+    if trans#Check()
         return
     endif
-    let directions_list = ['Autodetect']
-    let directions_list = directions_list + common#trans#GetLanguagesList()
-
-    let shown_items = common#common#GenerateInputlist("Select from direction:", directions_list)
-    let selected = inputlist(shown_items) - 1
-    let from = directions_list[selected]
-
-    let shown_items = common#common#GenerateInputlist("Select to direction:", directions_list)
-    let selected = inputlist(shown_items) - 1
-    let to = directions_list[selected]
-
-    let from_code = ""
-    if from != 'Autodetect'
-        let from_code = common#trans#GetLanguagesDict()[from]
-    endif
-    let to_code = ""
-    if to != 'Autodetect'
-        let to_code = common#trans#GetLanguagesDict()[to]
-    endif
-    let g:trans_default_direction = from_code.":".to_code
+    let g:trans_default_direction = common#trans#TransGetDirection()
 endfunction
-" }}} Public functions "
-" Private functions {{{ "
-function! s:check() abort
+
+function! trans#Check() abort
     let cmd = common#trans#GetPathToBin()
     let cmd = cmd.'trans'
     if !executable(cmd)
@@ -125,7 +106,8 @@ function! s:check() abort
     endif
     return 0
 endfunction
-
+" }}} Public functions "
+" Private functions {{{ "
 function! s:prepareText(count)
     if (a:count == -1)
         let text = expand("<cword>")

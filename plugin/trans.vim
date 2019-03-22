@@ -67,8 +67,8 @@ endif
 " Commands {{{ "
 command! -nargs=* TransTerm call trans#TransTerm(<f-args>)
 command! -nargs=* -range Trans call trans#Trans(<line1>, <line2>, <count>, <f-args>)
-command! -nargs=0 -range TransSelectDirection call trans#TransSelectDirection(<line1>, <line2>, <count>)
-command! -nargs=* TransInteractive call trans#TransInteractive(<f-args>)
+command! -nargs=0 -range TransSelectDirection call trans#TransSelectDirection(0, <line1>, <line2>, <count>)
+command! -nargs=* TransInteractive call trans#TransInteractive(0, <f-args>)
 command! -nargs=0 TransOpenHistoryWindow call trans#TransOpenHistoryWindow()
 command! -nargs=0 TransChangeDefaultDirection call trans#TransChangeDefaultDirection()
 " }}} Commands "

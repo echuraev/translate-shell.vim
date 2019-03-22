@@ -220,27 +220,31 @@ function! common#trans#GenerateArgs(args)
     return args
 endfunction
 
+function! common#trans#DirectionToHuman(direction)
+    let str = "["
+    let i = 0
+    for lang in a:direction
+        if strlen(lang) > 0
+            let langname = common#trans#GetCodesDict()[lang]
+        else
+            let langname = 'Autodetect'
+        endif
+        if i == 0
+            let str = str."".langname." -> "
+        elseif i == 1
+            let str = str."".langname
+        else
+            let str = str.", ".langname
+        endif
+        let i += 1
+    endfor
+    return str."]"
+endfunction
+
 function! common#trans#GetHumanDirectionsList()
     let human_directions_list = []
     for direction in g:trans_directions_list
-        let str = "["
-        let i = 0
-        for lang in direction
-            if strlen(lang) > 0
-                let langname = common#trans#GetCodesDict()[lang]
-            else
-                let langname = 'Autodetect'
-            endif
-            if i == 0
-                let str = str."".langname." -> "
-            elseif i == 1
-                let str = str."".langname
-            else
-                let str = str.", ".langname
-            endif
-            let i += 1
-        endfor
-        let str = str."]"
+        let str = common#trans#DirectionToHuman(direction)
         call add(human_directions_list, str)
     endfor
     return human_directions_list
@@ -314,3 +318,47 @@ function! common#trans#DetermineLang(text)
     return lang
 endfunction
 
+function! common#trans#TransGetDirection()
+    let directions_list = ['Autodetect']
+    let directions_list = directions_list + common#trans#GetLanguagesList()
+
+    let shown_items = common#common#GenerateInputlist("Select from direction:", directions_list)
+    let selected = inputlist(shown_items) - 1
+    let from = directions_list[selected]
+
+    let shown_items = common#common#GenerateInputlist("Select to direction:", directions_list)
+    let selected = inputlist(shown_items) - 1
+    let to = directions_list[selected]
+
+    let from_code = ""
+    if from != 'Autodetect'
+        let from_code = common#trans#GetLanguagesDict()[from]
+    endif
+    let to_code = ""
+    if to != 'Autodetect'
+        let to_code = common#trans#GetLanguagesDict()[to]
+    endif
+    return from_code.":".to_code
+endfunction
+
+function! common#trans#TransGetPredefinedDirection()
+    let size_trans_directions_list = len(g:trans_directions_list)
+    if size_trans_directions_list == 0
+        return g:trans_default_direction
+    endif
+
+    let selected_number = 0
+    if size_trans_directions_list > 1
+        let shown_items = common#trans#GetItemsForInputlist()
+        let selected_number = inputlist(shown_items) - 1
+    endif
+
+    return common#trans#GenerateTranslateDirection(selected_number)
+endfunction
+
+function! common#trans#TextDirectionToList(direction)
+    call s:getTranslateLanguages(a:direction)
+    let lst = [s:trans_source_lang]
+    let lst = lst + split(s:trans_target_lang, '+')
+    return lst
+endfunction
