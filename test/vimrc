@@ -1,3 +1,7 @@
+" Needed for a code coverage
+profile start /tmp/vim-profile.txt
+profile! file ../*
+
 filetype off
 set rtp+=~/.vim/plugged/vader.vim
 set rtp+=../vader.vim

@@ -1,7 +1,6 @@
 #!/bin/bash
 
+rm -f /tmp/vim-profile.txt
 cd "$(dirname "${BASH_SOURCE[0]}")"
-export BASE="$PWD"
-echo $BASE
 
 vim -Nu vimrc +Vader!*
