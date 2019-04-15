@@ -1,6 +1,7 @@
 # translate-shell.vim
 
 [![Build Status](https://travis-ci.org/echuraev/translate-shell.vim.svg?branch=master)](https://travis-ci.org/echuraev/translate-shell.vim)
+[![codecov](https://codecov.io/gh/echuraev/translate-shell.vim/branch/master/graph/badge.svg)](https://codecov.io/gh/echuraev/translate-shell.vim/branch/master)
 [![License](https://img.shields.io/badge/license-GNU_GPL_3.0-red.svg)](https://github.com/echuraev/translate-shell.vim/blob/master/LICENSE)
 
 ## Intro
