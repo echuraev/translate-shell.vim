@@ -37,14 +37,8 @@ function! fzf#trans#TransGetDirection()
     let to = selected[0]
     " }}} Getting to direction "
 
-    let from_code = ""
-    if from != 'Autodetect'
-        let from_code = common#trans#GetLanguagesDict()[from]
-    endif
-    let to_code = ""
-    if to != 'Autodetect'
-        let to_code = common#trans#GetLanguagesDict()[to]
-    endif
+    let from_code = get(common#trans#GetLanguagesDict(), from, '')
+    let to_code = get(common#trans#GetLanguagesDict(), to, '')
     return from_code.":".to_code
 endfunction
 

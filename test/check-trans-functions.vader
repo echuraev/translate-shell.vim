@@ -250,3 +250,40 @@ Expect text:
   ru
   de
 
+Execute (common#trans#DirectionToHuman):
+  let dir_list = ["", "en"]
+  silent put = common#trans#DirectionToHuman(dir_list)
+  let dir_list = ["de", "en"]
+  silent put = common#trans#DirectionToHuman(dir_list)
+  let dir_list = ["de", "en", "ru"]
+  silent put = common#trans#DirectionToHuman(dir_list)
+  let dir_list = ["asdfqwer", "en"]
+  silent put = common#trans#DirectionToHuman(dir_list)
+
+Expect text:
+
+  [Autodetect -> English]
+  [German -> English]
+  [German -> English, Russian]
+  [Autodetect -> English]
+
+""Do (common#trans#TransGetDirection: Getting default direction):
+""  \<C-R>=common#trans#TransGetDirection()\<Enter>
+"
+"Execute (common#trans#TransGetDirection: Getting default direction):
+"  silent put = common#trans#TransGetDirection()
+"
+"Do (common#trans#TransGetDirection: Getting default direction):
+"  :let g:trans_default_direction = common#trans#TransGetDirection()\<CR>
+"  13\<CR>
+"  97\<CR>
+"  \<Space>
+"  \<CR>
+"
+"Then:
+"  silent put = g:trans_default_direction
+"
+"Expect text:
+"
+"  bg:sl
+"

@@ -224,11 +224,7 @@ function! common#trans#DirectionToHuman(direction)
     let str = "["
     let i = 0
     for lang in a:direction
-        if strlen(lang) > 0
-            let langname = common#trans#GetCodesDict()[lang]
-        else
-            let langname = 'Autodetect'
-        endif
+        let langname = get(common#trans#GetCodesDict(), lang, 'Autodetect')
         if i == 0
             let str = str."".langname." -> "
         elseif i == 1
@@ -330,14 +326,8 @@ function! common#trans#TransGetDirection()
     let selected = inputlist(shown_items) - 1
     let to = directions_list[selected]
 
-    let from_code = ""
-    if from != 'Autodetect'
-        let from_code = common#trans#GetLanguagesDict()[from]
-    endif
-    let to_code = ""
-    if to != 'Autodetect'
-        let to_code = common#trans#GetLanguagesDict()[to]
-    endif
+    let from_code = get(common#trans#GetLanguagesDict(), from, '')
+    let to_code = get(common#trans#GetLanguagesDict(), to, '')
     return from_code.":".to_code
 endfunction
 
