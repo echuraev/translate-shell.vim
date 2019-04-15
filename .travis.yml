@@ -8,6 +8,7 @@ before_script:
   - sudo apt-get update -q
   - sudo apt-get install gawk
   - pip install covimerage --user
+  - pip install coveralls --user
   - git clone https://github.com/junegunn/vader.vim.git
   - wget git.io/trans
   - chmod +x ./trans
@@ -20,3 +21,4 @@ after_success:
   - covimerage write_coverage /tmp/vim-profile.txt
   - coverage xml
   - bash <(curl -s https://codecov.io/bash)
+  - coveralls
