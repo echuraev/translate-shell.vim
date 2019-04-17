@@ -9,7 +9,8 @@ before_script:
   - sudo apt-get install gawk
   - pip install covimerage --user
   - pip install coveralls --user
-  - git clone https://github.com/junegunn/vader.vim.git
+  - mkdir -p ~/.vim/plugged
+  - git clone https://github.com/junegunn/vader.vim.git ~/.vim/plugged/vader.vim
   - wget git.io/trans
   - chmod +x ./trans
   - export PATH=$PWD:$PATH
