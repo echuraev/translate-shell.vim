@@ -10,7 +10,10 @@ before_script:
   - pip install covimerage --user
   - pip install coveralls --user
   - mkdir -p ~/.vim/plugged
-  - git clone https://github.com/junegunn/vader.vim.git ~/.vim/plugged/vader.vim
+  - git clone --depth 1 https://github.com/junegunn/vader.vim.git ~/.vim/plugged/vader.vim
+  - git clone --depth 1 https://github.com/junegunn/fzf.vim ~/.vim/plugged/fzf.vim
+  - git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+  - ~/.fzf/install --all
   - wget git.io/trans
   - chmod +x ./trans
   - export PATH=$PWD:$PATH
