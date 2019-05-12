@@ -10,7 +10,7 @@
 Author:         Egor Churaev <egor.churaev@gmail.com>
 Licence:        GPLv3
 Homepage:       https://github.com/echuraev/translate-shell.vim
-Version:        2.0.1
+Version:        2.1.0
 
 ==============================================================================
 CONTENTS                               *trans* *translate-shell.vim* *trans-context*
@@ -60,6 +60,11 @@ translate-shell.vim:
         https://github.com/soimort/translate-shell
 
     Installation process is described in |trans-installation|.
+
+Also, if you would like to use FZF functions that provided by this plugin,
+you have to install it. Detailed information you can find here:
+
+        https://github.com/junegunn/fzf.vim#installation
 
 ==============================================================================
 INSTALLATION                                                *trans-installation*
@@ -216,6 +221,28 @@ COMMANDS                                                        *trans-commands*
     This command was added only for more comfortable changing default
     translate direction. It give you choice to select languages from the list
     of all available languages. And don't remember a language code.
+
+------------------------------------------------------------------------------
+FZF COMMANDS                                                *trans-fzf-commands*
+
+:FZFTransSelectDirection                              *:FZFTransSelectDirection*
+    Gives a choice of translate direction in fzf window and translate word
+    under cursor. Works in the same way as |:TransSelectDirection|.
+
+:{range}FZFTransSelectDirection
+    Gives a choice of translate direction in fzf window and translate text in
+    {range}.
+
+:FZFTransInteractive [{options}]                          *:FZFTransInteractive*
+    Gives a choice of translate direction in fzf window and translate text
+    from input.
+
+:FZFTransChangeDefaultDirection                *:FZFTransChangeDefaultDirection*
+    Gives a choice of default translate direction in fzf window. Works in the
+    same way as |:TransChangeDefaultDirection|.
+
+Note: You can control size and position of fzf window by using the following
+parameters: |g:trans_win_width|, |g:trans_win_height| and |g:trans_win_position|.
 
 ------------------------------------------------------------------------------
 KEY MAPPING                                                         *trans-keys*
@@ -570,6 +597,15 @@ Example:
 
 ==============================================================================
 CHANGELOG                                                      *trans-changelog*
+
+2.1.0 (2019-)
+      - Added function for changing default translate direction for a session
+      - Implemented FZF functions for the following functions:
+          * TransSelectDirection -> FZFTransSelectDirection
+          * TransInteractive -> FZFTransInteractive
+          * TransChangeDefaultDirection -> FZFTransChangeDefaultDirection
+      - Refactored code
+      - Added new tests
 
 2.0.1 (2018-11-09)
       - Added search of translate direction in passed args
