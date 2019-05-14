@@ -18,9 +18,9 @@ function! fzf#trans#TransGetDirection()
 
     " Getting from direction {{{ "
     let selected = fzf#run({
-              \ 'source': directions_list,
+              \ 'source':  directions_list,
               \ 'options': '+m --prompt Select\ from\ direction\>\ ',
-              \ 'down':    '30%'})
+              \ 'down':    g:trans_win_height})
     if len(selected) == 0
         return ""
     endif
@@ -28,9 +28,9 @@ function! fzf#trans#TransGetDirection()
     " }}} Getting from direction "
     " Getting to direction {{{ "
     let selected = fzf#run({
-              \ 'source': directions_list,
+              \ 'source':  directions_list,
               \ 'options': '+m --prompt Select\ to\ direction\>\ ',
-              \ 'down':    '30%'})
+              \ 'down':    g:trans_win_height})
     if len(selected) == 0
         return ""
     endif
@@ -52,9 +52,9 @@ function! fzf#trans#TransGetPredefinedDirection()
     let index = 0
     if size_directions_list > 1
         let selected = fzf#run({
-                  \ 'source': directions_list,
+                  \ 'source':  directions_list,
                   \ 'options': '+m --prompt Select\ languages\>\ ',
-                  \ 'down':    '30%'})
+                  \ 'down':    g:trans_win_height})
         if len(selected) == 0
             return ""
         endif
@@ -68,7 +68,6 @@ function! fzf#trans#TransGetPredefinedDirection()
     return common#trans#GenerateTranslateDirection(index)
 endfunction
 " }}} Helper functions "
-
 
 function! fzf#trans#TransSelectDirection(line1, line2, count)
     if !exists(':FZF')

@@ -241,8 +241,10 @@ FZF COMMANDS                                                *trans-fzf-commands*
     Gives a choice of default translate direction in fzf window. Works in the
     same way as |:TransChangeDefaultDirection|.
 
-Note: You can control size and position of fzf window by using the following
-parameters: |g:trans_win_width|, |g:trans_win_height| and |g:trans_win_position|.
+Note: You can control size of fzf window by using |g:trans_win_height|. It is
+not possible to change position of fzf window due to some difficulties with
+asynchronous running fzf process in terminal buffer. See this issue for more
+details: `https://github.com/junegunn/fzf/issues/1577`
 
 ------------------------------------------------------------------------------
 KEY MAPPING                                                         *trans-keys*

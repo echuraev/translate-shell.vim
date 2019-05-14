@@ -118,7 +118,7 @@ function! common#history#AppendTextToFile(filename, text)
         silent! execute 'tabedit '.a:filename
     endif
 
-    edit!
+    silent! edit!
     $
     silent! put = a:text
     " Remove empty lines
