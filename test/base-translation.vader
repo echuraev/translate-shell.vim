@@ -65,7 +65,7 @@ Expect text:
 
       
   How is it going?
-      Wie gehts?, Wie geht es?, Wie geht's?, Wie geht es Ihnen?, Wie läuft es?
+      Wie gehts?, Wie geht es?, Wie geht's?, Wie geht es Ihnen?, Wie läuft es
 
 Do (:Trans: Translate multiline text 2):
   :let g:trans_default_direction = ":de"\<CR>
@@ -91,7 +91,7 @@ Expect text:
 
       
   How is it going?
-      Wie gehts?, Wie geht es?, Wie geht's?, Wie geht es Ihnen?, Wie läuft es?
+      Wie gehts?, Wie geht es?, Wie geht's?, Wie geht es Ihnen?, Wie läuft es
 
 Do (:Trans: Translate one word 2):
   /wor\<CR>

@@ -7,6 +7,7 @@ set rtp+=~/.vim/plugged/vader.vim
 set rtp+=~/.fzf
 set rtp+=~/.vim/plugged/fzf.vim
 set rtp+=..
+set rtp+=../after
 filetype plugin indent on
 syntax enable
 
