@@ -136,7 +136,18 @@ let s:trans_supported_languages_dict = {
     \'zu':       'Zulu',
 \}
 " }}} Variables "
-
+" Private functions {{{ "
+function! s:getTranslateLanguages(args)
+    let lst = []
+    call substitute(a:args, '\([a-z]*\):\([a-z\+]*\)', '\=add(lst, [submatch(1), submatch(2)])', 'g')
+    if len(lst) == 0
+        return
+    endif
+    let s:trans_source_lang = lst[0][0]
+    let s:trans_target_lang = lst[0][1]
+endfunction
+" }}} Private functions "
+" Function for getting list of languages {{{ "
 " Returns sorted list of human readable languages
 function! common#trans#GetLanguagesList()
     return sort(values(s:trans_supported_languages_dict))
@@ -163,6 +174,33 @@ function! common#trans#GetCodesDict()
     return s:trans_supported_languages_dict
 endfunction
 
+function! common#trans#DirectionToHuman(direction)
+    let str = "["
+    let i = 0
+    for lang in a:direction
+        let langname = get(common#trans#GetCodesDict(), lang, 'Autodetect')
+        if i == 0
+            let str = str."".langname." -> "
+        elseif i == 1
+            let str = str."".langname
+        else
+            let str = str.", ".langname
+        endif
+        let i += 1
+    endfor
+    return str."]"
+endfunction
+
+function! common#trans#GetHumanDirectionsList()
+    let human_directions_list = []
+    for direction in g:trans_directions_list
+        let str = common#trans#DirectionToHuman(direction)
+        call add(human_directions_list, str)
+    endfor
+    return human_directions_list
+endfunction
+" }}} Function for getting list of languages "
+" Functions to communicate with translate-shell {{{ "
 function! common#trans#GetPathToBin()
     let cmd = ""
     if strlen(g:trans_bin) > 0
@@ -196,16 +234,6 @@ function! common#trans#GenerateCMDForDownloadAudio(file, language, text)
     return cmd
 endfunction
 
-function! s:getTranslateLanguages(args)
-    let lst = []
-    call substitute(a:args, '\([a-z]*\):\([a-z\+]*\)', '\=add(lst, [submatch(1), submatch(2)])', 'g')
-    if len(lst) == 0
-        return
-    endif
-    let s:trans_source_lang = lst[0][0]
-    let s:trans_target_lang = lst[0][1]
-endfunction
-
 function! common#trans#GenerateArgs(args)
     let args = ""
     if len(a:args) > 0
@@ -219,55 +247,8 @@ function! common#trans#GenerateArgs(args)
     endif
     return args
 endfunction
-
-function! common#trans#DirectionToHuman(direction)
-    let str = "["
-    let i = 0
-    for lang in a:direction
-        let langname = get(common#trans#GetCodesDict(), lang, 'Autodetect')
-        if i == 0
-            let str = str."".langname." -> "
-        elseif i == 1
-            let str = str."".langname
-        else
-            let str = str.", ".langname
-        endif
-        let i += 1
-    endfor
-    return str."]"
-endfunction
-
-function! common#trans#GetHumanDirectionsList()
-    let human_directions_list = []
-    for direction in g:trans_directions_list
-        let str = common#trans#DirectionToHuman(direction)
-        call add(human_directions_list, str)
-    endfor
-    return human_directions_list
-endfunction
-
-function! common#trans#GetItemsForInputlist()
-    let human_directions_list = common#trans#GetHumanDirectionsList()
-    return common#common#GenerateInputlist("Select languages:", human_directions_list)
-endfunction
-
-function! common#trans#GenerateTranslateDirection(direction_id)
-    if len(g:trans_directions_list) == 0
-        return ""
-    endif
-    if a:direction_id < 0 || a:direction_id >= len(g:trans_directions_list)
-        return ""
-    endif
-    let direction = g:trans_directions_list[a:direction_id]
-    let trans_direction = direction[0]
-    let trans_dest = direction[1]
-    for i in range(2, len(direction)-1)
-        let trans_dest = trans_dest."+".direction[i]
-    endfor
-    let trans_direction = trans_direction.":".trans_dest
-    return trans_direction
-endfunction
-
+" }}} Functions to communicate with translate-shell "
+" Functions for manipulating with text {{{ "
 function! common#trans#PrepareTextToTranslating(text)
     let escape_symbols = ["\"", "`"]
     let text = a:text
@@ -285,7 +266,8 @@ endfunction
 function! common#trans#GetCurrentSourceText()
     return s:trans_current_source_text
 endfunction
-
+" }}} Functions for manipulating with text "
+" Functions for determining language {{{ "
 function! common#trans#GetSourceLang()
     if strlen(s:trans_source_lang) > 0
         return s:trans_source_lang
@@ -313,6 +295,24 @@ function! common#trans#DetermineLang(text)
     endfor
     return lang
 endfunction
+" }}} Functions for determining language "
+" Helper functions {{{ "
+function! common#trans#GenerateTranslateDirection(direction_id)
+    if len(g:trans_directions_list) == 0
+        return ""
+    endif
+    if a:direction_id < 0 || a:direction_id >= len(g:trans_directions_list)
+        return ""
+    endif
+    let direction = g:trans_directions_list[a:direction_id]
+    let trans_direction = direction[0]
+    let trans_dest = direction[1]
+    for i in range(2, len(direction)-1)
+        let trans_dest = trans_dest."+".direction[i]
+    endfor
+    let trans_direction = trans_direction.":".trans_dest
+    return trans_direction
+endfunction
 
 function! common#trans#TransGetDirection()
     let directions_list = ['Autodetect']
@@ -331,19 +331,31 @@ function! common#trans#TransGetDirection()
     return from_code.":".to_code
 endfunction
 
-function! common#trans#TransGetPredefinedDirection()
-    let size_trans_directions_list = len(g:trans_directions_list)
-    if size_trans_directions_list == 0
+" select_list is a variable for choise the way for selecting translate
+" direction:
+" 0 - vim way by using inputlist
+" 1 - by using fzf
+function! common#trans#TransGetPredefinedDirection(select_list)
+    let directions_list = common#trans#GetHumanDirectionsList()
+    let size_directions_list = len(directions_list)
+    if size_directions_list == 0
         return g:trans_default_direction
     endif
 
-    let selected_number = 0
-    if size_trans_directions_list > 1
-        let shown_items = common#trans#GetItemsForInputlist()
-        let selected_number = inputlist(shown_items) - 1
+    let index = 0
+    if size_directions_list > 1
+        if a:select_list == 0
+            let shown_items = common#common#GenerateInputlist("Select languages:", directions_list)
+            let index = inputlist(shown_items) - 1
+        else
+            let index = fzf#trans#TransSelectItemFromList(directions_list, "Select\ languages\>\ ")
+            if index == -1
+                return ""
+            endif
+        endif
     endif
 
-    return common#trans#GenerateTranslateDirection(selected_number)
+    return common#trans#GenerateTranslateDirection(index)
 endfunction
 
 function! common#trans#TextDirectionToList(direction)
@@ -352,3 +364,5 @@ function! common#trans#TextDirectionToList(direction)
     let lst = lst + split(s:trans_target_lang, '+')
     return lst
 endfunction
+" }}} Helper functions "
+

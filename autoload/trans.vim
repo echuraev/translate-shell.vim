@@ -35,12 +35,7 @@ function! trans#TransSelectDirection(select_list, line1, line2, count)
         return
     endif
 
-    let trans_direction = ""
-    if a:select_list == 0
-        let trans_direction = common#trans#TransGetPredefinedDirection()
-    else
-        let trans_direction = fzf#trans#TransGetPredefinedDirection()
-    endif
+    let trans_direction = common#trans#TransGetPredefinedDirection(a:select_list)
     if trans_direction == ""
         return
     endif
@@ -59,11 +54,7 @@ function! trans#TransInteractive(select_list, ...)
     endif
 
     let trans_direction = ""
-    if a:select_list == 0
-        let trans_direction = common#trans#TransGetPredefinedDirection()
-    else
-        let trans_direction = fzf#trans#TransGetPredefinedDirection()
-    endif
+    let trans_direction = common#trans#TransGetPredefinedDirection(a:select_list)
     if trans_direction == "" || len(a:000) > 0
         let args = common#trans#GenerateArgs(a:000)
         let text = input("Translate (cmd: ".common#trans#GenerateCMD(args)."): ")

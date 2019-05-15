@@ -14,21 +14,6 @@ Expect text:
   [Autodetect -> Russian]
   [Autodetect -> Autodetect]
 
-Execute (common#trans#GetItemsForInputlist: Check items for itemlist):
-  let g:trans_directions_list = [['en', 'ru'], ['ru', 'en'],['en', 'de'], ['en', 'ru', 'de', 'it'], ['en', ''], ['', 'ru'], ['', '']]
-  silent! put = common#trans#GetItemsForInputlist()
-
-Expect text:
-
-  Select languages:
-  1. [English -> Russian]
-  2. [Russian -> English]
-  3. [English -> German]
-  4. [English -> Russian, German, Italian]
-  5. [English -> Autodetect]
-  6. [Autodetect -> Russian]
-  7. [Autodetect -> Autodetect]
-
 Execute (common#trans#GenerateTranslateDirection: Check generated translation direction):
   let g:trans_directions_list = [['en', 'ru'], ['ru', 'en'],['en', 'de'], ['en', 'ru', 'de', 'it'], ['en', ''], ['', 'ru'], ['', '']]
   silent! put = common#trans#GenerateTranslateDirection(-10)

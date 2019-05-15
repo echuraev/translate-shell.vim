@@ -12,60 +12,43 @@ endif
 let loaded_fzf_trans = 1
 
 " Helper functions {{{ "
+function! s:fzfRunWrapper(list, text)
+    let options = "+m --prompt \"".a:text."\""
+    let selected = fzf#run({
+              \ 'source':  a:list,
+              \ 'options': options,
+              \ 'down':    g:trans_win_height})
+    if len(selected) == 0
+        return ""
+    endif
+    return selected[0]
+endfunction
+
 function! fzf#trans#TransGetDirection()
     let directions_list = ['Autodetect']
     let directions_list = directions_list + common#trans#GetLanguagesList()
 
-    " Getting from direction {{{ "
-    let selected = fzf#run({
-              \ 'source':  directions_list,
-              \ 'options': '+m --prompt Select\ from\ direction\>\ ',
-              \ 'down':    g:trans_win_height})
-    if len(selected) == 0
-        return ""
-    endif
-    let from = selected[0]
-    " }}} Getting from direction "
-    " Getting to direction {{{ "
-    let selected = fzf#run({
-              \ 'source':  directions_list,
-              \ 'options': '+m --prompt Select\ to\ direction\>\ ',
-              \ 'down':    g:trans_win_height})
-    if len(selected) == 0
-        return ""
-    endif
-    let to = selected[0]
-    " }}} Getting to direction "
+    let from = s:fzfRunWrapper(directions_list, "Select from direction> ")
+    let to = s:fzfRunWrapper(directions_list, "Select to direction> ")
 
     let from_code = get(common#trans#GetLanguagesDict(), from, '')
     let to_code = get(common#trans#GetLanguagesDict(), to, '')
     return from_code.":".to_code
 endfunction
 
-function! fzf#trans#TransGetPredefinedDirection()
-    let directions_list = common#trans#GetHumanDirectionsList()
-    let size_directions_list = len(directions_list)
-    if size_directions_list == 0
-        return g:trans_default_direction
-    endif
-
+function! fzf#trans#TransSelectItemFromList(directions_list, text)
     let index = 0
-    if size_directions_list > 1
-        let selected = fzf#run({
-                  \ 'source':  directions_list,
-                  \ 'options': '+m --prompt Select\ languages\>\ ',
-                  \ 'down':    g:trans_win_height})
-        if len(selected) == 0
-            return ""
-        endif
-        for i in range(0, len(directions_list)-1)
-            if selected[0] == directions_list[i]
-                let index = i
-                break
-            endif
-        endfor
+    let selected = s:fzfRunWrapper(a:directions_list, a:text)
+    if selected == ""
+        return -1
     endif
-    return common#trans#GenerateTranslateDirection(index)
+    for i in range(0, len(a:directions_list)-1)
+        if selected == a:directions_list[i]
+            let index = i
+            break
+        endif
+    endfor
+    return index
 endfunction
 " }}} Helper functions "
 
@@ -98,3 +81,4 @@ function! fzf#trans#TransChangeDefaultDirection()
     endif
     let g:trans_default_direction = direction
 endfunction
+
