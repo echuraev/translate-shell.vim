@@ -14,6 +14,7 @@ you can save your translate story to file and import it to [Anki](https://apps.a
 ![translate-shell.vim screencast](doc/screencast.gif)
 
 FZF functions:
+
 ![translate-shell.vim fzf screencast](doc/fzf-screencast.gif)
 
 ## Table of Contents
@@ -53,7 +54,7 @@ translate-shell.vim:
   You can find it on [github](https://github.com/soimort/translate-shell).
 
 If you would like to use [FZF](https://github.com/junegunn/fzf) functions that
-provided by this plugin, you have to install FZF.  you can find installation
+provided by this plugin, you have to install FZF.  You can find installation
 instruction [here](https://github.com/junegunn/fzf.vim#installation).
 
 ## Installation
