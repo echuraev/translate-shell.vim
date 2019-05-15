@@ -29,7 +29,13 @@ function! fzf#trans#TransGetDirection()
     let directions_list = directions_list + common#trans#GetLanguagesList()
 
     let from = s:fzfRunWrapper(directions_list, "Select from direction> ")
+    if from == ""
+        return
+    endif
     let to = s:fzfRunWrapper(directions_list, "Select to direction> ")
+    if to == ""
+        return
+    endif
 
     let from_code = get(common#trans#GetLanguagesDict(), from, '')
     let to_code = get(common#trans#GetLanguagesDict(), to, '')
@@ -70,6 +76,7 @@ endfunction
 
 function! fzf#trans#TransChangeDefaultDirection()
     if !exists(':FZF')
+        echohl WarningMsg | echomsg "FZF not found!" | echohl None
         return
     endif
     if trans#Check()

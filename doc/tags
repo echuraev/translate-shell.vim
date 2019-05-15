@@ -16,6 +16,7 @@ g:trans_history_file	trans.txt	/*g:trans_history_file*
 g:trans_history_format	trans.txt	/*g:trans_history_format*
 g:trans_history_raw_file	trans.txt	/*g:trans_history_raw_file*
 g:trans_ignore_audio_for_langs	trans.txt	/*g:trans_ignore_audio_for_langs*
+g:trans_interactive_full_list	trans.txt	/*g:trans_interactive_full_list*
 g:trans_join_lines	trans.txt	/*g:trans_join_lines*
 g:trans_save_audio	trans.txt	/*g:trans_save_audio*
 g:trans_save_history	trans.txt	/*g:trans_save_history*

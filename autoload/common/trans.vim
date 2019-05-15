@@ -361,7 +361,11 @@ endfunction
 function! common#trans#TextDirectionToList(direction)
     call s:getTranslateLanguages(a:direction)
     let lst = [s:trans_source_lang]
-    let lst = lst + split(s:trans_target_lang, '+')
+    if len(s:trans_target_lang) > 0
+        let lst = lst + split(s:trans_target_lang, '+')
+    else
+        let lst = lst + [s:trans_target_lang]
+    endif
     return lst
 endfunction
 " }}} Helper functions "

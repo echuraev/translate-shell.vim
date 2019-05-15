@@ -194,7 +194,9 @@ COMMANDS                                                        *trans-commands*
 
     - If you call it without any parameters it will run with default
       parameters from variable |g:trans_default_direction| or will give a
-      choice if list |g:trans_directions_list| is specified.
+      choice if list |g:trans_directions_list| is specified. You can use
+      variable |g:trans_interactive_full_list| if you wish to select
+      languages from all possible variants.
     - If you pass options then variable |g:trans_default_direction| will be
       ignored. For more details see section |trans-usage|.
 
@@ -213,7 +215,7 @@ COMMANDS                                                        *trans-commands*
     would like to open.
 
 :TransChangeDefaultDirection                      *:TransChangeDefaultDirection*
-    You can change default direction for translating for a session by
+    You can change default direction of translating for a session by
     changing vim variable |g:trans_default_direction| e.g.:
 >
         let g:trans_default_direction="de:en"
@@ -235,7 +237,10 @@ FZF COMMANDS                                                *trans-fzf-commands*
 
 :FZFTransInteractive [{options}]                          *:FZFTransInteractive*
     Gives a choice of translate direction in fzf window and translate text
-    from input.
+    from input.  Translate directions are determined in predefined list
+    |g:trans_directions_list|. If you wish to select languages from all
+    possible variants then you should use |g:trans_interactive_full_list|
+    variable.
 
 :FZFTransChangeDefaultDirection                *:FZFTransChangeDefaultDirection*
     Gives a choice of default translate direction in fzf window. Works in the
@@ -366,6 +371,18 @@ Note: Codes of languages you can find here:
 
     https://github.com/soimort/translate-shell#code-list
 
+                                                *g:trans_interactive_full_list*
+g:trans_interactive_full_list~
+Default: 0
+
+By default |:TransInteractive| takes variants for translation from predefined
+list |g:trans_directions_list|. If you wish to select translation direction
+from all possible variants, you should use this variable.
+
+Example:
+>
+    let g:trans_interactive_full_list = 1
+<
                                                      *g:trans_advanced_options*
 g:trans_advanced_options~
 Default: empty
@@ -600,7 +617,7 @@ Example:
 ==============================================================================
 CHANGELOG                                                      *trans-changelog*
 
-2.1.0 (2019-)
+2.1.0 (2019-05-15)
       - Added function for changing default translate direction for a session
       - Implemented FZF functions for the following functions:
           * TransSelectDirection -> FZFTransSelectDirection
@@ -608,6 +625,7 @@ CHANGELOG                                                      *trans-changelog*
           * TransChangeDefaultDirection -> FZFTransChangeDefaultDirection
       - Refactored code
       - Added new tests
+      - Added g:trans_interactive_full_list variable
 
 2.0.1 (2018-11-09)
       - Added search of translate direction in passed args

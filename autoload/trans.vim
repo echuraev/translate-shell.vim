@@ -54,8 +54,19 @@ function! trans#TransInteractive(select_list, ...)
     endif
 
     let trans_direction = ""
-    let trans_direction = common#trans#TransGetPredefinedDirection(a:select_list)
-    if trans_direction == "" || len(a:000) > 0
+    if g:trans_interactive_full_list == 0
+        let trans_direction = common#trans#TransGetPredefinedDirection(a:select_list)
+    else
+        if a:select_list == 0
+            let trans_direction = common#trans#TransGetDirection()
+        else
+            let trans_direction = fzf#trans#TransGetDirection()
+        endif
+    endif
+    if trans_direction == ""
+        return
+    endif
+    if len(a:000) > 0
         let args = common#trans#GenerateArgs(a:000)
         let text = input("Translate (cmd: ".common#trans#GenerateCMD(args)."): ")
     else

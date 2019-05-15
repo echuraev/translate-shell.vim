@@ -21,6 +21,9 @@ endif
 if !exists('g:trans_directions_list')
     let g:trans_directions_list = []
 endif
+if !exists('g:trans_interactive_full_list')
+    let g:trans_interactive_full_list = 0
+endif
 if !exists('g:trans_advanced_options')
     let g:trans_advanced_options = ""
 endif

@@ -2,6 +2,7 @@ Before (Set default parameters):
   let g:trans_bin = ""
   let g:trans_default_direction = ""
   let g:trans_directions_list = []
+  let g:trans_interactive_full_list = 0
   let g:trans_advanced_options = ""
   let g:trans_win_width = 50
   let g:trans_win_height = 15

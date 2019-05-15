@@ -13,6 +13,9 @@ you can save your translate story to file and import it to [Anki](https://apps.a
 
 ![translate-shell.vim screencast](doc/screencast.gif)
 
+FZF functions:
+![translate-shell.vim fzf screencast](doc/fzf-screencast.gif)
+
 ## Table of Contents
 
 <!-- vim-markdown-toc GFM -->
@@ -49,6 +52,10 @@ translate-shell.vim:
 * Install translate-shell. Translate-shell is used as a backend for the plugin.
   You can find it on [github](https://github.com/soimort/translate-shell).
 
+If you would like to use [FZF](https://github.com/junegunn/fzf) functions that
+provided by this plugin, you have to install FZF.  you can find installation
+instruction [here](https://github.com/junegunn/fzf.vim#installation).
+
 ## Installation
 
 You can install translate-shell.vim by using any vim plugin manager.
@@ -84,6 +91,17 @@ Translate-shell.vim provides the following commands for translation:
 * `:TransTerm [{options}]` - Open terminal with interactive translate-shell.
     That works only in Vim 8.
 * `:TransOpenHistoryWindow` - Open file with translate history.
+* `:TransChangeDefaultDirection` - Change default direction of translating for a
+    session.
+
+FZF functions:
+* `:FZFTransSelectDirection` - Translate word under cursor with selecting translate
+    direction.
+* `:'<,'>FZFTransSelectDirection` - Translate text in visual selection with
+    selecting translate direction.
+* `:FZFTransInteractive` - Translate inserted text.
+* `:FZFTransChangeDefaultDirection` - Change default direction of translating
+    for a session.
 
 For more convenience, you can create key mapping for these commands e.g:
 ```
