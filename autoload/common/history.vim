@@ -188,11 +188,10 @@ function! common#history#GetListOfHistoryFiles()
     let path = fnamemodify(g:trans_history_file, ":h")
     let filename = fnamemodify(g:trans_history_file, ":t:r")
     let file_ext = fnamemodify(g:trans_history_file, ":e")
-    if strlen(file_ext) == 0
-        let pathlist = split(globpath(path, '*'), '\n')
-    else
-        let pathlist = split(globpath(path, '*.'.file_ext), '\n')
+    if strlen(file_ext) > 0
+        let file_ext = '.'.file_ext
     endif
+    let pathlist = split(globpath(path, '*'.file_ext), '\n')
     if g:trans_save_history == 2
         let regexp = "^".filename."_[a-z\\-]\\+$"
     else
