@@ -1,0 +1,516 @@
+Include: common.vader
+
+Execute (common#trans#GetLanguagesList: Check generated list):
+  silent! put = common#trans#GetLanguagesList()
+
+Expect text:
+
+  Afrikaans
+  Albanian
+  Amharic
+  Arabic
+  Armenian
+  Azerbaijani
+  Bashkir
+  Basque
+  Belarusian
+  Bengali
+  Bosnian
+  Bulgarian
+  Cantonese
+  Catalan
+  Cebuano
+  Chichewa
+  Chinese Simplified
+  Chinese Traditional
+  Corsican
+  Croatian
+  Czech
+  Danish
+  Dutch
+  Eastern Mari
+  English
+  Esperanto
+  Estonian
+  Fijian
+  Filipino
+  Finnish
+  French
+  Frisian
+  Galician
+  Georgian
+  German
+  Greek
+  Gujarati
+  Haitian Creole
+  Hausa
+  Hawaiian
+  Hebrew
+  Hill Mari
+  Hindi
+  Hmong
+  Hmong Daw
+  Hungarian
+  Icelandic
+  Igbo
+  Indonesian
+  Irish
+  Italian
+  Japanese
+  Javanese
+  Kannada
+  Kazakh
+  Khmer
+  Klingon
+  Klingon (pIqaD)
+  Korean
+  Kurdish
+  Kyrgyz
+  Lao
+  Latin
+  Latvian
+  Lithuanian
+  Luxembourgish
+  Macedonian
+  Malagasy
+  Malay
+  Malayalam
+  Maltese
+  Maori
+  Marathi
+  Mongolian
+  Myanmar
+  Nepali
+  Norwegian
+  Papiamento
+  Pashto
+  Persian
+  Polish
+  Portuguese
+  Punjabi
+  Querétaro Otomi
+  Romanian
+  Russian
+  Samoan
+  Scots Gaelic
+  Serbian (Cyrillic)
+  Serbian (Latin)
+  Sesotho
+  Shona
+  Sindhi
+  Sinhala
+  Slovak
+  Slovenian
+  Somali
+  Spanish
+  Sundanese
+  Swahili
+  Swedish
+  Tahitian
+  Tajik
+  Tamil
+  Tatar
+  Telugu
+  Thai
+  Tongan
+  Turkish
+  Udmurt
+  Ukrainian
+  Urdu
+  Uzbek
+  Vietnamese
+  Welsh
+  Xhosa
+  Yiddish
+  Yoruba
+  Yucatec Maya
+  Zulu
+
+Execute (common#trans#GetCodesList: Check generated list):
+  silent! put = common#trans#GetCodesList()
+
+Expect text:
+
+  af
+  am
+  ar
+  az
+  ba
+  be
+  bg
+  bn
+  bs
+  ca
+  ceb
+  co
+  cs
+  cy
+  da
+  de
+  el
+  en
+  eo
+  es
+  et
+  eu
+  fa
+  fi
+  fj
+  fr
+  fy
+  ga
+  gd
+  gl
+  gu
+  ha
+  haw
+  he
+  hi
+  hmn
+  hr
+  ht
+  hu
+  hy
+  id
+  ig
+  is
+  it
+  ja
+  jv
+  ka
+  kk
+  km
+  kn
+  ko
+  ku
+  ky
+  la
+  lb
+  lo
+  lt
+  lv
+  mg
+  mhr
+  mi
+  mk
+  ml
+  mn
+  mr
+  mrj
+  ms
+  mt
+  mww
+  my
+  ne
+  nl
+  no
+  ny
+  otq
+  pa
+  pap
+  pl
+  ps
+  pt
+  ro
+  ru
+  sd
+  si
+  sk
+  sl
+  sm
+  sn
+  so
+  sq
+  sr-Cyrl
+  sr-Latn
+  st
+  su
+  sv
+  sw
+  ta
+  te
+  tg
+  th
+  tl
+  tlh
+  tlh-Qaak
+  to
+  tr
+  tt
+  ty
+  udm
+  uk
+  ur
+  uz
+  vi
+  xh
+  yi
+  yo
+  yua
+  yue
+  zh-CN
+  zh-TW
+  zu
+
+Execute (common#trans#GetLanguagesDict: Check generated list):
+  let keys = common#trans#GetLanguagesList()
+  let list = common#trans#GetLanguagesDict()
+  for key in keys
+    let s = key.": ".list[key]
+    put = s
+  endfor
+
+Expect text:
+
+  Afrikaans: af
+  Albanian: sq
+  Amharic: am
+  Arabic: ar
+  Armenian: hy
+  Azerbaijani: az
+  Bashkir: ba
+  Basque: eu
+  Belarusian: be
+  Bengali: bn
+  Bosnian: bs
+  Bulgarian: bg
+  Cantonese: yue
+  Catalan: ca
+  Cebuano: ceb
+  Chichewa: ny
+  Chinese Simplified: zh-CN
+  Chinese Traditional: zh-TW
+  Corsican: co
+  Croatian: hr
+  Czech: cs
+  Danish: da
+  Dutch: nl
+  Eastern Mari: mhr
+  English: en
+  Esperanto: eo
+  Estonian: et
+  Fijian: fj
+  Filipino: tl
+  Finnish: fi
+  French: fr
+  Frisian: fy
+  Galician: gl
+  Georgian: ka
+  German: de
+  Greek: el
+  Gujarati: gu
+  Haitian Creole: ht
+  Hausa: ha
+  Hawaiian: haw
+  Hebrew: he
+  Hill Mari: mrj
+  Hindi: hi
+  Hmong: hmn
+  Hmong Daw: mww
+  Hungarian: hu
+  Icelandic: is
+  Igbo: ig
+  Indonesian: id
+  Irish: ga
+  Italian: it
+  Japanese: ja
+  Javanese: jv
+  Kannada: kn
+  Kazakh: kk
+  Khmer: km
+  Klingon: tlh
+  Klingon (pIqaD): tlh-Qaak
+  Korean: ko
+  Kurdish: ku
+  Kyrgyz: ky
+  Lao: lo
+  Latin: la
+  Latvian: lv
+  Lithuanian: lt
+  Luxembourgish: lb
+  Macedonian: mk
+  Malagasy: mg
+  Malay: ms
+  Malayalam: ml
+  Maltese: mt
+  Maori: mi
+  Marathi: mr
+  Mongolian: mn
+  Myanmar: my
+  Nepali: ne
+  Norwegian: no
+  Papiamento: pap
+  Pashto: ps
+  Persian: fa
+  Polish: pl
+  Portuguese: pt
+  Punjabi: pa
+  Querétaro Otomi: otq
+  Romanian: ro
+  Russian: ru
+  Samoan: sm
+  Scots Gaelic: gd
+  Serbian (Cyrillic): sr-Cyrl
+  Serbian (Latin): sr-Latn
+  Sesotho: st
+  Shona: sn
+  Sindhi: sd
+  Sinhala: si
+  Slovak: sk
+  Slovenian: sl
+  Somali: so
+  Spanish: es
+  Sundanese: su
+  Swahili: sw
+  Swedish: sv
+  Tahitian: ty
+  Tajik: tg
+  Tamil: ta
+  Tatar: tt
+  Telugu: te
+  Thai: th
+  Tongan: to
+  Turkish: tr
+  Udmurt: udm
+  Ukrainian: uk
+  Urdu: ur
+  Uzbek: uz
+  Vietnamese: vi
+  Welsh: cy
+  Xhosa: xh
+  Yiddish: yi
+  Yoruba: yo
+  Yucatec Maya: yua
+  Zulu: zu
+
+Execute (common#trans#GetCodesDict: Check generated list):
+  let keys = common#trans#GetCodesList()
+  let list = common#trans#GetCodesDict()
+  for key in keys
+    let s = key.": ".list[key]
+    put = s
+  endfor
+
+Expect text:
+
+  af: Afrikaans
+  am: Amharic
+  ar: Arabic
+  az: Azerbaijani
+  ba: Bashkir
+  be: Belarusian
+  bg: Bulgarian
+  bn: Bengali
+  bs: Bosnian
+  ca: Catalan
+  ceb: Cebuano
+  co: Corsican
+  cs: Czech
+  cy: Welsh
+  da: Danish
+  de: German
+  el: Greek
+  en: English
+  eo: Esperanto
+  es: Spanish
+  et: Estonian
+  eu: Basque
+  fa: Persian
+  fi: Finnish
+  fj: Fijian
+  fr: French
+  fy: Frisian
+  ga: Irish
+  gd: Scots Gaelic
+  gl: Galician
+  gu: Gujarati
+  ha: Hausa
+  haw: Hawaiian
+  he: Hebrew
+  hi: Hindi
+  hmn: Hmong
+  hr: Croatian
+  ht: Haitian Creole
+  hu: Hungarian
+  hy: Armenian
+  id: Indonesian
+  ig: Igbo
+  is: Icelandic
+  it: Italian
+  ja: Japanese
+  jv: Javanese
+  ka: Georgian
+  kk: Kazakh
+  km: Khmer
+  kn: Kannada
+  ko: Korean
+  ku: Kurdish
+  ky: Kyrgyz
+  la: Latin
+  lb: Luxembourgish
+  lo: Lao
+  lt: Lithuanian
+  lv: Latvian
+  mg: Malagasy
+  mhr: Eastern Mari
+  mi: Maori
+  mk: Macedonian
+  ml: Malayalam
+  mn: Mongolian
+  mr: Marathi
+  mrj: Hill Mari
+  ms: Malay
+  mt: Maltese
+  mww: Hmong Daw
+  my: Myanmar
+  ne: Nepali
+  nl: Dutch
+  no: Norwegian
+  ny: Chichewa
+  otq: Querétaro Otomi
+  pa: Punjabi
+  pap: Papiamento
+  pl: Polish
+  ps: Pashto
+  pt: Portuguese
+  ro: Romanian
+  ru: Russian
+  sd: Sindhi
+  si: Sinhala
+  sk: Slovak
+  sl: Slovenian
+  sm: Samoan
+  sn: Shona
+  so: Somali
+  sq: Albanian
+  sr-Cyrl: Serbian (Cyrillic)
+  sr-Latn: Serbian (Latin)
+  st: Sesotho
+  su: Sundanese
+  sv: Swedish
+  sw: Swahili
+  ta: Tamil
+  te: Telugu
+  tg: Tajik
+  th: Thai
+  tl: Filipino
+  tlh: Klingon
+  tlh-Qaak: Klingon (pIqaD)
+  to: Tongan
+  tr: Turkish
+  tt: Tatar
+  ty: Tahitian
+  udm: Udmurt
+  uk: Ukrainian
+  ur: Urdu
+  uz: Uzbek
+  vi: Vietnamese
+  xh: Xhosa
+  yi: Yiddish
+  yo: Yoruba
+  yua: Yucatec Maya
+  yue: Cantonese
+  zh-CN: Chinese Simplified
+  zh-TW: Chinese Traditional
+  zu: Zulu
+

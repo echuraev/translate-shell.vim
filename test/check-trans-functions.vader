@@ -14,6 +14,14 @@ Expect text:
   [Autodetect -> Russian]
   [Autodetect -> Autodetect]
 
+Execute (common#trans#GenerateTranslateDirection: Check generated translation direction with empty list):
+  let g:trans_directions_list = []
+  silent! put = common#trans#GenerateTranslateDirection(1)
+
+Expect text:
+
+  
+
 Execute (common#trans#GenerateTranslateDirection: Check generated translation direction):
   let g:trans_directions_list = [['en', 'ru'], ['ru', 'en'],['en', 'de'], ['en', 'ru', 'de', 'it'], ['en', ''], ['', 'ru'], ['', '']]
   silent! put = common#trans#GenerateTranslateDirection(-10)
@@ -45,6 +53,15 @@ Execute (common#trans#GenerateCMD: Generate cmd without parameters):
 Expect text:
 
   trans -no-theme -no-ansi
+
+Execute (common#trans#GenerateCMD: Generate cmd with g:trans_advanced_options):
+  let args = ""
+  let g:trans_advanced_options = "-brief"
+  put = common#trans#GenerateCMD(args)
+
+Expect text:
+
+  trans -no-theme -no-ansi -brief
 
 Execute (common#trans#GenerateCMD: Generate cmd with text parameter):
   let text = "text"
@@ -251,6 +268,29 @@ Expect text:
   [German -> English]
   [German -> English, Russian]
   [Autodetect -> English]
+
+Execute (common#trans#TextDirectionToList):
+  let direction = "en:ru"
+  silent put = common#trans#TextDirectionToList(direction)
+  let direction = ":"
+  silent put = common#trans#TextDirectionToList(direction)
+  let direction = "en:ru+de+it"
+  silent put = common#trans#TextDirectionToList(direction)
+  let direction = ":ru"
+  silent put = common#trans#TextDirectionToList(direction)
+
+Expect text:
+
+  en
+  ru
+
+
+  en
+  ru
+  de
+  it
+
+  ru
 
 ""Do (common#trans#TransGetDirection: Getting default direction):
 ""  \<C-R>=common#trans#TransGetDirection()\<Enter>
