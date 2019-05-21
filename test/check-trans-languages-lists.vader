@@ -1,7 +1,57 @@
 Include: common.vader
 
+Before (Set default parameters):
+  let g:orderIns = 0
+  function! SpaceOrder(currItem, first, second)
+    if a:currItem == a:first
+      silent! put = a:currItem
+      if g:orderIns > 0
+        silent! put = a:second
+        let g:orderIns = 0
+        return 1
+      endif
+      let g:orderIns = 1
+      return 1
+    endif
+    if a:currItem == a:second
+      if g:orderIns == 0
+        let g:orderIns = 1
+        return 1
+      endif
+    endif
+    return 0
+  endfunction
+  function! SpaceOrderDict(currItem, first, second, d)
+    if a:currItem == a:first
+      let s = a:currItem.": ".a:d[a:currItem]
+      silent! put = s
+      if g:orderIns > 0
+        let s = a:second.": ".a:d[a:second]
+        silent! put = s
+        let g:orderIns = 0
+        return 1
+      endif
+      let g:orderIns = 1
+      return 1
+    endif
+    if a:currItem == a:second
+      if g:orderIns == 0
+        let g:orderIns = 1
+        return 1
+      endif
+    endif
+    return 0
+  endfunction
+
 Execute (common#trans#GetLanguagesList: Check generated list):
-  silent! put = common#trans#GetLanguagesList()
+  let list = common#trans#GetLanguagesList()
+
+  for item in list
+    if SpaceOrder(item, "Hmong", "Hmong Daw") == 1 || SpaceOrder(item, "Klingon", "Klingon (pIqaD)") == 1
+      continue
+    endif
+    silent! put = item
+  endfor
 
 Expect text:
 
@@ -254,9 +304,13 @@ Expect text:
 
 Execute (common#trans#GetLanguagesDict: Check generated list):
   let keys = common#trans#GetLanguagesList()
-  let list = common#trans#GetLanguagesDict()
+  let d = common#trans#GetLanguagesDict()
+
   for key in keys
-    let s = key.": ".list[key]
+    if SpaceOrderDict(key, "Hmong", "Hmong Daw", d) == 1 || SpaceOrderDict(key, "Klingon", "Klingon (pIqaD)", d) == 1
+      continue
+    endif
+    let s = key.": ".d[key]
     put = s
   endfor
 
@@ -385,9 +439,9 @@ Expect text:
 
 Execute (common#trans#GetCodesDict: Check generated list):
   let keys = common#trans#GetCodesList()
-  let list = common#trans#GetCodesDict()
+  let d = common#trans#GetCodesDict()
   for key in keys
-    let s = key.": ".list[key]
+    let s = key.": ".d[key]
     put = s
   endfor
 
