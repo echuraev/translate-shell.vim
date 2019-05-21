@@ -498,3 +498,62 @@ Expect text:
   beautiful;прекрасный
   world;мир
 
+Given text:
+  Hello beautiful world!
+
+Do (common#history#SaveSelectedTranslation: g:trans_save_history = 0):
+  :let file = '/tmp/trans-save-selected-translation.csv'\<CR>
+  :call delete(file)\<CR>
+  :let g:trans_advanced_options = "-brief"\<CR>
+  :let g:trans_save_history = 0\<CR>
+  :let g:trans_close_window_after_saving = 1\<CR>
+  :let g:trans_history_file = file\<CR>
+  /bea\<CR>
+  :let g:trans_default_direction = ":ru"\<CR>
+  :Trans\<CR>
+  /\Cпрекрасный\<CR>
+  \<CR>
+
+Expect text:
+
+  прекрасный
+
+Given text:
+  Hello beautiful world!
+
+Do (common#history#SaveSelectedTranslation: Save empty line):
+  :let file = '/tmp/trans-save-selected-translation.csv'\<CR>
+  :call delete(file)\<CR>
+  :let g:trans_advanced_options = "-brief"\<CR>
+  :let g:trans_save_history = 1\<CR>
+  :let g:trans_close_window_after_saving = 1\<CR>
+  :let g:trans_history_file = file\<CR>
+  /bea\<CR>
+  :let g:trans_default_direction = ":ru"\<CR>
+  :Trans\<CR>
+  /^$\<CR>
+  :noh
+  \<CR>
+
+Expect text:
+
+  прекрасный
+
+Given text:
+  Hello beautiful world!
+
+Do (common#history#SaveSelectedTranslation: AddTranslationToHistory returns error):
+  :let g:trans_advanced_options = "-brief"\<CR>
+  :let g:trans_save_history = 0\<CR>
+  :let g:trans_close_window_after_saving = 1\<CR>
+  :let g:trans_history_file = ""\<CR>
+  /bea\<CR>
+  :let g:trans_default_direction = ":ru"\<CR>
+  :Trans\<CR>
+  /\Cпрекрасный\<CR>
+  \<CR>
+
+Expect text:
+
+  прекрасный
+
