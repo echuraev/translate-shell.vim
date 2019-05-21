@@ -84,7 +84,7 @@ function! common#window#SaveSelectedTranslation()
     let source_text = common#trans#GetCurrentSourceText()
     let history_file =  common#history#AddTranslationToHistory(source_text, translation)
     if history_file =~ "^Error!"
-        redraw | echo history_file
+        redraw | echohl WarningMsg | echo history_file | echohl None
         return
     endif
     if g:trans_close_window_after_saving > 0

@@ -531,8 +531,6 @@ Do (common#history#SaveSelectedTranslation: Save empty line):
   /bea\<CR>
   :let g:trans_default_direction = ":ru"\<CR>
   :Trans\<CR>
-  /^$\<CR>
-  :noh
   \<CR>
 
 Expect text:
@@ -544,7 +542,7 @@ Given text:
 
 Do (common#history#SaveSelectedTranslation: AddTranslationToHistory returns error):
   :let g:trans_advanced_options = "-brief"\<CR>
-  :let g:trans_save_history = 0\<CR>
+  :let g:trans_save_history = 1\<CR>
   :let g:trans_close_window_after_saving = 1\<CR>
   :let g:trans_history_file = ""\<CR>
   /bea\<CR>

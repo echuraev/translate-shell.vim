@@ -6,7 +6,6 @@ Execute (common#window#OpenTransHistoryWindow: Check list):
   let g:trans_history_file = file
   let g:trans_save_history = 1
   let args = "en:ru"
-  call common#trans#GenerateCMD(args)
   let source = "Hello"
   let translation = "Здравствуйте"
   call common#history#AddTranslationToHistory(source, translation)
