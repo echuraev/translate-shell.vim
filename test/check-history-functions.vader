@@ -227,6 +227,8 @@ Expect text:
 Execute (AddTranslationToOpenHistoryFile: Check add functionality if file was open):
   let file = '/tmp/trans-add-translation-to-history-and-open.csv'
   call delete(file)
+  " Check when history_list is empty
+  call common#window#OpenTransHistoryWindow()
   let g:trans_history_file = file
   let g:trans_save_only_unique = 1
   let g:trans_save_history = 1
@@ -471,4 +473,28 @@ Execute (common#history#AddTranslationToHistory: Check add functionality):
 Expect text:
   niemanden;кто-нибудь
   niemand;никто
+
+Given text:
+  Hello beautiful world!
+
+Do (common#history#SaveSelectedTranslation: Check add functionality):
+  :let file = '/tmp/trans-save-selected-translation.csv'\<CR>
+  :call delete(file)\<CR>
+  :let g:trans_save_history = 1\<CR>
+  :let g:trans_close_window_after_saving = 1\<CR>
+  :let g:trans_history_file = file\<CR>
+  /bea\<CR>
+  :let g:trans_default_direction = ":ru"\<CR>
+  :Trans\<CR>
+  /\Cпрекрасный\<CR>
+  \<CR>
+  /world\<CR>
+  :Trans\<CR>
+  /\Cмир\<CR>
+  \<CR>
+  :TransOpenHistoryWindow\<CR>
+
+Expect text:
+  beautiful;прекрасный
+  world;мир
 

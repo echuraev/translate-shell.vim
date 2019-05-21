@@ -25,7 +25,7 @@ Expect text:
 Given text:
   Hello
 
-Do (common#window#OpenTransHistoryWindow: Do not open buffer if result is empty and -no-translate option was passed):
+Do (common#window#OpenTransWindow: Do not open buffer if result is empty and -no-translate option was passed):
   :Trans -no-translate\<CR>
 
 Expect text:

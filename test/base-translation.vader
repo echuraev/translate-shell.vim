@@ -9,6 +9,7 @@ Given text:
 Do (:Trans: Translate one word):
   /bea\<CR>
   :let g:trans_default_direction = ":ru"\<CR>
+  :let g:trans_win_position = "bottom"\<CR>
   :Trans\<CR>
 
 Expect text:
@@ -44,6 +45,7 @@ Expect text:
 Do (:Trans: Translate multiline text):
   :let g:trans_default_direction = ":de"\<CR>
   :let g:trans_join_lines = 1\<CR>
+  :let g:trans_win_position = "right"\<CR>
   VG
   :Trans\<CR>
 
@@ -70,6 +72,7 @@ Expect text:
 Do (:Trans: Translate multiline text 2):
   :let g:trans_default_direction = ":de"\<CR>
   :let g:trans_join_lines = 1\<CR>
+  :let g:trans_win_position = "top"\<CR>
   VG
   :Trans\<CR>
 
@@ -96,6 +99,7 @@ Expect text:
 Do (:Trans: Translate one word 2):
   /wor\<CR>
   :let g:trans_default_direction = ":ru"\<CR>
+  :let g:trans_win_position = "left"\<CR>
   :Trans\<CR>
 
 Expect text:
