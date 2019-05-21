@@ -249,3 +249,17 @@ Expect text:
   Hallo schöne Welt!
   Wie gehts?
 
+Given text:
+  Hello beautiful world!
+
+Do (Error in trans#Check):
+  /bea\<CR>
+  :let g:trans_bin = "/"\<CR>
+  :let g:trans_default_direction = ":ru"\<CR>
+  :TransTerm\<CR>
+  :Trans\<CR>
+  :TransSelectDirection\<CR>
+  :TransInteractive\<CR>
+  :TransOpenHistoryWindow\<CR>
+  :TransChangeDefaultDirection\<CR>
+
