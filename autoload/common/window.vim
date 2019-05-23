@@ -7,6 +7,25 @@
 " ============================================================================
 
 let s:trans_win_name = "__Translate__"
+let s:trans_prev_win_id = -1
+
+" Private functions {{{ "
+function! s:closeWindowMap()
+    nnoremap <silent> <buffer> q :call common#window#CloseTransWindow()<CR>
+endfunction
+
+function! s:maps()
+    nnoremap <silent> <buffer> <CR> :call common#window#SaveSelectedTranslation()<CR>
+    call s:closeWindowMap()
+endfunction
+" }}} Private functions "
+
+function! common#window#CloseTransWindow()
+    q
+    if s:trans_prev_win_id > -1
+        exec s:trans_prev_win_id."wincmd w"
+    endif
+endfunction
 
 function! common#window#OpenTrans(cmd)
     let translate = system(a:cmd)
@@ -40,6 +59,7 @@ function! common#window#OpenTransWindow()
         return
     endif
     let wcmd = s:trans_win_name
+    let s:trans_prev_win_id = winnr()
 
     if g:trans_win_position == "bottom"
         exe 'silent! botright ' . g:trans_win_height . 'split ' . wcmd
@@ -65,11 +85,6 @@ function! common#window#GotoTransWindow()
     exec trans_winnr . "wincmd w"
 endfunction
 
-function! s:maps()
-    nnoremap <silent> <buffer> <CR> :call common#window#SaveSelectedTranslation()<CR>
-    nnoremap <silent> <buffer> q :q<CR>
-endfunction
-
 function! common#window#SaveSelectedTranslation()
     if g:trans_save_history == 0
         redraw | echohl WarningMsg | echo "Cannot save translation. g:trans_save_history is zero" | echohl None
@@ -88,7 +103,7 @@ function! common#window#SaveSelectedTranslation()
         return
     endif
     if g:trans_close_window_after_saving > 0
-        q
+        call common#window#CloseTransWindow()
     endif
     redraw | echo "Saved: ".source_text." -> ".translation.". To file: ".history_file
 endfunction
@@ -123,6 +138,7 @@ function! common#window#OpenTransHistoryWindow()
             let trans_winnr = bufwinnr(history_file)
         endif
     endif
+    call s:closeWindowMap()
     exec trans_winnr . "wincmd w"
 endfunction
 

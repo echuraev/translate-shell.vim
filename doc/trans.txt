@@ -257,7 +257,7 @@ KEY MAPPING                                                         *trans-keys*
 The following mappings are valid in the translate window:
 
 <CR>/<Enter>    Add translation under cursor to history file.
-q               Close the translation window
+q               Close the translation/history window.
 
 By default plugin doesn't provide any global  mapped keys. But you can create
 your own key mapping for fast translation.
