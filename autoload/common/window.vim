@@ -18,6 +18,21 @@ function! s:maps()
     nnoremap <silent> <buffer> <CR> :call common#window#SaveSelectedTranslation()<CR>
     call s:closeWindowMap()
 endfunction
+
+function! s:popupMapping(winid, key)
+    echomsg "key: ".a:key
+    if a:key ==# "\<c-k>"
+        call win_execute(a:winid, "normal! \<c-y>")
+        return v:true
+    elseif a:key ==# "\<c-j>"
+        call win_execute(a:winid, "normal! \<c-e>")
+        return v:true
+    elseif a:key == 'q' || a:key == 'x'
+        call popup_close(a:winid)
+        return v:true
+    endif
+    return v:false
+endfunction
 " }}} Private functions "
 
 function! common#window#CloseTransWindow()
@@ -31,6 +46,20 @@ function! common#window#OpenTrans(cmd)
     let translate = system(a:cmd)
     let find = match(a:cmd, '\V-no-translate')
     if find > -1 && strlen(translate) == 0
+        return
+    endif
+    if g:trans_win_position == "float"
+        let winid = popup_atcursor(split(translate, "\n"), #{
+                                   \ moved: 'WORD',
+                                   \ maxheight: g:trans_win_height,
+                                   \ maxwidth: g:trans_win_width,
+                                   \ minheight: g:trans_win_height,
+                                   \ minwidth: g:trans_win_width,
+                                   \ resize: 'TRUE',
+                                   \ padding: [0, 1, 0, 1],
+                                   \ filter: function('s:popupMapping'),
+                                   \ close: 'button',
+                                   \ })
         return
     endif
     call common#window#GotoTransWindow()

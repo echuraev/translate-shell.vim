@@ -424,6 +424,8 @@ Possible values are:
     'up': Windows is in the up of the screen.
     'left': Windows is in the left side of the screen.
     'right': Windows is in the right side of the screen.
+    'float': Use floating window. Size of window can be specified by
+            |g:trans_win_width| and |g:trans_win_height| options.
 
 Example:
 >
