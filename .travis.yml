@@ -5,7 +5,7 @@ os:
 
 before_script:
   - sudo add-apt-repository ppa:schot/gawk -y
-  - sudo apt-get update -q
+  - sudo apt-get update -q || true
   - sudo apt-get install gawk
   - pip install covimerage --user
   - pip install coveralls --user
